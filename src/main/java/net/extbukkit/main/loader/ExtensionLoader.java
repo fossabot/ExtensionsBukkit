@@ -2,10 +2,8 @@ package net.extbukkit.main.loader;
 
 import net.extbukkit.api.extension.Extension;
 import net.extbukkit.api.loader.IExtensionLoader;
-import org.bukkit.Bukkit;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,13 +15,14 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ExtensionLoader implements IExtensionLoader {
-    List<Extension> extensions = new ArrayList<>();
+    private List<Extension> extensions = new ArrayList<>();
     /**
      * Loads extension from file
      *
      * @param extension File containing an extension
      * @return true or false
      */
+    //TODO Handle dependencies
     public boolean load(File extension) {
         if(!extension.exists()) return false;
         if(!extension.getName().endsWith(".jar")) return false;
@@ -129,5 +128,9 @@ public class ExtensionLoader implements IExtensionLoader {
         if(!dir.isDirectory()) return;
         for(File f : dir.listFiles((dir1, name) -> name.endsWith(".jar")))
             load(f);
+    }
+
+    public List<Extension> getExtensions() {
+        return extensions;
     }
 }

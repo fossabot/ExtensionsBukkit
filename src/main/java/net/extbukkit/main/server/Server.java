@@ -1,6 +1,9 @@
 package net.extbukkit.main.server;
 
+import net.extbukkit.api.event.IEventManager;
+import net.extbukkit.api.extension.Extension;
 import net.extbukkit.api.loader.IExtensionLoader;
+import net.extbukkit.api.log.ILogger;
 import net.extbukkit.api.server.IServer;
 import net.extbukkit.main.loader.ExtensionLoader;
 
@@ -29,7 +32,15 @@ public class Server implements IServer {
         return EXTENSIONS;
     }
 
-    public static void _INVALID_log(String s) {
-        System.out.println(s);
+    //TODO Add loggers
+    @Override
+    public ILogger getLogger(Extension extension) {
+        return null;
+    }
+
+    //TODO Add events
+    @Override
+    public IEventManager getEventManager(Extension extension) {
+        return null;
     }
 }
