@@ -72,6 +72,7 @@ public class ExtensionLoader implements IExtensionLoader {
                 return true;
             }
         }
+
         return false;
 
         /*JarFile jar;
