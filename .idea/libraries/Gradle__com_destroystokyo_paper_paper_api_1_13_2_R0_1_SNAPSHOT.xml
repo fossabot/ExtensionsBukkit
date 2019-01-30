@@ -1,11 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.destroystokyo.paper/paper-api/1.13.2-R0.1-SNAPSHOT/138098ad2a0c5d36a06743c25c74d69536736fc7/paper-api-1.13.2-R0.1-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.destroystokyo.paper/paper-api/1.13.2-R0.1-SNAPSHOT/19266824f5472f78ae237c81b5c56cb9ddd6d1e4/paper-api-1.13.2-R0.1-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.destroystokyo.paper/paper-api/1.13.2-R0.1-SNAPSHOT/fb46534d864afa358946f5cb8e88e5c34b3e80b/paper-api-1.13.2-R0.1-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.destroystokyo.paper/paper-api/1.13.2-R0.1-SNAPSHOT/7dc8d7bf5808c26f4617af2d88edac56a9fd8b6f/paper-api-1.13.2-R0.1-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

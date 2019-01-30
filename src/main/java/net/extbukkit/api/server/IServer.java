@@ -11,5 +11,5 @@ public interface IServer {
     IExtensionLoader getExtensionLoader();
     File getExtensionsDir();
     ILogger getLogger(Extension extension);
-    IEventManager getEventManager(Extension extension);
+    IEventManager getEventManager();
 }

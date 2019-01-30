@@ -1,5 +1,8 @@
 package net.extbukkit.api.event;
 
-public interface IEventManager {
+import net.extbukkit.api.extension.Extension;
 
+public interface IEventManager {
+    Event pullEvent(Event e);
+    void registerHandler(Extension e, Handler h);
 }

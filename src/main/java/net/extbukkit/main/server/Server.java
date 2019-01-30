@@ -5,11 +5,13 @@ import net.extbukkit.api.extension.Extension;
 import net.extbukkit.api.loader.IExtensionLoader;
 import net.extbukkit.api.log.ILogger;
 import net.extbukkit.api.server.IServer;
+import net.extbukkit.main.EventManager;
 import net.extbukkit.main.loader.ExtensionLoader;
 
 import java.io.File;
 
 public class Server implements IServer {
+    private EventManager emanager;
     private ExtensionLoader loader;
     private File EXTENSIONS = new File("extensions/");
     private static Server SERVER = null;
@@ -20,6 +22,7 @@ public class Server implements IServer {
     }
     private Server() {
         loader = new ExtensionLoader();
+        emanager = new EventManager();
     }
 
     @Override
@@ -38,9 +41,8 @@ public class Server implements IServer {
         return null;
     }
 
-    //TODO Add events
     @Override
-    public IEventManager getEventManager(Extension extension) {
-        return null;
+    public IEventManager getEventManager() {
+        return emanager;
     }
 }

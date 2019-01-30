@@ -2,5 +2,8 @@ package net.extbukkit.api.event;
 
 @FunctionalInterface
 public interface Handler {
-    void handle();
+    void handle(Event e);
+    default HandlePriority getPriority() {
+        return HandlePriority.NORMAL;
+    };
 }
