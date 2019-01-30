@@ -7,9 +7,10 @@ deploy:
   provider: releases
   api_key:
     secure: kRGnck0/lFbn3dd2Ik0uRg9P/+GmH88CHYbx5F7nxPdLn8D++dXjFtKZuZOhsPQgU5XZVwaxhiAym4yXJFZ3LaEoEjNdKSgVqPt0dBCYIXtZU2+ZTBUJ2qCpWQazNPWK3yq327F+YYWl0CtbvTtFloaWBBWHNjvNJ56TE2lyFwCba5x12yjTYxPKMFrHbV4pwsTVgh+YWNZgIPAlKuUxLUQw9R1wqSDS6u5p1aqk2KRgNc5jsGZcDEb98rCB3kuueDMs6vUiNY0UxrMwiHV4VcAnCXBOjnH5xEg6qvPCeuP4pbnAsQK0ucIX/8mXpQUA82hUL4vyJCZK4WaG3B2JS3yuZ4kSkHqZ2ZMVpYJooBDIlAGIILieg9XF6s2vRUu0Ac63mj6PNbVG/FDV3Zij0ylbZGVUqOOElkChQuDqnBs1JIBVt0qnbIx/FhtyntNCBjIoR1OG98LZ/seVjvXxC4UE7J71qjK344HUvWI7lqa4IIQsTvQAJZoeBJlnNGEdknZI3C22I4kdkUub+ySQFPFC7IwthegJ8e5NfJWGLPzSKGKAZJcdWuk04B8+8YBu5T2QuRksOxKfKGAs059qJlhKoL8NsgVF39m+kZew+Q6z2AezaverYp2Z0Vkg6fNNZmYKkTnisH1h4eVmX5mE+aju1kLwaBXX6oK29l1+/gc=
-  file: /home/travis/builds/TSEngineer/TSEExtensionsBukkit/build/libs/*
+  file: "build/libs/*"
   on:
     repo: TSEngineer/TSEExtensionsBukkit
     branches:
       only:
         - "master"
+    tags: true
