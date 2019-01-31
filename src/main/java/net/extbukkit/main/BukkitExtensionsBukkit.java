@@ -1,15 +1,11 @@
 package net.extbukkit.main;
 
-import com.google.common.hash.Hashing;
-import com.google.common.io.Files;
 import net.extbukkit.api.builtin.events.EventLoad;
 import net.extbukkit.main.server.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.MessageDigest;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
