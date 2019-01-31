@@ -1,23 +1,23 @@
 language: java
 script:
-  - ./gradlew assemble
-  - ./gradlew check
-  - ./gradlew build
+- "./gradlew assemble"
+- "./gradlew check"
+- "./gradlew build"
 before_deploy:
-  - git config --local user.name "TSEngineer"
-  - git config --local user.email "pamnlyr@gmail.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
+- git config --local user.name "TSEngineer"
+- git config --local user.email "pamnlyr@gmail.com"
+- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+- git tag $TRAVIS_TAG
 deploy:
   provider: releases
   api_key:
-    secure: kRGnck0/lFbn3dd2Ik0uRg9P/+GmH88CHYbx5F7nxPdLn8D++dXjFtKZuZOhsPQgU5XZVwaxhiAym4yXJFZ3LaEoEjNdKSgVqPt0dBCYIXtZU2+ZTBUJ2qCpWQazNPWK3yq327F+YYWl0CtbvTtFloaWBBWHNjvNJ56TE2lyFwCba5x12yjTYxPKMFrHbV4pwsTVgh+YWNZgIPAlKuUxLUQw9R1wqSDS6u5p1aqk2KRgNc5jsGZcDEb98rCB3kuueDMs6vUiNY0UxrMwiHV4VcAnCXBOjnH5xEg6qvPCeuP4pbnAsQK0ucIX/8mXpQUA82hUL4vyJCZK4WaG3B2JS3yuZ4kSkHqZ2ZMVpYJooBDIlAGIILieg9XF6s2vRUu0Ac63mj6PNbVG/FDV3Zij0ylbZGVUqOOElkChQuDqnBs1JIBVt0qnbIx/FhtyntNCBjIoR1OG98LZ/seVjvXxC4UE7J71qjK344HUvWI7lqa4IIQsTvQAJZoeBJlnNGEdknZI3C22I4kdkUub+ySQFPFC7IwthegJ8e5NfJWGLPzSKGKAZJcdWuk04B8+8YBu5T2QuRksOxKfKGAs059qJlhKoL8NsgVF39m+kZew+Q6z2AezaverYp2Z0Vkg6fNNZmYKkTnisH1h4eVmX5mE+aju1kLwaBXX6oK29l1+/gc=
+    secure: CRkbV5QnckV5ZqvskRwcHAmOUHMALeXCcG8EBtiW2V0g9DGnuA5drbNMJ4+3RBYsxLyRJtNVmPXU4fkfFqWZjUAl6//5rjfktB8u34Wfkp8O0k90+H7kJYqzGxxUuzScafQGrIeyyA918e636H8iO+/5wZn+NiRSUstFf9n5D1i4ueoEYJbKRJe8HJotH4tx+dZuKzzRIRGrrhvoO5vi9VAbEYQN+exYw9r4k7nS16xzzwa41JKdP6f1hvTJoU92bRIYpNxoTaTU4Qna/LYRvFbd3lXabhRjxdweshs80as+B/VeIYakLhEpeEyvyAuVkFL24VBAiyme6O5JGYaBAehRmAcSySrgKOLjZf/0vMggY93XlnscSeZ6w6uM43ieHz7qEHTCLbfCe9/EOisxEPcySE6hiLkC/w0Aiw/qJtml9Y+1AJ3SB+fhRm7fiHX+h9rJcQxxrUKUD4d7v9GZioQQkVFBxgpsWhbpV+uXQ67agOBlGVN3oKq5vaPx6Cg+XJHXv0rhotwaJSi8WlXeCY3BRnwlMxK6lK8Edj1zJ3tLQdguQlpeyGrG+NTtqhK3Yb61yTQ+Z1BA5yZnTH8gAZ9ABQ2x+kXwGZFo0GGOc7EIJE8mNJBb0oqu0VLSdXNZe88VJahK6EqxfEB445848NQKgZqnMQuZVVAtwmdiQHA=
   file_glob: true
-  file: "build/libs/*"
+  file: build/libs/*
   skip_cleanup: true
   prerelease: true
   on:
-    repo: "TSEngineer/TSEExtensionsBukkit"
-    branches:
-      only:
-        - "master"
+    repo: TSEngineer/TSEExtensionsBukkit
+      branches:
+        only:
+        - master
