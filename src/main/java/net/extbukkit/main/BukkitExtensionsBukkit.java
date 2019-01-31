@@ -7,6 +7,7 @@ import net.extbukkit.main.server.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.MessageDigest;
 
@@ -28,8 +29,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             Server.getInstance().getExtensionsDir().mkdirs();
         Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
         Server.getInstance().getEventManager().pullEvent(new EventLoad());
-        if(getFile().exists()) getFile().delete();
-        Updater.download();
+        Updater.run();
     }
     @Override
     public void onEnable() {
@@ -39,5 +39,9 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(this);
+    }
+    @Override
+    public File getFile() {
+        return getFile();
     }
 }

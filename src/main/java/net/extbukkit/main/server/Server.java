@@ -6,6 +6,7 @@ import net.extbukkit.api.loader.IExtensionLoader;
 import net.extbukkit.api.log.ILogger;
 import net.extbukkit.api.scheduler.ISchedulerManager;
 import net.extbukkit.api.server.IServer;
+import net.extbukkit.main.BukkitExtensionsBukkit;
 import net.extbukkit.main.manager.EventManager;
 import net.extbukkit.main.manager.ExtensionLoader;
 import net.extbukkit.main.manager.SchedulerManager;
@@ -53,5 +54,10 @@ public class Server implements IServer {
     @Override
     public ISchedulerManager getSchedulerManager() {
         return scheduler;
+    }
+
+    @Override
+    public File getExtensionsBukkitFile() {
+        return BukkitExtensionsBukkit.getInstance().getFile();
     }
 }

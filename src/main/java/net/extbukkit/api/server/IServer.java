@@ -14,4 +14,5 @@ public interface IServer {
     ILogger getLogger(Extension extension);
     IEventManager getEventManager();
     ISchedulerManager getSchedulerManager();
+    File getExtensionsBukkitFile();
 }
