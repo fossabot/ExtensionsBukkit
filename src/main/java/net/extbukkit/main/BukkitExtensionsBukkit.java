@@ -24,12 +24,11 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
         Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
 
         Server.getInstance().getEventManager().pullEvent(new EventLoad());
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
     }
     @Override
     public void onEnable() {
         Bukkit.getPluginManager().registerEvents(new BukkitEventListener(), this);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
     }
     @Override
     public void onDisable() {
