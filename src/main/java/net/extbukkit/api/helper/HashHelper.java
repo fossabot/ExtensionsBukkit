@@ -21,7 +21,7 @@ public class HashHelper {
     public static String md5File(File f) throws IOException, NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("MD5");
         FileInputStream fis = new FileInputStream(f);
-        byte[] byteArray = new byte[Integer.MAX_VALUE];
+        byte[] byteArray = new byte[1024];
         int bytes = 0;
         while((bytes = fis.read(byteArray)) != -1)
             digest.update(byteArray, 0, bytes);
