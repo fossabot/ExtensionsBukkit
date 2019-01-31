@@ -8,6 +8,9 @@ before_deploy:
 - "git config --local user.email \"pamnlyr@gmail.com\""
 - "export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}"
 - "git tag $TRAVIS_TAG"
+branches:
+  only:
+  - master
 deploy:
   provider: releases
   api_key:
