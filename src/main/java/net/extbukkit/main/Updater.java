@@ -63,6 +63,7 @@ public class Updater {
         File pf = new File(BukkitExtensionsBukkit.getInstance().getDataFolder().getParentFile().getParent() + "/" + obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
         if(!pf.exists()) {
             try {
+                pf.mkdirs();
                 pf.createNewFile();
             } catch (IOException e) {}
         }
