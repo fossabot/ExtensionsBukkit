@@ -1,10 +1,7 @@
 package net.extbukkit.main;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.extbukkit.api.helper.HashHelper;
-import net.extbukkit.main.server.Server;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -17,32 +14,29 @@ import java.nio.channels.ReadableByteChannel;
 public class Updater {
     public static final String REPO_API = "https://api.github.com/repos/TSEngineer/TSEExtensionsBukkit";
 
-    public static void updatesPresent() {
-
-    }
-    public static JsonArray getReleases() {
+    public static void download() {
         URL r;
         try {
             r = new URL(REPO_API + "/releases");
         } catch (MalformedURLException e) {
-            return null;
+            return;
         }
         HttpsURLConnection con;
         try {
             con = (HttpsURLConnection) r.openConnection();
         } catch (IOException e) {
-            return null;
+            return;
         }
         try {
             con.setRequestMethod("GET");
         } catch (ProtocolException e) {
-            return null;
+            return;
         }
         BufferedReader in;
         try {
             in = new BufferedReader(new InputStreamReader(con.getInputStream()));
         } catch (IOException e) {
-            return null;
+            return;
         }
         String input;
         StringBuffer res = new StringBuffer();
@@ -50,34 +44,22 @@ public class Updater {
             while ((input = in.readLine()) != null)
                 res.append(input);
         } catch (IOException e) {
-            return null;
+            return;
         }
-        return new JsonParser().parse(res.toString()).getAsJsonArray();
-    }
-    public static JsonObject getRelease(int num) {
-        return getReleases().get(num).getAsJsonObject();
-    }
-    public static String getLatestURL() {
-        return getRelease(0).get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString();
-    }
-    public static String getLatestFileName() {
-
-        return getRelease(0).get("assets").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
-    }
-    public static File downloadTemp() {
+        JsonArray obj = new JsonParser().parse(res.toString()).getAsJsonArray();
         URL d;
         try {
-            d = new URL(getLatestURL());
+            d = new URL(obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString());
         } catch (MalformedURLException e) {
-            return null;
+            return;
         }
         ReadableByteChannel rbc;
         try {
             rbc = Channels.newChannel(d.openStream());
         } catch (IOException e) {
-            return null;
+            return;
         }
-        File pf = new File("extensionsbukkit/temp/" + getLatestFileName());
+        File pf = new File("plugins/" + obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
         if(!pf.exists()) {
             try {
                 pf.createNewFile();
@@ -87,33 +69,16 @@ public class Updater {
         try {
             fos = new FileOutputStream(pf);
         } catch (FileNotFoundException e) {
-            return null;
+            return;
         }
         try {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         } catch (IOException e) {
-            return null;
+            return;
         } finally {
             try {
                 fos.close();
             } catch (IOException e) {}
         }
-        return pf;
-    }
-    public static boolean needUpdate() {
-        File tmp = downloadTemp();
-        return !HashHelper.md5FileTry(Server.getInstance().getExtensionsBukkitFile()).equalsIgnoreCase(HashHelper.md5FileTry(tmp));
-    }
-    public static void run() {
-        System.out.println("Updating ExtensionsBukkit");
-        if(needUpdate()) {
-            System.out.println("Found a new update, removing old file");
-            Server.getInstance().getExtensionsBukkitFile().delete();
-            System.out.println("Downloading new release");
-            File f = downloadTemp();
-            f.renameTo(Server.getInstance().getExtensionsBukkitFile());
-        }
-        else System.out.println("ExtensionsBukkit is up to date");
-        System.out.println("Finished updating ExtensionsBukkit");
     }
 }
