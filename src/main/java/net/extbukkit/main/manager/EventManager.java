@@ -1,7 +1,6 @@
-package net.extbukkit.main;
+package net.extbukkit.main.manager;
 
 import net.extbukkit.api.event.Event;
-import net.extbukkit.api.event.HandlePriority;
 import net.extbukkit.api.event.Handler;
 import net.extbukkit.api.event.IEventManager;
 import net.extbukkit.api.extension.Extension;

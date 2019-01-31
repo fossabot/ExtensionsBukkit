@@ -1,4 +1,4 @@
-package net.extbukkit.main.loader;
+package net.extbukkit.main.manager;
 
 import net.extbukkit.api.extension.Extension;
 import net.extbukkit.api.loader.IExtensionLoader;
