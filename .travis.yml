@@ -4,10 +4,11 @@ script:
 - "./gradlew check"
 - "./gradlew build"
 before_deploy:
-- git config --local user.name "TSEngineer"
-- git config --local user.email "pamnlyr@gmail.com"
-- export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-- git tag $TRAVIS_TAG
+- "git config --local user.name \"TSEngineer\""
+- "git config --local user.email \"pamnlyr@gmail.com\""
+- "export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}"
+- "git tag $TRAVIS_TAG"
+- "git push origin --tags"
 deploy:
   provider: releases
   api_key:
@@ -19,3 +20,6 @@ deploy:
   on:
     repo: "TSEngineer/TSEExtensionsBukkit"
     tags: true
+    branches:
+      only:
+        - "master"
