@@ -19,6 +19,3 @@ deploy:
   on:
     repo: "TSEngineer/TSEExtensionsBukkit"
     tags: true
-    branches:
-      only:
-      - "master"
