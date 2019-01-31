@@ -42,6 +42,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     }
     @Override
     public File getFile() {
-        return getFile();
+        return super.getFile();
     }
 }
