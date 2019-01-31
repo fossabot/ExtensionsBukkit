@@ -60,9 +60,15 @@ public class Updater {
         } catch (IOException e) {
             return;
         }
+        File pf = new File(BukkitExtensionsBukkit.getInstance().getDataFolder().getParentFile().getParent() + "/" + obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+        if(!pf.exists()) {
+            try {
+                pf.createNewFile();
+            } catch (IOException e) {}
+        }
         FileOutputStream fos;
         try {
-            fos = new FileOutputStream(new File(BukkitExtensionsBukkit.getInstance().getDataFolder().getParentFile().getParent() + "/" + obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString()));
+            fos = new FileOutputStream(pf);
         } catch (FileNotFoundException e) {
             return;
         }
