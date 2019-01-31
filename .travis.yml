@@ -18,4 +18,6 @@ deploy:
   prerelease: true
   on:
     repo: "TSEngineer/TSEExtensionsBukkit"
-    all_branches: true
+    branches:
+      only:
+        - master
