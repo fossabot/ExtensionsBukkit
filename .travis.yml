@@ -18,5 +18,4 @@ deploy:
   prerelease: true
   on:
     repo: "TSEngineer/TSEExtensionsBukkit"
-    tags: true
     all_branches: true
