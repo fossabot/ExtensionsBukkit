@@ -9,10 +9,6 @@ targetCompatibility = 1.8
 repositories {
     mavenCentral()
     maven {
-        name = 'destroystokyo-repo'
-        url = 'https://repo.destroystokyo.com/repository/maven-public/'
-    }
-    maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
@@ -20,7 +16,10 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT'
+    def f = new File('spigot-1.13.2.jar')
+    f.delete()
+    new URL('https://cdn.getbukkit.org/spigot/spigot-1.13.2.jar').withInputStream{ i -> f.withOutputStream{ it << i }}
+    compile files("spigot-1.13.2.jar")
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
