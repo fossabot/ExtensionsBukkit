@@ -1,7 +1,7 @@
 package net.extbukkit.api.extension;
 
-public abstract class Extension {
-    public Extension() {
+public abstract class AExtension {
+    public AExtension() {
 
     }
 
