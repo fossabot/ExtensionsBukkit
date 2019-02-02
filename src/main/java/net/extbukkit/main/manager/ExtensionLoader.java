@@ -1,6 +1,6 @@
 package net.extbukkit.main.manager;
 
-import net.extbukkit.api.extension.Extension;
+import net.extbukkit.api.extension.AExtension;
 import net.extbukkit.api.loader.IExtensionLoader;
 
 import java.io.File;
@@ -15,7 +15,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ExtensionLoader implements IExtensionLoader {
-    private List<Extension> extensions = new ArrayList<>();
+    private List<AExtension> extensions = new ArrayList<>();
     /**
      * Loads extension from file
      *
@@ -46,7 +46,7 @@ public class ExtensionLoader implements IExtensionLoader {
         } catch (MalformedURLException e) {
             return false;
         }
-        Extension ext;
+        AExtension ext;
         for(String cn : cls) {
             Class<?> c;
             try {
@@ -54,9 +54,9 @@ public class ExtensionLoader implements IExtensionLoader {
             } catch (ClassNotFoundException e) {
                 return false;
             }
-            Class<? extends Extension> ec;
+            Class<? extends AExtension> ec;
             try {
-                ec = c.asSubclass(Extension.class);
+                ec = c.asSubclass(AExtension.class);
             } catch (Exception e) {
                 return false;
             }
@@ -131,7 +131,7 @@ public class ExtensionLoader implements IExtensionLoader {
             load(f);
     }
 
-    public List<Extension> getExtensions() {
+    public List<AExtension> getExtensions() {
         return extensions;
     }
 }

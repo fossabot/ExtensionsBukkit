@@ -3,7 +3,7 @@ package net.extbukkit.main.manager;
 import net.extbukkit.api.event.Event;
 import net.extbukkit.api.event.Handler;
 import net.extbukkit.api.event.IEventManager;
-import net.extbukkit.api.extension.Extension;
+import net.extbukkit.api.extension.AExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class EventManager implements IEventManager {
     }
 
     @Override
-    public void registerHandler(Extension extension, Handler eventHandler) {
+    public void registerHandler(AExtension extension, Handler eventHandler) {
         handlers.add(eventHandler);
     }
 }
