@@ -1,6 +1,6 @@
 name: ExtensionsBukkit
 version: @version@
-main: net.extbukkit.main.BukkitExtensionsBukkit
+main: BukkitExtensionsBukkit
 load: STARTUP
 authors: [TSEngineer]
 description: ExtensionsBukkit is made for making "Extensions". Extensions can add new blocks, handle events and more
