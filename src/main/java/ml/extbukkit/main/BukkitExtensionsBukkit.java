@@ -24,6 +24,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
   public void onLoad() {
     if (!Server.getInstance().getExtensionsDir().exists())
       Server.getInstance().getExtensionsDir().mkdirs();
+    Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
     Server.getInstance().getEventManager().pullEvent(new EventLoad());
     if (getFile().exists()) getFile().delete();
     Updater.download();
