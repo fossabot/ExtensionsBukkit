@@ -46,7 +46,7 @@ public class Server implements IServer {
 
     @Override
     public ILogger getLogger(AExtension extension) {
-        return extension.getLogger();
+        return null;
     }
 
     @Override
