@@ -21,7 +21,7 @@ public class ExtensionsCommand implements TabExecutor {
 
   @Override
   public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-    if (command.getName().equalsIgnoreCase("extensions")) {
+    /*if (command.getName().equalsIgnoreCase("extensions")) {
       if (args.length == 0) {
         if (sender.hasPermission("extensions.basic")) {
           sender.sendMessage("Commands: /extensions reload ; /extensions list");
@@ -85,34 +85,12 @@ public class ExtensionsCommand implements TabExecutor {
         sender.sendMessage(ChatColor.YELLOW + "Reload complete.");
         return true;
       }
-    }
+    }*/
     return true;
   }
 
   @Override
-  public List<String> onTabComplete(
-      CommandSender sender, Command command, String s, String[] args) {
-    if (command.getName().equalsIgnoreCase("extensions")) {
-      if (args.length == 1) {
-        List<String> tabCompletion = new ArrayList<>();
-        if (sender.hasPermission("extensions.reload")) {
-          tabCompletion.add("reload");
-        }
-        if (sender.hasPermission("extensions.list")) {
-          tabCompletion.add("list");
-        }
-        return tabCompletion.stream()
-            .filter(a -> a.startsWith(args[0]))
-            .collect(Collectors.toList());
-      }
-      if (args.length == 2) {
-        if (sender.hasPermission("extensions.reload")) {
-          return Stream.of("confirm")
-              .filter(a -> a.startsWith(args[1]))
-              .collect(Collectors.toList());
-        }
-      }
-    }
+  public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
     return null;
   }
 }
