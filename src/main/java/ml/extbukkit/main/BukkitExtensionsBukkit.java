@@ -5,15 +5,12 @@ import ml.extbukkit.main.defcommands.ExtensionsCommand;
 import ml.extbukkit.main.server.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.lang.reflect.Field;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
   private static BukkitExtensionsBukkit I;
-  private CommandMap commandMap;
 
   public BukkitExtensionsBukkit() {
     I = this;
@@ -25,13 +22,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
   @Override
   public void onLoad() {
-    try {
-      Field cmdMapField = getServer().getClass().getDeclaredField("commandMap");
-      cmdMapField.setAccessible(true);
-      commandMap = (CommandMap) cmdMapField.get(getServer());
-    } catch (IllegalAccessException | NoSuchFieldException e) {
-      e.printStackTrace();
-    }
     if (!Server.getInstance().getExtensionsDir().exists())
       Server.getInstance().getExtensionsDir().mkdirs();
     Server.getInstance().getEventManager().pullEvent(new EventLoad());
