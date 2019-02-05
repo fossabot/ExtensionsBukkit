@@ -53,7 +53,7 @@ public class BukkitEventListener implements Listener {
         List<String> args = Arrays.asList(Arrays.copyOfRange(parts, 1, parts.length));
         if(args.size() == 0)
             for(ICommand cmd : Server.getInstance().getCommandManager().getCommands())
-                e.getCompletions().addAll(cmd.getCommands());
+                e.getCompletions().addAll(Arrays.asList(cmd.getCommands()));
         ICommand cmd = Server.getInstance().getCommandManager().match(command);
         if(cmd != null)
             e.getCompletions().addAll(cmd.complete(null, command, args));

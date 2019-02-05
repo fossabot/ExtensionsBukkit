@@ -1,7 +1,6 @@
 package ml.extbukkit.main;
 
 import ml.extbukkit.api.builtin.events.EventLoad;
-import ml.extbukkit.main.commands.CommandRegistering;
 import ml.extbukkit.main.defcommands.ExtensionsCommand;
 import ml.extbukkit.main.server.Server;
 import org.bukkit.Bukkit;
@@ -42,8 +41,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    loadExtensions();
-    registerCommands();
     ExtensionsCommand pluginCommand = new ExtensionsCommand();
     getCommand("extensions").setExecutor(pluginCommand);
     getCommand("extensions").setTabCompleter(pluginCommand);
@@ -54,42 +51,11 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    unloadExtensions();
     Bukkit.getScheduler().cancelTasks(this);
   }
 
   @Override
   public File getFile() {
     return super.getFile();
-  }
-
-  public void registerCommands() {
-    Server.getInstance().getRegisteredCommands().forEach(command -> {
-      String extensionName = this.getName() + "-" + command.getExtension().getName();
-      commandMap.register(command.getName(), extensionName, new CommandRegistering(command));
-    });
-  }
-
-  public void loadExtensions() {
-    Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
-    Server.getInstance()
-        .getExtensionLoader()
-        .getExtensions()
-        .forEach(
-            extension -> {
-              extension.getLogger().info("Enabling " + extension.getFullName());
-              extension.onEnable();
-            });
-  }
-
-  public void unloadExtensions() {
-    Server.getInstance()
-        .getExtensionLoader()
-        .getExtensions()
-        .forEach(
-            extension -> {
-              extension.getLogger().info("Disabling " + extension.getFullName());
-              extension.onDisable();
-            });
   }
 }
