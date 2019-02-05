@@ -2,7 +2,7 @@ package ml.extbukkit.api.extension;
 
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.logging.ExtensionLogger;
+import ml.extbukkit.main.manager.ExtensionLogger;
 import ml.extbukkit.main.server.Server;
 
 public abstract class AExtension {

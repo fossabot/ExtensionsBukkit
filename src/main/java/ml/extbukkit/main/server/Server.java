@@ -1,6 +1,6 @@
 package ml.extbukkit.main.server;
 
-import ml.extbukkit.api.command.Command;
+import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -8,16 +8,10 @@ import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
 import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.main.BukkitExtensionsBukkit;
-import ml.extbukkit.main.manager.ExtensionLoader;
-import ml.extbukkit.main.manager.SchedulerManager;
-import ml.extbukkit.main.manager.WorldManager;
+import ml.extbukkit.main.manager.*;
 import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.manager.EventManager;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class Server implements IServer {
     private EventManager events;
@@ -26,7 +20,7 @@ public class Server implements IServer {
     private WorldManager worlds;
     private File EXTENSIONS = new File("extensions/");
     private static Server SERVER = null;
-    private Set<Command> COMMANDS = new HashSet<>();
+    private CommandManager commands;
 
     public static IServer getInstance() {
         if(SERVER == null) SERVER = new Server();
@@ -37,6 +31,7 @@ public class Server implements IServer {
         events = new EventManager();
         scheduler = new SchedulerManager();
         worlds = new WorldManager();
+        commands = new CommandManager();
     }
 
     @Override
@@ -75,12 +70,7 @@ public class Server implements IServer {
     }
 
     @Override
-    public void registerCommand(Command command) {
-        COMMANDS.add(command);
-    }
-
-    @Override
-    public Set<Command> getRegisteredCommands() {
-        return COMMANDS;
+    public ICommandManager getCommandManager() {
+        return commands;
     }
 }

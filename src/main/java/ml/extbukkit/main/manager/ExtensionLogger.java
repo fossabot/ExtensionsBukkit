@@ -1,4 +1,4 @@
-package ml.extbukkit.main.logging;
+package ml.extbukkit.main.manager;
 
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.log.ILogger;

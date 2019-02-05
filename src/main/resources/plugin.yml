@@ -5,7 +5,3 @@ load: STARTUP
 authors: [TSEngineer, MrIvanPlays]
 description: ExtensionsBukkit is made for making "Extensions". Extensions can add new blocks, handle events and more
 api-version: 1.13
-
-commands:
-  extensions:
-    description: Extension commands
