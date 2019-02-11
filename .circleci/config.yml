@@ -2,6 +2,5 @@ version: 2
 jobs:
   build:
     docker: circleci/java
-  steps:
-    - checkout
-    - run: ./gradlew build
+    steps:
+      - checkout
