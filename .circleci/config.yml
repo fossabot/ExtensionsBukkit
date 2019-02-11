@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build
+  build:
     docker: circleci/java
   steps:
     - checkout
