@@ -5,8 +5,6 @@ jobs:
       - image: circleci/java
     steps:
       - checkout
-      - run: 
-        name: Build
-        command: ./gradlew build
+      - run: /gradlew build
       - store_artifacts:
-        path: build/libs/*
+          path: build/libs/*
