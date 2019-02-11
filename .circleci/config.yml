@@ -5,3 +5,4 @@ jobs:
       - image: circleci/java
     steps:
       - checkout
+      - run: ./gradlew build
