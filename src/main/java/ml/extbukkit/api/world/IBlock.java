@@ -5,5 +5,4 @@ import ml.extbukkit.api.types.IBlockType;
 public interface IBlock {
     IPosition getPosition();
     IBlockType getType();
-
 }
