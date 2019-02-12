@@ -6,6 +6,7 @@ import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
+import ml.extbukkit.api.types.IKeyMaker;
 import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.main.BukkitExtensionsBukkit;
 import ml.extbukkit.main.manager.*;
@@ -21,6 +22,7 @@ public class Server implements IServer {
     private File EXTENSIONS = new File("extensions/");
     private static Server SERVER = null;
     private CommandManager commands;
+    private KeyMaker keys;
 
     public static IServer getInstance() {
         if(SERVER == null) SERVER = new Server();
@@ -32,6 +34,7 @@ public class Server implements IServer {
         scheduler = new SchedulerManager();
         worlds = new WorldManager();
         commands = new CommandManager();
+        keys = new KeyMaker();
     }
 
     @Override
@@ -73,4 +76,7 @@ public class Server implements IServer {
     public ICommandManager getCommandManager() {
         return commands;
     }
+
+    @Override
+    public IKeyMaker getKeyMaker() { return keys; }
 }

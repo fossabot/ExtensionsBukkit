@@ -1,55 +1,16 @@
 package ml.extbukkit.main;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-
-import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 public class Updater {
-    public static final String REPO_API = "https://api.github.com/repos/TSEngineer/TSEExtensionsBukkit";
-
     public static void download() {
-        URL r;
-        try {
-            r = new URL(REPO_API + "/releases");
-        } catch (MalformedURLException e) {
-            return;
-        }
-        HttpsURLConnection con;
-        try {
-            con = (HttpsURLConnection) r.openConnection();
-        } catch (IOException e) {
-            return;
-        }
-        try {
-            con.setRequestMethod("GET");
-        } catch (ProtocolException e) {
-            return;
-        }
-        BufferedReader in;
-        try {
-            in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        } catch (IOException e) {
-            return;
-        }
-        String input;
-        StringBuffer res = new StringBuffer();
-        try {
-            while ((input = in.readLine()) != null)
-                res.append(input);
-        } catch (IOException e) {
-            return;
-        }
-        JsonArray obj = new JsonParser().parse(res.toString()).getAsJsonArray();
         URL d;
         try {
-            d = new URL(obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("browser_download_url").getAsString());
+            d = new URL("http://ci.extbukkit.ml/job/ExtensionsBukkit/lastSuccessfulBuild/artifact/build/libs/ExtensionsBukkit-release.jar");
         } catch (MalformedURLException e) {
             return;
         }
@@ -59,7 +20,7 @@ public class Updater {
         } catch (IOException e) {
             return;
         }
-        File pf = new File("plugins/" + obj.get(0).getAsJsonObject().get("assets").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+        File pf = new File("plugins/ExtensionsBukkit-release.jar");
         if(!pf.exists()) {
             try {
                 pf.createNewFile();

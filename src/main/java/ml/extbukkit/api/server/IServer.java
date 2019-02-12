@@ -6,6 +6,7 @@ import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
+import ml.extbukkit.api.types.IKeyMaker;
 import ml.extbukkit.api.world.IWorldManager;
 
 import java.io.File;
@@ -19,4 +20,5 @@ public interface IServer {
     File getExtensionsBukkitFile();
     IWorldManager getWorldManager();
     ICommandManager getCommandManager();
+    IKeyMaker getKeyMaker();
 }
