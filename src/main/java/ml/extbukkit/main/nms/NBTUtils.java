@@ -6,13 +6,15 @@ import com.google.gson.stream.JsonReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.server.v1_13_R2.MojangsonParser;
 import net.minecraft.server.v1_13_R2.NBTTagCompound;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
+import org.bukkit.entity.Entity;
 
 import java.io.StringReader;
 
 public class NBTUtils {
     public static NBTTagCompound jsonToNbt(JsonObject jsonObject) {
         try {
-            return MojangsonParser.parse(jsonObject.toString());
+            return MojangsonParser.parse(jsonObject.toString().replaceAll("\"([0-9]*(\\.[0-9]*)?)(f|s|b|d|l)\"", "$1$3"));
         } catch (CommandSyntaxException e) {
             return null;
         }
@@ -22,5 +24,14 @@ public class NBTUtils {
         JsonReader r = new JsonReader(new StringReader(nbt.toString()));
         r.setLenient(true);
         return p.parse(r).getAsJsonObject();
+    }
+    public static NBTTagCompound getEntityNbt(Entity entity) {
+        NBTTagCompound nbt = new NBTTagCompound();
+        ((CraftEntity) entity).getHandle().save(nbt);
+        return nbt;
+    }
+    public static void setEntityNbt(Entity entity, NBTTagCompound nbt) {
+        getEntityNbt(entity).a(nbt);
+        ((CraftEntity) entity).getHandle().f(nbt);
     }
 }

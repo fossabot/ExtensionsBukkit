@@ -1,7 +1,9 @@
 package ml.extbukkit.main.manager;
 
+import ml.extbukkit.api.builtin.events.EventExtensionReload;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.main.server.Server;
 
 import java.io.File;
 import java.io.IOException;
@@ -133,5 +135,10 @@ public class ExtensionLoader implements IExtensionLoader {
 
     public List<AExtension> getExtensions() {
         return extensions;
+    }
+
+    @Override
+    public void reload(AExtension extension) {
+        Server.getInstance().getEventManager().pullEvent(new EventExtensionReload(extension));
     }
 }

@@ -1,5 +1,5 @@
 package ml.extbukkit.api.event;
 
-public class Event {
+public abstract class Event {
 
 }

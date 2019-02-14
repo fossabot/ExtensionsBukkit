@@ -1,15 +1,20 @@
 package ml.extbukkit.main;
 
+import com.google.gson.JsonObject;
 import ml.extbukkit.api.builtin.events.EventWorldInitialize;
 import ml.extbukkit.api.builtin.events.EventWorldLoad;
 import ml.extbukkit.api.builtin.events.EventWorldSave;
 import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.ICommand;
+import ml.extbukkit.main.nms.NBTUtils;
 import ml.extbukkit.main.server.Server;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -57,5 +62,17 @@ public class BukkitEventListener implements Listener {
         ICommand cmd = Server.getInstance().getCommandManager().match(command);
         if(cmd != null)
             e.getCompletions().addAll(cmd.complete(null, command, args));
+    }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onInteract(PlayerInteractEvent e) {
+
+    }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onInteractEntity(PlayerInteractEntityEvent e) {
+        JsonObject nbt = NBTUtils.nbtToJson(NBTUtils.getEntityNbt(e.getRightClicked()));
+        nbt.addProperty("Fire", "20s");
+        e.getPlayer().sendMessage(nbt.toString());
+        e.getPlayer().sendMessage(NBTUtils.jsonToNbt(nbt).toString());
+        NBTUtils.setEntityNbt(e.getRightClicked(), NBTUtils.jsonToNbt(nbt));
     }
 }

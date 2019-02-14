@@ -9,4 +9,5 @@ public interface IExtensionLoader {
     boolean load(File extension);
     void loadAll(File dir);
     List<AExtension> getExtensions();
+    void reload(AExtension extension);
 }
