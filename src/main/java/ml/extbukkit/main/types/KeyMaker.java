@@ -1,4 +1,4 @@
-package ml.extbukkit.main.manager;
+package ml.extbukkit.main.types;
 
 import ml.extbukkit.api.types.IKey;
 import ml.extbukkit.api.types.IKeyMaker;

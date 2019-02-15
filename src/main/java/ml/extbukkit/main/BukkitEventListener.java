@@ -71,8 +71,6 @@ public class BukkitEventListener implements Listener {
     public void onInteractEntity(PlayerInteractEntityEvent e) {
         JsonObject nbt = NBTUtils.nbtToJson(NBTUtils.getEntityNbt(e.getRightClicked()));
         nbt.addProperty("Fire", "20s");
-        e.getPlayer().sendMessage(nbt.toString());
-        e.getPlayer().sendMessage(NBTUtils.jsonToNbt(nbt).toString());
         NBTUtils.setEntityNbt(e.getRightClicked(), NBTUtils.jsonToNbt(nbt));
     }
 }

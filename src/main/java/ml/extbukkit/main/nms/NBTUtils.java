@@ -14,7 +14,7 @@ import java.io.StringReader;
 public class NBTUtils {
     public static NBTTagCompound jsonToNbt(JsonObject jsonObject) {
         try {
-            return MojangsonParser.parse(jsonObject.toString().replaceAll("\"([0-9]*(\\.[0-9]*)?)(f|s|b|d|l)\"", "$1$3"));
+            return MojangsonParser.parse(jsonObject.toString().replaceAll("\"(-?[0-9]*(\\.[0-9]*)?)([fsbdlFSBDL])\"", "$1$3"));
         } catch (CommandSyntaxException e) {
             return null;
         }
@@ -31,7 +31,8 @@ public class NBTUtils {
         return nbt;
     }
     public static void setEntityNbt(Entity entity, NBTTagCompound nbt) {
-        getEntityNbt(entity).a(nbt);
-        ((CraftEntity) entity).getHandle().f(nbt);
+        try {
+            ((CraftEntity) entity).getHandle().f(nbt);
+        } catch (Exception e) {}
     }
 }

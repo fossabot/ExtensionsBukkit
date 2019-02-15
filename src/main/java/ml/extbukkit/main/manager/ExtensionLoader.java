@@ -10,21 +10,19 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class ExtensionLoader implements IExtensionLoader {
-    private List<AExtension> extensions = new ArrayList<>();
+    private Map<String, AExtension> extensions = new HashMap<>();
     /**
      * Loads extension from file
      *
      * @param extension File containing an extension
      * @return true or false
      */
-    //TODO Handle dependencies
+    //TODO Better dependency handling
     public boolean load(File extension) {
         if(!extension.exists()) return false;
         if(!extension.getName().endsWith(".jar")) return false;
@@ -70,11 +68,14 @@ public class ExtensionLoader implements IExtensionLoader {
                 return false;
             }
             if(ext != null) {
-                extensions.add(ext);
+                ext.setFile(extension);
+                extensions.put(ext.getID(), ext);
+                for(AExtension ce : getExtensions())
+                    if(getExtensionIdList().containsAll(Arrays.asList(ce.getDependencies())))
+                        ce.depLoaded();
                 return true;
             }
         }
-
         return false;
 
         /*JarFile jar;
@@ -133,8 +134,17 @@ public class ExtensionLoader implements IExtensionLoader {
             load(f);
     }
 
+    public List<String> getExtensionIdList() {
+        List<String> ids = new ArrayList<>();
+        for(AExtension ce : getExtensions())
+            ids.add(ce.getID());
+        return ids;
+    }
     public List<AExtension> getExtensions() {
-        return extensions;
+        List<AExtension> exts = new ArrayList<>();
+        for(AExtension ext : extensions.values())
+            exts.add(ext);
+        return exts;
     }
 
     @Override

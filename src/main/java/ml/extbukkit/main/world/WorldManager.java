@@ -1,4 +1,4 @@
-package ml.extbukkit.main.manager;
+package ml.extbukkit.main.world;
 
 import ml.extbukkit.api.world.IWorld;
 import ml.extbukkit.api.world.IWorldManager;

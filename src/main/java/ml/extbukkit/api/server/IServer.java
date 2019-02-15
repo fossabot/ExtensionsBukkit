@@ -2,7 +2,6 @@ package ml.extbukkit.api.server;
 
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
-import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
@@ -14,11 +13,13 @@ import java.io.File;
 public interface IServer {
     IExtensionLoader getExtensionLoader();
     File getExtensionsDir();
-    ILogger getLogger(AExtension extension);
+    ILogger getLogger();
     IEventManager getEventManager();
     ISchedulerManager getSchedulerManager();
     File getExtensionsBukkitFile();
     IWorldManager getWorldManager();
     ICommandManager getCommandManager();
     IKeyMaker getKeyMaker();
+    void stopServer();
+    IServerProperties getServerProperties();
 }
