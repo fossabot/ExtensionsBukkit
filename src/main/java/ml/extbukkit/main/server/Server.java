@@ -1,5 +1,6 @@
 package ml.extbukkit.main.server;
 
+import ml.extbukkit.api.command.CommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -11,6 +12,7 @@ import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.main.BukkitExtensionsBukkit;
 import ml.extbukkit.main.manager.*;
 import ml.extbukkit.api.server.IServer;
+import ml.extbukkit.main.manager.command.Console;
 import ml.extbukkit.main.types.KeyMaker;
 import ml.extbukkit.main.world.WorldManager;
 import org.bukkit.Bukkit;
@@ -18,13 +20,11 @@ import org.bukkit.Bukkit;
 import java.io.File;
 
 public class Server implements IServer {
-    private EventManager events;
     private ExtensionLoader loader;
     private SchedulerManager scheduler;
     private WorldManager worlds;
     private File EXTENSIONS = new File("extensions/");
     private static Server SERVER = null;
-    private CommandManager commands;
     private KeyMaker keys;
     private Logger logger;
     private ServerProperites properties;
@@ -35,10 +35,8 @@ public class Server implements IServer {
     }
     private Server() {
         loader = new ExtensionLoader();
-        events = new EventManager();
         scheduler = new SchedulerManager();
         worlds = new WorldManager();
-        commands = new CommandManager();
         keys = new KeyMaker();
         logger = new Logger();
         properties = new ServerProperites();
@@ -61,7 +59,7 @@ public class Server implements IServer {
 
     @Override
     public IEventManager getEventManager() {
-        return events;
+        return new EventManager();
     }
 
     @Override
@@ -81,7 +79,7 @@ public class Server implements IServer {
 
     @Override
     public ICommandManager getCommandManager() {
-        return commands;
+        return BukkitExtensionsBukkit.getInstance().getCommandManager();
     }
 
     @Override
@@ -91,8 +89,15 @@ public class Server implements IServer {
     public void stopServer() {
         Bukkit.shutdown();
     }
+
     @Override
     public IServerProperties getServerProperties() {
         return properties;
+    }
+
+    @Override
+    public CommandExecutor getConsole()
+    {
+        return new Console( Bukkit.getConsoleSender() );
     }
 }

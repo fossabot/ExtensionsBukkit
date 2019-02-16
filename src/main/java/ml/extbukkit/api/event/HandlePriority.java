@@ -1,9 +1,10 @@
 package ml.extbukkit.api.event;
 
-public enum HandlePriority {
-    FIRST,
-    AFTERFIRST,
+public enum HandlePriority
+{
+    LOWEST,
+    LOW,
     NORMAL,
-    AFTERNORMAL,
-    LAST
+    HIGH,
+    HIGHEST
 }

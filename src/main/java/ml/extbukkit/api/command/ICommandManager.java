@@ -2,10 +2,9 @@ package ml.extbukkit.api.command;
 
 import ml.extbukkit.api.extension.AExtension;
 
-import java.util.List;
-
-public interface ICommandManager {
-    void register(AExtension extension, ICommand command);
-    List<ICommand> getCommands();
-    ICommand match(String command);
+public interface ICommandManager
+{
+    void registerCommand(AExtension extension, Command command);
+    Command matchCommand(String commandName);
+    void dispatchCommand(CommandExecutor sender, String commandLine);
 }

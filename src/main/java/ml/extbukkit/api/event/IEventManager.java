@@ -1,8 +1,7 @@
 package ml.extbukkit.api.event;
 
-import ml.extbukkit.api.extension.AExtension;
-
-public interface IEventManager {
-    Event pullEvent(Event e);
-    void registerHandler(AExtension e, Handler h);
+public interface IEventManager<T extends Event>
+{
+    void callEvent(T event);
+    void registerEventHandler(Class<T> eventClass, ISpecificHandler<T> handler);
 }

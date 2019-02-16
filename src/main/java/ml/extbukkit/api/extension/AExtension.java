@@ -1,8 +1,6 @@
 package ml.extbukkit.api.extension;
 
 import ml.extbukkit.api.builtin.events.EventDependenciesLoaded;
-import ml.extbukkit.api.command.ICommandManager;
-import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
@@ -17,6 +15,7 @@ import java.io.File;
 public abstract class AExtension {
     private boolean depLoaded = false;
     private File file = null;
+
     public abstract String getID();
     public String getName() {
         return getID();
@@ -30,48 +29,57 @@ public abstract class AExtension {
     public String[] getDependencies() {
         return new String[0];
     }
+
     public abstract String getVersion();
+
+    public abstract void onEnable();
     public final void setFile(File file) {
         if(this.file != null) return;
         this.file = file;
     }
+
     public final void depLoaded() {
         if(!depLoaded) {
-            getEvents().pullEvent(new EventDependenciesLoaded(this));
+            getServer().getEventManager().callEvent(new EventDependenciesLoaded(this));
             depLoaded = true;
         }
     }
-    public final File getFile() {
+
+    public File getFile() {
         return file;
     }
-    protected final IServer getServer() {
+    public IServer getServer() {
         return Server.getInstance();
     }
-    protected final ILogger getLogger() {
+
+    public ILogger getLogger() {
         return getServer().getLogger();
     }
-    protected final void log(String message) {
+    public void log(String message) {
         getLogger().logSigned(this, message);
     }
-    protected final IEventManager getEvents() {
-        return getServer().getEventManager();
-    }
-    protected final ICommandManager getCommands() {
-        return getServer().getCommandManager();
-    }
-    protected final ISchedulerManager getScheduler() {
+
+    public ISchedulerManager getScheduler() {
         return getServer().getSchedulerManager();
     }
-    protected final IWorldManager getWorlds() {
+
+    public IWorldManager getWorlds() {
         return getServer().getWorldManager();
     }
-    protected final IKeyMaker getKeys() {
+
+    public IKeyMaker getKeys() {
         return getServer().getKeyMaker();
     }
-    protected final IExtensionLoader getLoader() {
+
+    public IExtensionLoader getLoader() {
         return getServer().getExtensionLoader();
     }
-    protected final IServerProperties getProperties() {
+
+    public IServerProperties getProperties() {
         return getServer().getServerProperties();
+    }
+
+    public String getFullName() {
+        return getName() + " v" + getVersion();
     }
 }

@@ -140,15 +140,12 @@ public class ExtensionLoader implements IExtensionLoader {
             ids.add(ce.getID());
         return ids;
     }
-    public List<AExtension> getExtensions() {
-        List<AExtension> exts = new ArrayList<>();
-        for(AExtension ext : extensions.values())
-            exts.add(ext);
-        return exts;
+    public Collection<AExtension> getExtensions() {
+        return extensions.values();
     }
 
     @Override
     public void reload(AExtension extension) {
-        Server.getInstance().getEventManager().pullEvent(new EventExtensionReload(extension));
+        Server.getInstance().getEventManager().callEvent(new EventExtensionReload(extension));
     }
 }
