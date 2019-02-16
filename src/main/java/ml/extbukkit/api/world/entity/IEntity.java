@@ -1,6 +1,6 @@
 package ml.extbukkit.api.world.entity;
 
-import ml.extbukkit.api.command.CommandExecutor;
+import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.types.IEntityType;
 import ml.extbukkit.api.world.INBTHolder;
 import ml.extbukkit.api.world.IPositioned;
@@ -9,7 +9,7 @@ import ml.extbukkit.api.world.StraightDirection;
 import java.util.List;
 import java.util.UUID;
 
-public interface IEntity extends CommandExecutor, IPositioned, INBTHolder {
+public interface IEntity extends ICommandExecutor, IPositioned, INBTHolder {
     boolean addPassenger(IEntity passenger);
     boolean ejectPassengers();
     void getBoundingBox();

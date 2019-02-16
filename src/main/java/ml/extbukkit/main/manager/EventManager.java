@@ -5,13 +5,13 @@ import com.google.common.collect.Multimaps;
 import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.HandlePriority;
 import ml.extbukkit.api.event.IEventManager;
-import ml.extbukkit.api.event.ISpecificHandler;
+import ml.extbukkit.api.event.IHandler;
 
 import java.util.*;
 
 public class EventManager<T extends Event> implements IEventManager<T>
 {
-    private ListMultimap<Class<? extends Event>, ISpecificHandler<T>> registeredHandlers =
+    private ListMultimap<Class<? extends Event>, IHandler<T>> registeredHandlers =
             Multimaps.synchronizedListMultimap( Multimaps.newListMultimap( new IdentityHashMap<>(), ArrayList::new ) );
 
     @Override
@@ -21,12 +21,12 @@ public class EventManager<T extends Event> implements IEventManager<T>
         {
             throw new NullPointerException( "The system cannot call a null event" );
         }
-        List<ISpecificHandler<T>> handlers = registeredHandlers.get( event.getClass() );
-        Set<ISpecificHandler<T>> lowest = new HashSet<>();
-        Set<ISpecificHandler<T>> low = new HashSet<>();
-        Set<ISpecificHandler<T>> normal = new HashSet<>();
-        Set<ISpecificHandler<T>> high = new HashSet<>();
-        Set<ISpecificHandler<T>> highest = new HashSet<>();
+        List<IHandler<T>> handlers = registeredHandlers.get( event.getClass() );
+        Set<IHandler<T>> lowest = new HashSet<>();
+        Set<IHandler<T>> low = new HashSet<>();
+        Set<IHandler<T>> normal = new HashSet<>();
+        Set<IHandler<T>> high = new HashSet<>();
+        Set<IHandler<T>> highest = new HashSet<>();
         handlers.forEach( handler ->
         {
             if ( handler == null )
@@ -55,23 +55,23 @@ public class EventManager<T extends Event> implements IEventManager<T>
                     normal.add( handler );
             }
         } );
-        for ( ISpecificHandler<T> hHig : highest )
+        for ( IHandler<T> hHig : highest )
         {
             hHig.handle( event );
         }
-        for ( ISpecificHandler<T> hHi : high )
+        for ( IHandler<T> hHi : high )
         {
             hHi.handle( event );
         }
-        for ( ISpecificHandler<T> norm : normal )
+        for ( IHandler<T> norm : normal )
         {
             norm.handle( event );
         }
-        for ( ISpecificHandler<T> lowH : low )
+        for ( IHandler<T> lowH : low )
         {
             lowH.handle( event );
         }
-        for ( ISpecificHandler<T> lowestH : lowest )
+        for ( IHandler<T> lowestH : lowest )
         {
             lowestH.handle( event );
         }
@@ -84,7 +84,7 @@ public class EventManager<T extends Event> implements IEventManager<T>
     }
 
     @Override
-    public void registerEventHandler(Class<T> eventClass, ISpecificHandler<T> handler)
+    public void registerHandler(Class<T> eventClass, IHandler<T> handler)
     {
         registeredHandlers.put( eventClass, handler );
     }

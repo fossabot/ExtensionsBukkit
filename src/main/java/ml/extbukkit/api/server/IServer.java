@@ -1,6 +1,6 @@
 package ml.extbukkit.api.server;
 
-import ml.extbukkit.api.command.CommandExecutor;
+import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -23,5 +23,5 @@ public interface IServer {
     IKeyMaker getKeyMaker();
     void stopServer();
     IServerProperties getServerProperties();
-    CommandExecutor getConsole();
+    ICommandExecutor getConsole();
 }

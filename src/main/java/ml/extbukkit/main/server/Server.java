@@ -1,6 +1,6 @@
 package ml.extbukkit.main.server;
 
-import ml.extbukkit.api.command.CommandExecutor;
+import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -12,7 +12,6 @@ import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.main.BukkitExtensionsBukkit;
 import ml.extbukkit.main.manager.*;
 import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.manager.command.Console;
 import ml.extbukkit.main.types.KeyMaker;
 import ml.extbukkit.main.world.WorldManager;
 import org.bukkit.Bukkit;
@@ -28,6 +27,7 @@ public class Server implements IServer {
     private KeyMaker keys;
     private Logger logger;
     private ServerProperites properties;
+    private CommandManager commands;
 
     public static IServer getInstance() {
         if(SERVER == null) SERVER = new Server();
@@ -39,6 +39,7 @@ public class Server implements IServer {
         worlds = new WorldManager();
         keys = new KeyMaker();
         logger = new Logger();
+        commands = new CommandManager();
         properties = new ServerProperites();
     }
 
@@ -79,7 +80,7 @@ public class Server implements IServer {
 
     @Override
     public ICommandManager getCommandManager() {
-        return BukkitExtensionsBukkit.getInstance().getCommandManager();
+        return commands;
     }
 
     @Override
@@ -96,8 +97,8 @@ public class Server implements IServer {
     }
 
     @Override
-    public CommandExecutor getConsole()
+    public ICommandExecutor getConsole()
     {
-        return new Console( Bukkit.getConsoleSender() );
+        return null;
     }
 }
