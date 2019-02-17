@@ -52,24 +52,25 @@ public class ExtensionLoader implements IExtensionLoader {
             try {
                 c = Class.forName(cn, true, cl);
             } catch (ClassNotFoundException e) {
-                return false;
+                continue;
             }
             Class<? extends AExtension> ec;
             try {
                 ec = c.asSubclass(AExtension.class);
             } catch (Exception e) {
-                return false;
+                continue;
             }
             try {
                 ext = ec.newInstance();
             } catch (InstantiationException e) {
-                return false;
+                continue;
             } catch (IllegalAccessException e) {
-                return false;
+                continue;
             }
             if(ext != null) {
                 ext.setFile(extension);
                 extensions.put(ext.getID(), ext);
+                System.out.println("Extension loaded: " + ext.getName());
                 return true;
             }
         }
@@ -79,14 +80,14 @@ public class ExtensionLoader implements IExtensionLoader {
         try {
             jar = new JarFile(extension);
         } catch (IOException e) {
-            return false;
+            continue;
         }
         Enumeration<JarEntry> e = jar.entries();
         URL[] u;
         try {
             u = new URL[]{ new URL("jar:file:" + extension.getAbsolutePath() + "!/") };
         } catch (MalformedURLException e1) {
-            return false;
+            continue;
         }
         URLClassLoader cl = URLClassLoader.newInstance(u);
         List<Class> classes = new ArrayList<>();
@@ -127,8 +128,9 @@ public class ExtensionLoader implements IExtensionLoader {
     @Override
     public void loadAll(File dir) {
         if(!dir.isDirectory()) return;
-        for(File f : dir.listFiles((dir1, name) -> name.endsWith(".jar")))
+        for(File f : dir.listFiles((dir1, name) -> name.endsWith(".jar"))) {
             load(f);
+        }
     }
 
     public List<String> getExtensionIdList() {

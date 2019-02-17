@@ -40,6 +40,6 @@ public class EventManager implements IEventManager {
     }
 
     public void registerContainerMethods(IHandlerContainer c) {
-
+        
     }
 }
