@@ -63,7 +63,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new BukkitEventListener(), this);
-        BukkitRunner.start();
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
     }
 
     @Override

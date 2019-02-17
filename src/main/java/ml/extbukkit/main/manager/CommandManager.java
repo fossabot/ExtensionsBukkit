@@ -26,7 +26,7 @@ public class CommandManager implements ICommandManager {
             }
         }
         commandsByExtension.put(extension, command);
-        extensionsByComand.put( command, extension );
+        extensionsByComand.put(command, extension);
     }
 
     @Override
@@ -47,15 +47,14 @@ public class CommandManager implements ICommandManager {
         try {
             executed.execute(sender, commandName, args);
         } catch (Throwable t) {
-            AExtension extension = getExtensionForCommand( executed );
+            AExtension extension = getExtensionForCommand(executed);
             throw new CommandException("Internal exception executing command '/" + commandLine + "' in extension '" + extension.getName() + "'", t);
         }
     }
 
     @Override
-    public AExtension getExtensionForCommand(Command command)
-    {
-        return extensionsByComand.get( command );
+    public AExtension getExtensionForCommand(Command command) {
+        return extensionsByComand.get(command);
     }
 
     public Map<String, Command> getCommandMap() {

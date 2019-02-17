@@ -20,49 +20,43 @@ public class EventManager implements IEventManager {
     @Override
     public void callEvent(Event event) {
         for (IHandlerContainer container : containers.keySet()) {
-            Map<Method, HandlePriority> priorityMap = containers.get( container );
+            Map<Method, HandlePriority> priorityMap = containers.get(container);
             Set<Method> highest = new HashSet<>();
             Set<Method> high = new HashSet<>();
             Set<Method> normal = new HashSet<>();
             Set<Method> low = new HashSet<>();
             Set<Method> lowest = new HashSet<>();
-            priorityMap.forEach( (method, priority) ->
+            priorityMap.forEach((method, priority) ->
             {
-                switch ( priority )
-                {
+                switch (priority) {
                     case HIGHEST:
-                        highest.add( method );
+                        highest.add(method);
                         break;
                     case HIGH:
-                        high.add( method );
+                        high.add(method);
                         break;
                     case NORMAL:
-                        normal.add( method );
+                        normal.add(method);
                     case LOW:
-                        low.add( method );
+                        low.add(method);
                     case LOWEST:
-                        lowest.add( method );
+                        lowest.add(method);
                 }
             });
-            for ( Method hiImpl : highest )
-            {
-                invoke( hiImpl, event, container );
+            for (Method hiImpl : highest) {
+                invoke(hiImpl, event, container);
             }
-            for ( Method hImpl : high )
-            {
-                invoke( hImpl, event, container );
+            for (Method hImpl : high) {
+                invoke(hImpl, event, container);
             }
-            for ( Method nImpl : normal )
-            {
-                invoke( nImpl, event, container );
+            for (Method nImpl : normal) {
+                invoke(nImpl, event, container);
             }
-            for ( Method lImpl : low )
-            {
-                invoke( lImpl, event, container );
+            for (Method lImpl : low) {
+                invoke(lImpl, event, container);
             }
-            for ( Method loImpl : lowest )
-            {
-                invoke( loImpl, event, container );
+            for (Method loImpl : lowest) {
+                invoke(loImpl, event, container);
             }
             lowest.clear();
             low.clear();
@@ -74,39 +68,30 @@ public class EventManager implements IEventManager {
 
     @Override
     public void registerContainer(IHandlerContainer container) {
-        for ( Method method : container.getClass().getMethods() )
-        {
-            for ( Annotation annotation : method.getAnnotations() )
-            {
-                if ( annotation instanceof Handler )
-                {
+        for (Method method : container.getClass().getMethods()) {
+            for (Annotation annotation : method.getAnnotations()) {
+                if (annotation instanceof Handler) {
                     Handler anno = (Handler) annotation;
-                    if ( method.getParameterCount() != 1 )
-                    {
-                        throw new IllegalArgumentException( "Cannot handle event method with more than 1 parameters!" );
+                    if (method.getParameterCount() != 1) {
+                        throw new IllegalArgumentException("Cannot handle event method with more than 1 parameters!");
                     }
-                    if ( containers.containsKey( container ) )
-                    {
-                        throw new IllegalArgumentException( "Event container already registered" );
+                    if (containers.containsKey(container)) {
+                        throw new IllegalArgumentException("Event container already registered");
                     }
                     Map<Method, HandlePriority> priorityMap = new HashMap<>();
-                    priorityMap.put( method, anno.priority() );
-                    containers.put( container, priorityMap );
+                    priorityMap.put(method, anno.priority());
+                    containers.put(container, priorityMap);
                 }
             }
         }
     }
 
-    private void invoke(Method method, Event event, IHandlerContainer container)
-    {
-        if ( event.getClass().isAssignableFrom( method.getParameterTypes()[0] ) )
-        {
-            try
-            {
-                method.setAccessible( true );
-                method.invoke( container, event );
-            } catch ( IllegalAccessException | InvocationTargetException exc )
-            {
+    private void invoke(Method method, Event event, IHandlerContainer container) {
+        if (event.getClass().isAssignableFrom(method.getParameterTypes()[0])) {
+            try {
+                method.setAccessible(true);
+                method.invoke(container, event);
+            } catch (IllegalAccessException | InvocationTargetException exc) {
                 exc.printStackTrace();
             }
         }

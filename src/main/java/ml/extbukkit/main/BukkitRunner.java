@@ -1,52 +1,26 @@
 package ml.extbukkit.main;
 
-
-import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.api.scheduler.exception.RunnableException;
+import ml.extbukkit.api.scheduler.IScheduledTask;
+import ml.extbukkit.api.scheduler.TaskType;
+import ml.extbukkit.main.scheduler.ScheduledTask;
 import ml.extbukkit.main.server.Server;
-import org.bukkit.scheduler.BukkitRunnable;
 
-public class BukkitRunner
-{
+import java.util.Map;
+import java.util.UUID;
 
-    public static void start()
-    {
-        ISchedulerManager schedulerManager = Server.getInstance().getSchedulerManager();
-        new BukkitRunnable()
-        {
-
-            @Override
-            public void run()
-            {
-                schedulerManager.getRepeatingTasks().forEach( (extension, task) ->
-                {
-                    if ( task.getDelay() != 0 )
-                    {
-                        try
-                        {
-                            Thread.sleep( task.getUnit().toMillis( task.getDelay() ) );
-                        } catch ( InterruptedException exc )
-                        {
-                            exc.printStackTrace();
-                        }
-                    }
-                    new BukkitRunnable() {
-
-                        @Override
-                        public void run()
-                        {
-                            try
-                            {
-                                task.getRunnable().execute();
-                            } catch ( Throwable t )
-                            {
-                                throw new RunnableException( "Internal error occurred while trying to execute task '" + task.getUUID() + "' in extension '" + extension.getName() + "'", t );
-                            }
-                        }
-                    }.runTaskTimer( BukkitExtensionsBukkit.getInstance(), 0, task.getUnit().toMillis( task.getPeriod() ) / 50 );
-                } );
+public class BukkitRunner implements Runnable {
+    @Override
+    public void run() {
+        for(Map<UUID, IScheduledTask> mut : Server.getInstance().getSchedulerManager().getTasks().values())
+            for(IScheduledTask t : mut.values()) {
+                ScheduledTask it = (ScheduledTask) t;
+                it.setTime(it.getTime() + 1);
+                if(it.getTime() >= it.getRealInterval()) {
+                    it.getTask().execute();
+                    it.setTime(0);
+                    if(it.getType() == TaskType.DELAYED)
+                        it.cancel();
+                }
             }
-        }.runTaskTimer( BukkitExtensionsBukkit.getInstance(), 0, 20 );
     }
-
 }

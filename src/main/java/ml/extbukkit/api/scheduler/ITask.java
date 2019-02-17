@@ -1,5 +1,5 @@
 package ml.extbukkit.api.scheduler;
 
-public interface Task {
+public interface ITask {
     void execute();
 }

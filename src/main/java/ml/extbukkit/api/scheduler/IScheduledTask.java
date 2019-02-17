@@ -1,24 +1,17 @@
 package ml.extbukkit.api.scheduler;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import ml.extbukkit.api.extension.AExtension;
 
-public interface ScheduledTask {
-
+public interface IScheduledTask {
     void cancel();
-
     long getDelay();
-
-    long getPeriod();
-
-    TimeUnit getUnit();
-
+    long getInterval();
+    TimeUnit getDelayUnit();
     UUID getUUID();
-
     AExtension getOwner();
-
-    Task getRunnable();
-
+    ITask getTask();
+    TaskType getType();
+    TimeUnit getIntervalUnit();
 }

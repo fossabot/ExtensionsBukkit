@@ -15,12 +15,9 @@ public interface IEntity extends ICommandExecutor, IPositioned, INBTHolder {
     void getBoundingBox();
     int getId();
     StraightDirection getDirection();
-    int getFireTicks();
     double getHeight();
     void getDamageEvent();
-    int getMaxFireTicks();
     List<IEntity> getPassengers();
-    int getPortalCooldown();
     int getTicksExist();
     IEntityType getType();
     UUID getUUID();
@@ -29,12 +26,10 @@ public interface IEntity extends ICommandExecutor, IPositioned, INBTHolder {
     boolean isMarkedForRemoval();
     boolean hasPassengers();
     boolean isPassenger();
-    boolean isGlowing();
     boolean isExist();
     boolean ejectAsPassenger();
     void remove();
     boolean removePassenger(IEntity passenger);
-    void setFireTicks(int ticks);
     void setDamageEvent(Object event);
     boolean setPassenger(IEntity passenger);
     void setTicksExist(int exist);
