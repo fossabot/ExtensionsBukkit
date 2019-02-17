@@ -141,7 +141,7 @@ public class ExtensionLoader implements IExtensionLoader {
         return ids;
     }
     public Collection<AExtension> getExtensions() {
-        return extensions.values();
+        return Collections.unmodifiableCollection( extensions.values() );
     }
 
     @Override
