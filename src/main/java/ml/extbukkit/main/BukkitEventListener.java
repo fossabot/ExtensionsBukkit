@@ -9,7 +9,7 @@ import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
-import ml.extbukkit.main.entity.Entity;
+import ml.extbukkit.main.world.entity.Entity;
 import ml.extbukkit.main.manager.command.CommandManager;
 import ml.extbukkit.main.manager.command.CommandExecutor;
 import ml.extbukkit.main.server.Server;
