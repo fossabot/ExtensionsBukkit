@@ -11,7 +11,7 @@ import ml.extbukkit.main.server.Server;
 
 public class SimpleScheduledTask implements ScheduledTask
 {
-    private UUID uuid = UUID.randomUUID();
+    private UUID uuid;
     private long delay;
     private long period;
     private TimeUnit unit;
@@ -21,6 +21,7 @@ public class SimpleScheduledTask implements ScheduledTask
 
     public SimpleScheduledTask(long delay, long period, TimeUnit unit, AExtension owner, Task task)
     {
+        this.uuid = UUID.randomUUID();
         this.delay = delay;
         this.period = period;
         this.unit = unit;
