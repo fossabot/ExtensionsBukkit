@@ -5,15 +5,20 @@ import java.util.concurrent.TimeUnit;
 
 import ml.extbukkit.api.extension.AExtension;
 
-public interface ScheduledTask
-{
+public interface ScheduledTask {
 
     void cancel();
+
     long getDelay();
+
     long getPeriod();
+
     TimeUnit getUnit();
+
     UUID getUUID();
+
     AExtension getOwner();
+
     Task getRunnable();
 
 }
