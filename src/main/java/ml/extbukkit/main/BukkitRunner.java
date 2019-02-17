@@ -40,7 +40,7 @@ public class BukkitRunner
                                 task.getRunnable().execute();
                             } catch ( Throwable t )
                             {
-                                throw new RunnableException( "Internal error occurred while trying to execute task '" + task.getUUID() + "' in extension '" + extension.getFullName() + "'", t );
+                                throw new RunnableException( "Internal error occurred while trying to execute task '" + task.getUUID() + "' in extension '" + extension.getName() + "'", t );
                             }
                         }
                     }.runTaskTimer( BukkitExtensionsBukkit.getInstance(), 0, task.getUnit().toMillis( task.getPeriod() ) / 50 );
