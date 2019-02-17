@@ -1,91 +1,52 @@
 package ml.extbukkit.main.manager;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimaps;
 import ml.extbukkit.api.event.Event;
-import ml.extbukkit.api.event.HandlePriority;
+import ml.extbukkit.api.event.Handler;
 import ml.extbukkit.api.event.IEventManager;
-import ml.extbukkit.api.event.IHandler;
+import ml.extbukkit.api.event.IHandlerContainer;
 
-import java.util.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
 
-public class EventManager<T extends Event> implements IEventManager<T>
-{
-    private ListMultimap<Class<? extends Event>, IHandler<T>> registeredHandlers =
-            Multimaps.synchronizedListMultimap( Multimaps.newListMultimap( new IdentityHashMap<>(), ArrayList::new ) );
+public class EventManager implements IEventManager {
+    private ListMultimap<IHandlerContainer, Method> mtdl = Multimaps.synchronizedListMultimap(Multimaps.newListMultimap(new IdentityHashMap<>(), ArrayList::new));
 
     @Override
-    public void callEvent(T event)
-    {
-        if ( event == null )
-        {
-            throw new NullPointerException( "The system cannot call a null event" );
-        }
-        List<IHandler<T>> handlers = registeredHandlers.get( event.getClass() );
-        Set<IHandler<T>> lowest = new HashSet<>();
-        Set<IHandler<T>> low = new HashSet<>();
-        Set<IHandler<T>> normal = new HashSet<>();
-        Set<IHandler<T>> high = new HashSet<>();
-        Set<IHandler<T>> highest = new HashSet<>();
-        handlers.forEach( handler ->
-        {
-            if ( handler == null )
-            {
-                return;
+    public void callEvent(Event event) {
+        for (IHandlerContainer c : mtdl.keySet()) {
+            for (Method m : mtdl.get(c)) {
+                if (event.getClass().isAssignableFrom(m.getParameterTypes()[0])) {
+                    m.setAccessible(true);
+                    try {
+                        m.invoke(c, event);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            HandlePriority priority = handler.priority();
-            switch ( priority )
-            {
-                case HIGHEST:
-                    highest.add( handler );
-                    break;
-                case HIGH:
-                    high.add( handler );
-                    break;
-                case NORMAL:
-                    normal.add( handler );
-                    break;
-                case LOW:
-                    low.add( handler );
-                    break;
-                case LOWEST:
-                    lowest.add( handler );
-                    break;
-                default:
-                    normal.add( handler );
-            }
-        } );
-        for ( IHandler<T> hHig : highest )
-        {
-            hHig.handle( event );
         }
-        for ( IHandler<T> hHi : high )
-        {
-            hHi.handle( event );
-        }
-        for ( IHandler<T> norm : normal )
-        {
-            norm.handle( event );
-        }
-        for ( IHandler<T> lowH : low )
-        {
-            lowH.handle( event );
-        }
-        for ( IHandler<T> lowestH : lowest )
-        {
-            lowestH.handle( event );
-        }
-        lowest.clear();
-        low.clear();
-        normal.clear();
-        high.clear();
-        highest.clear();
-        event.postCall();
     }
 
     @Override
-    public void registerHandler(Class<T> eventClass, IHandler<T> handler)
-    {
-        registeredHandlers.put( eventClass, handler );
+    public void registerContainer(IHandlerContainer container) {
+        registerContainerMethods(container);
+    }
+
+    public void registerContainerMethods(IHandlerContainer c) {
+        Class<? extends IHandlerContainer> hc = c.getClass();
+        Method[] mtd = hc.getMethods();
+        for (Method m : mtd) {
+            Annotation a = m.getAnnotation(Handler.class);
+            if (a == null)
+                continue;
+            if (m.getParameterCount() == 1 && m.getReturnType() == void.class && Event.class.isAssignableFrom(m.getParameterTypes()[0]))
+                mtdl.put(c, m);
+        }
     }
 }

@@ -78,8 +78,4 @@ public abstract class AExtension {
     public IServerProperties getProperties() {
         return getServer().getServerProperties();
     }
-
-    public String getFullName() {
-        return getName() + " v" + getVersion();
-    }
 }

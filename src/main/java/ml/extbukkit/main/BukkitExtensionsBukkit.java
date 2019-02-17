@@ -95,7 +95,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
                     try {
                         command.execute(executor, s, strings);
                     } catch (Throwable t) {
-                        throw new CommandException("Internal exception executing command '/" + s + "' in extension " + command.getExtension().getFullName(), t);
+                        throw new CommandException("Internal exception executing command '/" + s + "' in extension " + command.getExtension().getName(), t);
                     }
                     return true;
                 }

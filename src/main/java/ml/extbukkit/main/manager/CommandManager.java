@@ -48,7 +48,7 @@ public class CommandManager implements ICommandManager {
         try {
             executed.execute(sender, commandName, args);
         } catch (Throwable t) {
-            throw new CommandException("Internal exception executing command '/" + commandLine + "' in extension " + executed.getExtension().getFullName(), t);
+            throw new CommandException("Internal exception executing command '/" + commandLine + "' in extension " + executed.getExtension().getName(), t);
         }
     }
 
