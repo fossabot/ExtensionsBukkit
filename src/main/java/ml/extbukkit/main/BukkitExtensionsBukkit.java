@@ -7,7 +7,6 @@ import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.main.manager.CommandManager;
 import ml.extbukkit.main.manager.command.CommandExecutor;
 import ml.extbukkit.main.server.Server;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
@@ -44,9 +43,9 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
                 return Result.DENY;
             }
         } );*/
-        if (!Bukkit.getVersion().contains("1.13")) {
+        if (!getServer().getVersion().contains("1.13")) {
             Server.getInstance().getLogger().log("Unsupported Minecraft version found, we should disable server because of the extensions...");
-            Bukkit.shutdown();
+            getServer().shutdown();
         }
         if (!Server.getInstance().getExtensionsDir().exists()) {
             Server.getInstance().getExtensionsDir().mkdirs();
@@ -63,13 +62,13 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Bukkit.getPluginManager().registerEvents(new BukkitEventListener(), this);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
+        getServer().getPluginManager().registerEvents(new BukkitEventListener(), this);
+        BukkitRunner.start();
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getScheduler().cancelTasks(this);
+        getServer().getScheduler().cancelTasks(this);
     }
 
     @Override

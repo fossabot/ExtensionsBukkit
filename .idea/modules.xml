@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit2.iml" filepath="$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit2_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit2_main.iml" group="TSEExtensionsBukkit2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit2_test.iml" filepath="$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit2_test.iml" group="TSEExtensionsBukkit2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit.iml" filepath="$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TSEExtensionsBukkit_main.iml" group="TSEExtensionsBukkit" />
     </modules>
   </component>
 </project>

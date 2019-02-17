@@ -1,25 +1,52 @@
 package ml.extbukkit.main;
 
-import ml.extbukkit.api.scheduler.TaskType;
-import ml.extbukkit.api.scheduler.Task;
+
+import ml.extbukkit.api.scheduler.ISchedulerManager;
+import ml.extbukkit.api.scheduler.exception.RunnableException;
 import ml.extbukkit.main.server.Server;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.UUID;
+public class BukkitRunner
+{
 
-public class BukkitRunner implements Runnable {
-    private long num = 0;
-    @Override
-    public void run() {
-        for(UUID u : Server.getInstance().getSchedulerManager().getTasks().keySet()) {
-            Task t = Server.getInstance().getSchedulerManager().getTasks().get(u);
-            if(num % t.getDelay() == 0) {
-                t.execute();
-                if(t.getType() == TaskType.ONETIME)
-                    Server.getInstance().getSchedulerManager().stop(u);
+    public static void start()
+    {
+        ISchedulerManager schedulerManager = Server.getInstance().getSchedulerManager();
+        new BukkitRunnable()
+        {
+
+            @Override
+            public void run()
+            {
+                schedulerManager.getRepeatingTasks().forEach( (extension, task) ->
+                {
+                    if ( task.getDelay() != 0 )
+                    {
+                        try
+                        {
+                            Thread.sleep( task.getUnit().toMillis( task.getDelay() ) );
+                        } catch ( InterruptedException exc )
+                        {
+                            exc.printStackTrace();
+                        }
+                    }
+                    new BukkitRunnable() {
+
+                        @Override
+                        public void run()
+                        {
+                            try
+                            {
+                                task.getRunnable().execute();
+                            } catch ( Throwable t )
+                            {
+                                throw new RunnableException( "Internal error occurred while trying to execute task '" + task.getUUID() + "' in extension '" + extension.getFullName() + "'", t );
+                            }
+                        }
+                    }.runTaskTimer( BukkitExtensionsBukkit.getInstance(), 0, task.getUnit().toMillis( task.getPeriod() ) / 50 );
+                } );
             }
-        }
-        if(num < Long.MAX_VALUE)
-            num++;
-        else num = 0;
+        }.runTaskTimer( BukkitExtensionsBukkit.getInstance(), 0, 20 );
     }
+
 }
