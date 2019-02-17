@@ -70,9 +70,7 @@ public class ExtensionLoader implements IExtensionLoader {
             if(ext != null) {
                 ext.setFile(extension);
                 extensions.put(ext.getID(), ext);
-                for(AExtension ce : getExtensions())
-                    if(getExtensionIdList().containsAll(Arrays.asList(ce.getDependencies())))
-                        ce.depLoaded();
+                System.out.println(ext.getID() + " loaded");
                 return true;
             }
         }
@@ -130,6 +128,7 @@ public class ExtensionLoader implements IExtensionLoader {
     @Override
     public void loadAll(File dir) {
         if(!dir.isDirectory()) return;
+        System.out.println("Loading extensions from " + dir.getPath());
         for(File f : dir.listFiles((dir1, name) -> name.endsWith(".jar")))
             load(f);
     }
