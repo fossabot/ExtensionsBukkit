@@ -19,12 +19,14 @@ public class EventManager implements IEventManager {
 
     @Override
     public void callEvent(Event event) {
+        System.out.println("CALLEVENT!");
         for (IHandlerContainer c : mtdl.keySet()) {
             for (Method m : mtdl.get(c)) {
                 if (event.getClass().isAssignableFrom(m.getParameterTypes()[0])) {
                     m.setAccessible(true);
                     try {
                         m.invoke(c, event);
+                        System.out.println("INVOKE!");
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
@@ -35,6 +37,7 @@ public class EventManager implements IEventManager {
 
     @Override
     public void registerContainer(IHandlerContainer container) {
+        System.out.println("Registering container");
         registerContainerMethods(container);
     }
 
@@ -47,6 +50,7 @@ public class EventManager implements IEventManager {
                 continue;
             if (m.getParameterCount() == 1 && m.getReturnType() == void.class && Event.class.isAssignableFrom(m.getParameterTypes()[0]))
                 mtdl.put(c, m);
+            System.out.println(m.getName());
         }
     }
 }
