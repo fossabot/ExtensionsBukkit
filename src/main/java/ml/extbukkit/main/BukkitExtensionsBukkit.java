@@ -4,13 +4,12 @@ import ml.extbukkit.api.builtin.events.EventLoad;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.exception.CommandException;
 import ml.extbukkit.api.extension.AExtension;
-import ml.extbukkit.main.manager.CommandManager;
+import ml.extbukkit.main.manager.command.CommandManager;
 import ml.extbukkit.main.manager.command.CommandExecutor;
 import ml.extbukkit.main.server.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;

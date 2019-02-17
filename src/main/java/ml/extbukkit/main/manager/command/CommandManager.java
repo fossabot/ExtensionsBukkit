@@ -1,4 +1,4 @@
-package ml.extbukkit.main.manager;
+package ml.extbukkit.main.manager.command;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;

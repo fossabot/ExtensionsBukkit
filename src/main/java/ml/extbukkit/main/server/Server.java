@@ -12,6 +12,8 @@ import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.main.BukkitExtensionsBukkit;
 import ml.extbukkit.main.manager.*;
 import ml.extbukkit.api.server.IServer;
+import ml.extbukkit.main.manager.command.CommandManager;
+import ml.extbukkit.main.manager.event.EventManager;
 import ml.extbukkit.main.types.KeyMaker;
 import ml.extbukkit.main.world.WorldManager;
 import org.bukkit.Bukkit;
