@@ -56,8 +56,8 @@ public class SchedulerManager implements ISchedulerManager {
     @Override
     public void cancel(UUID uuid)
     {
-        tasksByUUID.remove( uuid );
         tasks.values().remove( getRepeatingTask( uuid ) );
+        tasksByUUID.remove( uuid );
     }
 
     @Override
