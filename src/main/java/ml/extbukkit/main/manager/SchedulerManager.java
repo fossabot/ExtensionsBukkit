@@ -33,7 +33,7 @@ public class SchedulerManager implements ISchedulerManager {
             task.execute();
         } catch ( Throwable t )
         {
-            throw new RunnableException( "An internal error occured while running task '" + task.toString() + "' in extension '" + owner.getFullName() + "'", t );
+            throw new RunnableException( "An internal error occured while running task '" + task.toString() + "' in extension '" + owner.getName() + "'", t );
         }
     }
 
