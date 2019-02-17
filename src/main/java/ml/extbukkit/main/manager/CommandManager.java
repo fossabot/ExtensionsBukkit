@@ -15,6 +15,7 @@ import java.util.Map;
 public class CommandManager implements ICommandManager {
     private Map<String, Command> commandMap = new HashMap<>();
     private Multimap<AExtension, Command> commandsByExtension = ArrayListMultimap.create();
+    private Map<Command, AExtension> extensionsByComand = new HashMap<>();
 
     @Override
     public void registerCommand(AExtension extension, Command command) {
@@ -24,10 +25,8 @@ public class CommandManager implements ICommandManager {
                 commandMap.put(alias.toLowerCase(), command);
             }
         }
-        if (!command.getExtension().equals(extension) || command.getExtension() == null) {
-            command.setExtension(extension);
-        }
         commandsByExtension.put(extension, command);
+        extensionsByComand.put( command, extension );
     }
 
     @Override
@@ -48,8 +47,15 @@ public class CommandManager implements ICommandManager {
         try {
             executed.execute(sender, commandName, args);
         } catch (Throwable t) {
-            throw new CommandException("Internal exception executing command '/" + commandLine + "' in extension " + executed.getExtension().getName(), t);
+            AExtension extension = getExtensionForCommand( executed );
+            throw new CommandException("Internal exception executing command '/" + commandLine + "' in extension '" + extension.getName() + "'", t);
         }
+    }
+
+    @Override
+    public AExtension getExtensionForCommand(Command command)
+    {
+        return extensionsByComand.get( command );
     }
 
     public Map<String, Command> getCommandMap() {

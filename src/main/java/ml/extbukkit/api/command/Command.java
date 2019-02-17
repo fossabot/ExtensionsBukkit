@@ -7,7 +7,6 @@ import ml.extbukkit.api.extension.AExtension;
 public abstract class Command {
     private String name;
     private String[] aliases;
-    private AExtension extension;
 
     public Command(String name) {
         this(name, new String[0]);

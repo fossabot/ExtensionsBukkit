@@ -1,6 +1,7 @@
 package ml.extbukkit.main;
 
-import com.google.gson.JsonObject;
+import ml.extbukkit.api.builtin.events.EventEntityJoin;
+import ml.extbukkit.api.builtin.events.EventEntityQuit;
 import ml.extbukkit.api.builtin.events.EventWorldInitialize;
 import ml.extbukkit.api.builtin.events.EventWorldLoad;
 import ml.extbukkit.api.builtin.events.EventWorldSave;
@@ -8,9 +9,9 @@ import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
+import ml.extbukkit.main.entity.Entity;
 import ml.extbukkit.main.manager.CommandManager;
 import ml.extbukkit.main.manager.command.CommandExecutor;
-import ml.extbukkit.main.nms.NBTUtils;
 import ml.extbukkit.main.server.Server;
 import ml.extbukkit.main.world.World;
 import org.bukkit.Bukkit;
@@ -20,6 +21,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -106,5 +109,17 @@ public class BukkitEventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInteractEntity(PlayerInteractEntityEvent e) {
 
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onJoin(PlayerJoinEvent event)
+    {
+        Server.getInstance().getEventManager().callEvent( new EventEntityJoin( new Entity( event.getPlayer() ), event.getJoinMessage() ) );
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onQuit(PlayerQuitEvent event)
+    {
+        Server.getInstance().getEventManager().callEvent( new EventEntityQuit( new Entity( event.getPlayer() ), event.getQuitMessage() ) );
     }
 }

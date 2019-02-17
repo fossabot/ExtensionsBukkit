@@ -90,11 +90,12 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             bcmp.register(command.getName(), registeredName, new Command(command.getName(), "", "", Collections.emptyList()) {
                 @Override
                 public boolean execute(CommandSender commandSender, String s, String[] strings) {
-                    ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(commandSender);
+//                    ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(commandSender);
+                    ICommandExecutor executor = new CommandExecutor( commandSender ); // Time only
                     try {
                         command.execute(executor, s, strings);
                     } catch (Throwable t) {
-                        throw new CommandException("Internal exception executing command '/" + s + "' in extension " + command.getExtension().getName(), t);
+                        throw new CommandException("Internal exception executing command '/" + s + "' in extension " + extension.getName(), t);
                     }
                     return true;
                 }
