@@ -10,7 +10,7 @@ public class Updater {
     public static void download() {
         URL d;
         try {
-            d = new URL("http://ci.extbukkit.ml/job/ExtensionsBukkit/lastSuccessfulBuild/artifact/build/libs/ExtensionsBukkit-release.jar");
+            d = new URL("http://ci.extbukkit.ml/job/ExtensionsBukkit/lastSuccessfulBuild/artifact/build/libs/ExtensionsBukkit-1.2-SNAPSHOT.jar");
         } catch (MalformedURLException e) {
             return;
         }
@@ -20,7 +20,7 @@ public class Updater {
         } catch (IOException e) {
             return;
         }
-        File pf = new File("plugins/ExtensionsBukkit-release.jar");
+        File pf = new File("plugins/ExtensionsBukkit-1.2-SNAPSHOT.jar");
         if(!pf.exists()) {
             try {
                 pf.createNewFile();
