@@ -6,7 +6,6 @@ import java.lang.reflect.Method;
  * Represents a class, containing information about a specific
  * event method in a specific container.
  * Obtained by {@link IEventManager#getEventsIn(IHandlerContainer)}
- * and {@link IEventManager#getMethodsFor(Class)}
  */
 public interface IMethodPriority {
 
