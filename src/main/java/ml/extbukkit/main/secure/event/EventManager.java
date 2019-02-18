@@ -18,6 +18,8 @@ import java.util.Set;
 public class EventManager implements IEventManager {
     private Multimap<IHandlerContainer, IMethodPriority> containers = ArrayListMultimap.create();
 
+    // Ok... Now i totally give up on event calling... MrIvanPlays
+    // Tried another methods, but i removed them because why should they stay...
     @Override
     public void callEvent(Event event) {
         for (IHandlerContainer container : containers.keySet()) {
@@ -58,49 +60,11 @@ public class EventManager implements IEventManager {
             low.forEach( priority -> priority.invoke( container, event ) );
             lowest.forEach( priority -> priority.invoke( container, event ) );
             System.out.println("CALLED");
-//            priorityMap.forEach( (method, priority) ->
-//            {
-//                switch ( priority )
-//                {
-//                    case HIGHEST:
-//                        highest.add( method );
-//                        break;
-//                    case HIGH:
-//                        high.add( method );
-//                        break;
-//                    case NORMAL:
-//                        normal.add( method );
-//                    case LOW:
-//                        low.add( method );
-//                    case LOWEST:
-//                        lowest.add( method );
-//                }
-//            });
-//            for ( Method hiImpl : highest )
-//            {
-//                invoke( hiImpl, event, container );
-//            }
-//            for ( Method hImpl : high )
-//            {
-//                invoke( hImpl, event, container );
-//            }
-//            for ( Method nImpl : normal )
-//            {
-//                invoke( nImpl, event, container );
-//            }
-//            for ( Method lImpl : low )
-//            {
-//                invoke( lImpl, event, container );
-//            }
-//            for ( Method loImpl : lowest )
-//            {
-//                invoke( loImpl, event, container );
-//            }
-//            lowest.clear();
-//            low.clear();
-//            normal.clear();
-//            high.clear();
-//            highest.clear();
+            lowest.clear();
+            low.clear();
+            normal.clear();
+            high.clear();
+            highest.clear();
         }
     }
 

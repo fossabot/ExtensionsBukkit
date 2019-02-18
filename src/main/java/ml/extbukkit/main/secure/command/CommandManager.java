@@ -12,7 +12,6 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +20,12 @@ public class CommandManager implements ICommandManager {
     private Multimap<AExtension, Command> commandsByExtension = ArrayListMultimap.create();
     private Map<Command, AExtension> extensionsByComand = new HashMap<>();
     private CommandMap bcmp;
-    private boolean r;
+    private static CommandManager instance = new CommandManager();
+
+    public static CommandManager getInstance()
+    {
+        return instance;
+    }
 
     @Override
     public void registerCommand(AExtension extension, Command command) {
@@ -72,21 +76,24 @@ public class CommandManager implements ICommandManager {
     }
 
     public void registerCommands() {
-        if(r) return;
-        BukkitExtensionsBukkit p = BukkitExtensionsBukkit.getInstance();
+        BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
         try {
-            Field field = p.getClass().getDeclaredField("commandMap");
+            Field field = plugin.getServer().getClass().getDeclaredField("commandMap");
             field.setAccessible(true);
-            bcmp = (CommandMap) field.get(p.getServer());
+            bcmp = (CommandMap) field.get(plugin.getServer());
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
-        getCommandsByExtension().asMap().forEach((extension, registeredCommands) -> registeredCommands.forEach(command ->
+        commandMap.forEach( (name, command) ->
         {
-            String registeredName = p.getName() + ":" + extension.getName();
-            bcmp.register(command.getName(), registeredName, new org.bukkit.command.Command(command.getName(), "", "", Collections.emptyList()) {
+            AExtension extension = getExtensionForCommand( command );
+            String registerName = plugin.getName() + ":" + extension.getName();
+            bcmp.register( command.getName(), registerName, new org.bukkit.command.Command (command.getName() )
+            {
+
                 @Override
-                public boolean execute(CommandSender commandSender, String s, String[] strings) {
+                public boolean execute(CommandSender commandSender, String s, String[] strings)
+                {
 //                    ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(commandSender);
                     ICommandExecutor executor = new CommandExecutor( commandSender ); // Time only
                     try {
@@ -97,7 +104,6 @@ public class CommandManager implements ICommandManager {
                     return true;
                 }
             });
-        }));
-        r = true;
+        });
     }
 }

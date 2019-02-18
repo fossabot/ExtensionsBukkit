@@ -31,7 +31,6 @@ public class Server implements IServer {
     private KeyMaker keys;
     private Logger logger;
     private ServerProperites properties;
-    private CommandManager commands;
 
     public static IServer getInstance() {
         if(SERVER == null) SERVER = new Server();
@@ -43,7 +42,6 @@ public class Server implements IServer {
         worlds = new WorldManager();
         keys = new KeyMaker();
         logger = new Logger();
-        commands = new CommandManager();
         properties = new ServerProperites();
     }
 
@@ -84,7 +82,7 @@ public class Server implements IServer {
 
     @Override
     public ICommandManager getCommandManager() {
-        return commands;
+        return CommandManager.getInstance();
     }
 
     @Override

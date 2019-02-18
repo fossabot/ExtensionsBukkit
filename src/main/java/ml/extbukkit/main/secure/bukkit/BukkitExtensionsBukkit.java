@@ -1,7 +1,6 @@
 package ml.extbukkit.main.secure.bukkit;
 
 import ml.extbukkit.api.builtin.events.EventLoad;
-import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.server.Server;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,7 +9,6 @@ import java.io.File;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
-    private CommandManager commandManager;
 
     public BukkitExtensionsBukkit() {
         I = this;
@@ -23,7 +21,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onLoad() {
         Server.getInstance();
-        commandManager = (CommandManager) Server.getInstance().getCommandManager();
         /*((Logger) LogManager.getRootLogger()).addFilter( new AbstractFilter()
         {
             @Override
@@ -42,7 +39,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
         }
         Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
         Server.getInstance().getEventManager().callEvent(new EventLoad());
-        ((CommandManager) Server.getInstance().getCommandManager()).registerCommands();
+        CommandManager.getInstance().registerCommands();
         if (getFile().exists()) {
             getFile().delete();
         }
