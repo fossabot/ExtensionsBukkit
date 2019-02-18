@@ -1,7 +1,8 @@
-package ml.extbukkit.main.secure.manager.command;
+package ml.extbukkit.main.secure.command;
 
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.util.AWrapper;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 public class CommandExecutor extends AWrapper<CommandSender> implements ICommandExecutor {
@@ -20,12 +21,12 @@ public class CommandExecutor extends AWrapper<CommandSender> implements ICommand
     }
 
     @Override
-    public boolean hasPermission(String permission) {
-        return handle.hasPermission(permission);
+    public void executeCommand(String command) {
+        Bukkit.dispatchCommand(handle, command);
     }
 
     @Override
-    public String getName() {
-        return handle.getName();
+    public boolean hasPermission(String permission) {
+        return handle.hasPermission(permission);
     }
 }

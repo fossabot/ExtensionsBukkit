@@ -42,7 +42,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
         }
         Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
         Server.getInstance().getEventManager().callEvent(new EventLoad());
-        Server.getInstance().getExtensionLoader().getExtensions().forEach(AExtension::onEnable);
         ((CommandManager) Server.getInstance().getCommandManager()).registerCommands();
         if (getFile().exists()) {
             getFile().delete();

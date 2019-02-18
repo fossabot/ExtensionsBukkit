@@ -8,12 +8,10 @@ import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.command.exception.CommandException;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
-import ml.extbukkit.main.secure.manager.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +40,7 @@ public class CommandManager implements ICommandManager {
         return commandMap.get(commandName);
     }
 
-    @Override
+    /*@Override
     public void dispatchCommand(ICommandExecutor sender, String commandLine) {
         String[] rawArgs = commandLine.split(" ");
         String commandName = rawArgs[0];
@@ -58,7 +56,7 @@ public class CommandManager implements ICommandManager {
             AExtension extension = getExtensionForCommand(executed);
             throw new CommandException("Internal exception executing command '/" + commandLine + "' in extension '" + extension.getName() + "'", t);
         }
-    }
+    }*/
 
     @Override
     public AExtension getExtensionForCommand(Command command) {

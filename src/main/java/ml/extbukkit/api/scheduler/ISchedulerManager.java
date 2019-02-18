@@ -1,6 +1,5 @@
 package ml.extbukkit.api.scheduler;
 
-import com.sun.istack.internal.NotNull;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.util.Time;
 
@@ -22,7 +21,7 @@ public interface ISchedulerManager {
      * @param interval Interval between runs
      * @return UUID of task
      */
-    UUID schedule(@NotNull AExtension owner, @NotNull ITask task, @NotNull TaskType type, @NotNull Time delay, @NotNull Time interval);
+    UUID schedule(AExtension owner, ITask task, TaskType type, Time delay, Time interval);
 
     /**
      * Schedule a task without delay
@@ -34,14 +33,14 @@ public interface ISchedulerManager {
      * @param interval Interval between runs (In case of delayed, delay before run)
      * @return UUID of task
      */
-    UUID schedule(@NotNull AExtension owner, @NotNull ITask task, @NotNull TaskType type, @NotNull Time interval);
+    UUID schedule(AExtension owner, ITask task, TaskType type, Time interval);
 
     /**
      * Cancel all tasks of an extension
      *
      * @param extension Extension
      */
-    void cancelAll(@NotNull AExtension extension);
+    void cancelAll(AExtension extension);
 
     /**
      * Cancel task by uuid
@@ -49,7 +48,7 @@ public interface ISchedulerManager {
      * @param extension Extension
      * @param uuid Task UUID
      */
-    void cancel(@NotNull AExtension extension, @NotNull UUID uuid);
+    void cancel(AExtension extension, UUID uuid);
 
     /**
      * Get all tasks
@@ -65,5 +64,5 @@ public interface ISchedulerManager {
      * @param uuid UUID
      * @return Scheduled task
      */
-    IScheduledTask getTask(@NotNull AExtension extension, @NotNull UUID uuid);
+    IScheduledTask getTask(AExtension extension, UUID uuid);
 }

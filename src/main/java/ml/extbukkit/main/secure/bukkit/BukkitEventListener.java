@@ -5,7 +5,7 @@ import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
 import ml.extbukkit.main.secure.command.CommandManager;
-import ml.extbukkit.main.secure.manager.command.CommandExecutor;
+import ml.extbukkit.main.secure.command.CommandExecutor;
 import ml.extbukkit.main.secure.world.World;
 import ml.extbukkit.main.secure.world.entity.Entity;
 import ml.extbukkit.main.secure.server.Server;

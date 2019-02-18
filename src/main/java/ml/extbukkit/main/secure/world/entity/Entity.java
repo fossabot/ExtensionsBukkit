@@ -44,8 +44,13 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
     }
 
     @Override
-    public StraightDirection getDirection() {
+    public StraightDirection getStraightDirection() {
         return DirectionHelper.bukkitToStraight(handle.getFacing());
+    }
+
+    @Override
+    public void getDirection() {
+        // TODO
     }
 
     @Override
@@ -153,8 +158,8 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
     }
 
     @Override
-    public String getName() {
-        return handle.getName();
+    public void executeCommand(String command) {
+        // TODO
     }
 
     @Override
