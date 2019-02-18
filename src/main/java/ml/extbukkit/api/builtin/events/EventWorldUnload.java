@@ -2,10 +2,10 @@ package ml.extbukkit.api.builtin.events;
 
 import lombok.Getter;
 import lombok.Setter;
-import ml.extbukkit.api.event.Preventable;
+import ml.extbukkit.api.event.IPreventable;
 import ml.extbukkit.api.world.IWorld;
 
-public class EventWorldUnload extends EventWorld implements Preventable {
+public class EventWorldUnload extends EventWorld implements IPreventable {
     @Getter
     @Setter
     private boolean prevented;

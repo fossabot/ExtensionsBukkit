@@ -1,5 +1,7 @@
 package ml.extbukkit.api.util;
 
+import java.util.Map;
+
 public class Validator {
     private Validator() {
 

@@ -20,7 +20,9 @@ public class BukkitRunner implements Runnable {
                 }
                 it.setTime(it.getTime() + 1);
                 if(it.getTime() >= it.getInterval()) {
-                    it.getTask().execute();
+                    try {
+                        it.getTask().execute();
+                    } catch(Throwable thr) {}
                     it.setTime(0);
                     if(it.getType() == TaskType.DELAYED)
                         it.cancel();

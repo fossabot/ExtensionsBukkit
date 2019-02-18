@@ -44,7 +44,8 @@ public enum TimeUnit {
     }
 
     /**
-     * Get ticks of 1 time unit
+     * Get ticks of 1
+     * time unit
      *
      * @return
      */
