@@ -1,3 +1,6 @@
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.8'
+}
 apply plugin: 'java'
 
 group = pluginGroup
@@ -5,6 +8,7 @@ version = pluginVersion
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
 
 repositories {
     mavenCentral()
@@ -28,10 +32,35 @@ dependencies {
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens
+import io.franzbecker.gradle.lombok.task.DelombokTask
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
         filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
+lombok {
+    version = "1.16.10"
+}
+
+task delombok(type: DelombokTask, dependsOn: compileJava) {
+    ext.outputDir = file("$buildDir/delombok")
+    outputs.dir(outputDir)
+    sourceSets.main.java.srcDirs.each {
+        inputs.dir(it)
+        args(it, "-d", outputDir)
+    }
+}
+
+javadoc {
+    dependsOn delombok
+    source = delombok.outputDir
+    classpath = configurations.compile
+}
+sourceSets {
+    build {
+        java.srcDir file('src/main/java')
     }
 }
 

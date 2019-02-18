@@ -1,90 +1,89 @@
 package ml.extbukkit.main.world;
 
 import ml.extbukkit.api.math.MathFunction;
+import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
 import ml.extbukkit.main.server.Server;
 import org.bukkit.Location;
 
-public class Position implements IPosition {
-    Location l;
-
+public class Position extends AWrapper<Location> implements IPosition {
     public Position(Location l) {
-        this.l = l;
+        super(l);
     }
 
     @Override
     public double getX() {
-        return l.getX();
+        return handle.getX();
     }
 
     @Override
     public double getY() {
-        return l.getY();
+        return handle.getY();
     }
 
     @Override
     public double getZ() {
-        return l.getZ();
+        return handle.getZ();
     }
 
     @Override
     public void setX(double x) {
-        l.setX(x);
+        handle.setX(x);
     }
 
     @Override
     public void setY(double y) {
-        l.setY(y);
+        handle.setY(y);
     }
 
     @Override
     public void setZ(double z) {
-        l.setZ(z);
+        handle.setZ(z);
     }
 
     @Override
     public int getBlockX() {
-        return l.getBlockX();
+        return handle.getBlockX();
     }
 
     @Override
     public int getBlockY() {
-        return l.getBlockY();
+        return handle.getBlockY();
     }
 
     @Override
     public int getBlockZ() {
-        return l.getBlockZ();
+        return handle.getBlockZ();
     }
 
     @Override
     public void getDirection() {
-
+        
     }
 
     @Override
     public float getYaw() {
-        return l.getYaw();
+        return handle.getYaw();
     }
 
     @Override
     public float getPitch() {
-        return l.getPitch();
+        return handle.getPitch();
     }
 
     @Override
     public void setYaw(float yaw) {
-        l.setYaw(yaw);
+        handle.setYaw(yaw);
     }
 
     @Override
     public void setPitch(float pitch) {
-        l.setPitch(pitch);
+        handle.setPitch(pitch);
     }
 
     @Override
     public String getWorld() {
-        return l.getWorld().getName();
+        return handle.getWorld().getName();
     }
 
     @Override

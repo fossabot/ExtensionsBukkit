@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import com.google.gson.JsonObject;
 import ml.extbukkit.api.types.IEntityType;
-import ml.extbukkit.api.util.Wrapper;
+import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
 import ml.extbukkit.api.world.StraightDirection;
 import ml.extbukkit.api.world.entity.IEntity;
@@ -15,11 +15,10 @@ import ml.extbukkit.main.server.Server;
 import ml.extbukkit.main.world.DirectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-public class Entity extends Wrapper<Player> implements IEntity {
+public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntity {
 
-    public Entity(Player handle) {
+    public Entity(org.bukkit.entity.Entity handle) {
         super(handle);
     }
 

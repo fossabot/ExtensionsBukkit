@@ -1,10 +1,10 @@
 package ml.extbukkit.main.manager.command;
 
 import ml.extbukkit.api.command.ICommandExecutor;
-import ml.extbukkit.api.util.Wrapper;
+import ml.extbukkit.api.util.AWrapper;
 import org.bukkit.command.CommandSender;
 
-public class CommandExecutor extends Wrapper<CommandSender> implements ICommandExecutor {
+public class CommandExecutor extends AWrapper<CommandSender> implements ICommandExecutor {
     public CommandExecutor(CommandSender handle) {
         super(handle);
     }

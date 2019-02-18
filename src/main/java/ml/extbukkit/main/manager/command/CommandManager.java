@@ -7,8 +7,13 @@ import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.command.exception.CommandException;
 import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.main.BukkitExtensionsBukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +21,8 @@ public class CommandManager implements ICommandManager {
     private Map<String, Command> commandMap = new HashMap<>();
     private Multimap<AExtension, Command> commandsByExtension = ArrayListMultimap.create();
     private Map<Command, AExtension> extensionsByComand = new HashMap<>();
+    private CommandMap bcmp;
+    private boolean r;
 
     @Override
     public void registerCommand(AExtension extension, Command command) {
@@ -63,5 +70,35 @@ public class CommandManager implements ICommandManager {
 
     public Multimap<AExtension, Command> getCommandsByExtension() {
         return commandsByExtension;
+    }
+
+    public void registerCommands() {
+        if(r) return;
+        BukkitExtensionsBukkit p = BukkitExtensionsBukkit.getInstance();
+        try {
+            Field field = p.getClass().getDeclaredField("commandMap");
+            field.setAccessible(true);
+            bcmp = (CommandMap) field.get(p.getServer());
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        getCommandsByExtension().asMap().forEach((extension, registeredCommands) -> registeredCommands.forEach(command ->
+        {
+            String registeredName = p.getName() + ":" + extension.getName();
+            bcmp.register(command.getName(), registeredName, new org.bukkit.command.Command(command.getName(), "", "", Collections.emptyList()) {
+                @Override
+                public boolean execute(CommandSender commandSender, String s, String[] strings) {
+//                    ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(commandSender);
+                    ICommandExecutor executor = new CommandExecutor( commandSender ); // Time only
+                    try {
+                        command.execute(executor, s, strings);
+                    } catch (Throwable t) {
+                        throw new CommandException("Internal exception executing command '/" + s + "' in extension " + extension.getName(), t);
+                    }
+                    return true;
+                }
+            });
+        }));
+        r = true;
     }
 }

@@ -7,12 +7,9 @@ package ml.extbukkit.api.util;
  *
  * @param <T> wrapped class
  */
-public abstract class Wrapper<T>
-{
+public abstract class AWrapper<T> {
     protected T handle;
-
-    public Wrapper(T handle)
-    {
+    public AWrapper(T handle) {
         this.handle = handle;
     }
 }
