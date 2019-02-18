@@ -16,12 +16,6 @@ import java.util.jar.JarFile;
 
 public class ExtensionLoader implements IExtensionLoader {
     private Map<String, AExtension> extensions = new HashMap<>();
-    /**
-     * Loads extension from file
-     *
-     * @param extension File containing an extension
-     * @return true or false
-     */
     //TODO Better dependency handling
     public boolean load(File extension) {
         if(!extension.exists()) return false;
