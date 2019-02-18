@@ -13,7 +13,7 @@ public enum HandlePriority {
      */
     LOW,
     /**
-     * Will be executed at the middle of process
+     * Will be executed in the middle of handling<br>
      * This is a default value
      */
     NORMAL,

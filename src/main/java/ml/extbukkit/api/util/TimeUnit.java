@@ -44,10 +44,9 @@ public enum TimeUnit {
     }
 
     /**
-     * Get ticks of 1
-     * time unit
+     * Get ticks of 1 time unit
      *
-     * @return
+     * @return Ticks of 1 time unit
      */
     public long ticks() {
         return ticks;

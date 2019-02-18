@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Handler {
     /**
-     * Handler priority parameter
+     * Handler priority parameter<br>
      * Default: Normal
      *
      * @return Handle priority

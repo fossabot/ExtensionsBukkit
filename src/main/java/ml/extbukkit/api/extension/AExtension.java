@@ -20,7 +20,7 @@ public abstract class AExtension {
     private File file = null;
 
     /**
-     * Get extension ID
+     * Get extension ID<br>
      * Allowed characters: 0-9, a-z, _ (Case insensitive)
      *
      * @return Extension ID
@@ -28,7 +28,7 @@ public abstract class AExtension {
     public abstract String getID();
 
     /**
-     * Get extension display name
+     * Get extension display name<br>
      * Default: Extension ID
      *
      * @return Extension name
@@ -38,7 +38,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get extension description
+     * Get extension description<br>
      * Default: None
      *
      * @return Extension description
@@ -48,7 +48,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get extension authors
+     * Get extension authors<br>
      * Default: None
      *
      * @return Extension authors
@@ -58,7 +58,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get extension dependencies
+     * Get extension dependencies<br>
      * Default: None
      *
      * @return Extension dependencies
@@ -104,7 +104,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get server instance
+     * Get server instance<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance();
      *
      * @return Server instance
@@ -114,7 +114,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get logger
+     * Get logger<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getLogger();
      *
      * @return Logger instance
@@ -124,7 +124,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Log a message
+     * Log a message<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getLogger().logSigned(this, message);
      *
      * @param message Message to log
@@ -134,7 +134,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get scheduler manager
+     * Get scheduler manager<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getScheduler();
      *
      * @return Scheduler manager
@@ -144,7 +144,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get world manager
+     * Get world manager<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getWorldManager();
      *
      * @return World manager
@@ -154,7 +154,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get key maker
+     * Get key maker<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getKeyMaker();
      *
      * @return Key maker
@@ -164,7 +164,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get extension loader
+     * Get extension loader<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getExtensionLoader();
      *
      * @return Extension loader
@@ -174,7 +174,7 @@ public abstract class AExtension {
     }
 
     /**
-     * Get server properties
+     * Get server properties<br>
      * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getServerProperties();
      *
      * @return Server properties

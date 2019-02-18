@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface ILogger {
     /**
-     * Send a signed log message to console
+     * Send a signed log message to console<br>
      * Recommended for extensions
      *
      * @param extension Extension
@@ -19,7 +19,7 @@ public interface ILogger {
     void logSigned(AExtension extension, ILogChannel channel, String message);
 
     /**
-     * Send a signed log message with an INFO channel to console
+     * Send a signed log message with an INFO channel to console<br>
      * Recommended for extensions
      *
      * @param extension Extension

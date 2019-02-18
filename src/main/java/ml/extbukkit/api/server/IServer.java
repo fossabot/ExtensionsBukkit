@@ -16,7 +16,7 @@ import java.io.File;
  */
 public interface IServer {
     /**
-     * Get extension loader
+     * Get extension loader<br>
      * Needed for loading extensions
      *
      * @return Extension loader
@@ -24,7 +24,7 @@ public interface IServer {
     IExtensionLoader getExtensionLoader();
 
     /**
-     * Get default extensions loading directory
+     * Get default extensions loading directory<br>
      * Needed for loading extensions from default directory
      *
      * @return Default loading directory
@@ -32,7 +32,7 @@ public interface IServer {
     File getExtensionsDir();
 
     /**
-     * Get logger
+     * Get logger<br>
      * Needed for logging messages
      *
      * @return Logger
@@ -40,7 +40,7 @@ public interface IServer {
     ILogger getLogger();
 
     /**
-     * Get event manager
+     * Get event manager<br>
      * Needed for managing events (handling, calling...)
      *
      * @return Event manager
@@ -48,7 +48,7 @@ public interface IServer {
     IEventManager getEventManager();
 
     /**
-     * Get scheduler manager
+     * Get scheduler manager<br>
      * Needed for scheduling tasks
      *
      * @return Scheduler manager
@@ -63,7 +63,7 @@ public interface IServer {
     File getExtensionsBukkitFile();
 
     /**
-     * Get world manager
+     * Get world manager<br>
      * Needed for managing world (setting blocks, getting positions...)
      *
      * @return World manager
@@ -71,7 +71,7 @@ public interface IServer {
     IWorldManager getWorldManager();
 
     /**
-     * Get command manager
+     * Get command manager<br>
      * Needed for registering commands
      *
      * @return Command manager
@@ -79,8 +79,8 @@ public interface IServer {
     ICommandManager getCommandManager();
 
     /**
-     * Get key maker
-     * Needed for making keys (Used in registering blocks, items, etc.)
+     * Get key maker<br>
+     * Needed for making keys (Used when registering blocks, items, etc.)
      *
      * @return Key maker
      */
@@ -99,7 +99,7 @@ public interface IServer {
     IServerProperties getServerProperties();
 
     /**
-     * Get console command executor
+     * Get console command executor<br>
      * Needed for executing commands as console
      *
      * @return Console command executor

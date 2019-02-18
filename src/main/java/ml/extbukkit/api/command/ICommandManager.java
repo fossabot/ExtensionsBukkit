@@ -23,7 +23,8 @@ public interface ICommandManager {
     Command matchCommand(String commandName);
 
     /**
-     * Get extension registered a command
+     * Get extension, that registered a command
+     *
      * @param command Command to get extension from
      * @return Extension, that registered a command
      */

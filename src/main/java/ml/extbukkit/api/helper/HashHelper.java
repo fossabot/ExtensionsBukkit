@@ -15,7 +15,7 @@ public class HashHelper {
     }
 
     /**
-     * Try to encrypt a file
+     * Try to encrypt a file<br>
      * Recommended to use
      *
      * @param file File to encrypt

@@ -11,7 +11,7 @@ import java.util.UUID;
  */
 public interface ISchedulerManager {
     /**
-     * Schedule a task
+     * Schedule a task<br>
      * In case of type delayed, delay before start will be delay + interval
      *
      * @param owner Extension
@@ -24,7 +24,7 @@ public interface ISchedulerManager {
     UUID schedule(AExtension owner, ITask task, TaskType type, Time delay, Time interval);
 
     /**
-     * Schedule a task without delay
+     * Schedule a task without delay<br>
      * In case of type delayed, use interval as delay
      *
      * @param owner Extension
