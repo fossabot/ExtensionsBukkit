@@ -14,7 +14,6 @@ import java.io.File;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
-    private CommandManager commandManager;
 
     public BukkitExtensionsBukkit() {
         I = this;
@@ -27,8 +26,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onLoad() {
         Server.getInstance();
-        commandManager = (CommandManager) Server.getInstance().getCommandManager();
-        ((Logger) LogManager.getRootLogger()).addFilter(new AbstractFilter() {
+        ((Logger) LogManager.getRootLogger()).addFilter( new AbstractFilter() {
             @Override
             public Result filter(LogEvent event) {
                 ((ml.extbukkit.main.secure.log.Logger) Server.getInstance().getLogger()).logBukkit(event.getLevel(), event.getMessage().getFormattedMessage());
@@ -46,7 +44,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
         }
         Server.getInstance().getExtensionLoader().loadAll(Server.getInstance().getExtensionsDir());
         Server.getInstance().getEventManager().callEvent(new EventLoad());
-        ((CommandManager) Server.getInstance().getCommandManager()).registerCommands();
+        CommandManager.getInstance().registerCommands();
         if (getFile().exists()) {
             getFile().delete();
         }

@@ -7,6 +7,7 @@ import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.HandlePriority;
 import ml.extbukkit.api.event.IHandlerContainer;
 import ml.extbukkit.api.event.IMethodPriority;
+import ml.extbukkit.api.event.exception.EventException;
 
 public class MethodPriority implements IMethodPriority
 {
@@ -26,13 +27,10 @@ public class MethodPriority implements IMethodPriority
     {
         try
         {
-            if ( event.getClass().isAssignableFrom( method.getParameterTypes()[0] ) )
-            {
-                method.invoke( container, event );
-            }
+            method.invoke( container, event );
         } catch ( IllegalAccessException | InvocationTargetException e )
         {
-            e.printStackTrace();
+            throw new EventException( "Internal error occured trying to execute event '" + event.getClass().getSimpleName() + "'", e );
         }
     }
 

@@ -1,7 +1,7 @@
 package ml.extbukkit.api.event;
 
 /**
- * Event class
+ * Dummy class, representing a specified event
  */
 public abstract class Event {
 

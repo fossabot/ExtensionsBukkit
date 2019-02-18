@@ -20,6 +20,14 @@ public interface IEventManager {
      */
     void registerContainer(IHandlerContainer container);
 
-    //TODO Javadoc
+    /**
+     * Returns an unmodifiable collection of a class called "MethodPriority",
+     * containing the priority and the method of a event in the
+     * specified container
+     * <b>This cannot be modified. If you try modifying it, will throw an {@link UnsupportedOperationException}</b>
+     *
+     * @param container the event methods container
+     * @return unmodifiable collection of methods and their priorities
+     */
     Collection<IMethodPriority> getEventsIn(IHandlerContainer container);
 }
