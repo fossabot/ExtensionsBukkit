@@ -48,7 +48,12 @@ public class Logger implements ILogger {
     }
 
     public void logBukkit(Level level, String message) {
-        logRaw("[" + timestamp() + "] [BUKKIT] [" + level.name() + "] " + message);
+        if(message.contains("\n")) {
+            String[] ln = message.split("\n");
+            for(String cl : ln)
+                logBukkit(level, cl);
+        }
+        else logRaw("[" + timestamp() + "] [BUKKIT] [" + level.name() + "] " + message);
     }
     public String timestamp() {
         return new Timestamp(new Date().getTime()).toString();
