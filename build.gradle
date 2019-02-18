@@ -33,6 +33,7 @@ dependencies {
 
 import org.apache.tools.ant.filters.ReplaceTokens
 import io.franzbecker.gradle.lombok.task.DelombokTask
+import org.gradle.api.tasks.Delete
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
@@ -55,6 +56,7 @@ task delombok(type: DelombokTask, dependsOn: compileJava) {
 
 javadoc {
     dependsOn delombok
+    exclude "ml/extbukkit/main/secure"
     source = delombok.outputDir
     classpath = configurations.compile
 }

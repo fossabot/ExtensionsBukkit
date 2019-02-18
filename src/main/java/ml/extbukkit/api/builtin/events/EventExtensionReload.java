@@ -6,6 +6,7 @@ public class EventExtensionReload extends EventAddressed {
     public EventExtensionReload(AExtension extension) {
         super(extension);
     }
+
     public EventExtensionReload(String extensionID) {
         super(extensionID);
     }

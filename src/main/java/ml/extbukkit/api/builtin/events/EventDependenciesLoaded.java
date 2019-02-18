@@ -6,6 +6,7 @@ public class EventDependenciesLoaded extends EventAddressed {
     public EventDependenciesLoaded(String extensionID) {
         super(extensionID);
     }
+
     public EventDependenciesLoaded(AExtension extension) {
         super(extension);
     }
