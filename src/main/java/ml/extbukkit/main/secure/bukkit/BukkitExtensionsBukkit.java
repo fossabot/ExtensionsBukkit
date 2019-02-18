@@ -62,6 +62,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
+        ((ml.extbukkit.main.secure.log.Logger) Server.getInstance().getLogger()).closeLog();
     }
 
     @Override
