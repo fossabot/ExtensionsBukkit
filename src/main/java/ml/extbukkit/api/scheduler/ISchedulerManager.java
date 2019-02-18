@@ -3,18 +3,14 @@ package ml.extbukkit.api.scheduler;
 import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.collect.Multimap;
 import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.api.util.Time;
 
 public interface ISchedulerManager {
-    UUID schedule(AExtension owner, ITask task, TaskType type, TimeUnit timeUnitDelay, long delay, TimeUnit timeUnitInterval, long interval);
-    UUID schedule(AExtension owner, ITask task, TaskType type, long delay, TimeUnit timeUnitInterval, long interval);
-    UUID schedule(AExtension owner, ITask task, TaskType type, TimeUnit timeUnitDelay, long delay, long interval);
-    UUID schedule(AExtension owner, ITask task, TaskType type, TimeUnit timeUnitInterval, long interval);
-    UUID schedule(AExtension owner, ITask task, TaskType type, long interval);
-    UUID schedule(AExtension owner, ITask task, TaskType type, long delay, long interval);
+    UUID schedule(AExtension owner, ITask task, TaskType type, Time delay, Time interval);
+    UUID schedule(AExtension owner, ITask task, TaskType type, Time interval);
     void cancelAll(AExtension extension);
     void cancel(AExtension extension, UUID uuid);
-    Map<AExtension, Map<UUID, IScheduledTask>> getTasks();
+    Map<String, Map<UUID, IScheduledTask>> getTasks();
     IScheduledTask getTask(AExtension extension, UUID uuid);
 }

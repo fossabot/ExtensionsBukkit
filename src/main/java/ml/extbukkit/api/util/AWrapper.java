@@ -8,7 +8,16 @@ package ml.extbukkit.api.util;
  * @param <T> wrapped class
  */
 public abstract class AWrapper<T> {
+    /**
+     * Instance of wrapped class
+     */
     protected T handle;
+
+    /**
+     * Wrapper constructor
+     *
+     * @param handle Instance of wrapped class
+     */
     public AWrapper(T handle) {
         this.handle = handle;
     }

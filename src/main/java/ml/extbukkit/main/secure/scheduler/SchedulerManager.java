@@ -2,59 +2,41 @@ package ml.extbukkit.main.secure.scheduler;
 
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.*;
+import ml.extbukkit.api.util.Time;
+import ml.extbukkit.api.util.Validator;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class SchedulerManager implements ISchedulerManager {
-    private Map<AExtension, Map<UUID, IScheduledTask>> tsks = new HashMap<>();
+    private Map<String, Map<UUID, IScheduledTask>> tsks = new HashMap<>();
     @Override
-    public UUID schedule(AExtension owner, ITask task, TaskType type, TimeUnit timeUnitDelay, long delay, TimeUnit timeUnitInterval, long interval) {
-        if(!tsks.containsKey(owner)) tsks.put(owner, new HashMap<>());
+    public UUID schedule(AExtension owner, ITask task, TaskType type, Time delay, Time interval) {
+        if(Validator.isNull(owner, task, type) || Validator.isNegative(delay.toLong(), interval.toLong())) return null;
+        if(!tsks.containsKey(owner.getID())) tsks.put(owner.getID(), new HashMap<>());
         UUID uuid = UUID.randomUUID();
-        if(delay > 0) {
-            schedule(owner, () -> {
-                tsks.get(owner).put(uuid, new ScheduledTask(delay, interval, timeUnitDelay, timeUnitInterval, owner, task, uuid, type));
-            }, TaskType.DELAYED, TimeUnit.TICK, 0, timeUnitDelay, delay);
-        }
-        else tsks.get(owner).put(uuid, new ScheduledTask(delay, interval, timeUnitDelay, timeUnitInterval, owner, task, uuid, type));
+        tsks.get(owner.getID()).put(uuid, new ScheduledTask(delay.getTicks(), interval.getTicks(), owner, task, uuid, type));
         return uuid;
     }
     @Override
-    public UUID schedule(AExtension owner, ITask task, TaskType type, long delay, TimeUnit timeUnitInterval, long interval) {
-        return schedule(owner, task, type, TimeUnit.TICK, delay, timeUnitInterval, interval);
-    }
-    @Override
-    public UUID schedule(AExtension owner, ITask task, TaskType type, TimeUnit timeUnitDelay, long delay, long interval) {
-        return schedule(owner, task, type, timeUnitDelay, delay, TimeUnit.TICK, interval);
-    }
-    @Override
-    public UUID schedule(AExtension owner, ITask task, TaskType type, TimeUnit timeUnitInterval, long interval) {
-        return schedule(owner, task, type, 0, timeUnitInterval, 1);
-    }
-    @Override
-    public UUID schedule(AExtension owner, ITask task, TaskType type, long interval) {
-        return schedule(owner, task, type, TimeUnit.TICK, 0, 1);
-    }
-    @Override
-    public UUID schedule(AExtension owner, ITask task, TaskType type, long delay, long interval) {
-        return schedule(owner, task, type, delay, TimeUnit.TICK, interval);
+    public UUID schedule(AExtension owner, ITask task, TaskType type, Time interval) {
+        return schedule(owner, task, type, new Time(), interval);
     }
     @Override
     public void cancelAll(AExtension extension) {
-        tsks.get(extension).clear();
+        tsks.get(extension.getID()).clear();
     }
     @Override
     public void cancel(AExtension extension, UUID uuid) {
-        tsks.get(extension).remove(uuid);
+        tsks.get(extension.getID()).remove(uuid);
     }
     @Override
-    public Map<AExtension, Map<UUID, IScheduledTask>> getTasks() {
+    public Map<String, Map<UUID, IScheduledTask>> getTasks() {
         return tsks;
     }
     @Override
     public IScheduledTask getTask(AExtension extension, UUID uuid) {
-        return tsks.get(extension).get(uuid);
+        return tsks.get(extension.getID()).get(uuid);
     }
 }

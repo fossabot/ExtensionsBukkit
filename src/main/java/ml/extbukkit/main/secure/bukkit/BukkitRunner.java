@@ -14,8 +14,12 @@ public class BukkitRunner implements Runnable {
         for(Map<UUID, IScheduledTask> mut : Server.getInstance().getSchedulerManager().getTasks().values())
             for(IScheduledTask t : mut.values()) {
                 ScheduledTask it = (ScheduledTask) t;
+                if(it.getDelayTime() > 0) {
+                    it.setDelayTime(it.getDelayTime() - 1);
+                    continue;
+                }
                 it.setTime(it.getTime() + 1);
-                if(it.getTime() >= it.getRealInterval()) {
+                if(it.getTime() >= it.getInterval()) {
                     it.getTask().execute();
                     it.setTime(0);
                     if(it.getType() == TaskType.DELAYED)

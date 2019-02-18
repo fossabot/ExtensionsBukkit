@@ -4,26 +4,25 @@ import java.util.UUID;
 
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.*;
-import ml.extbukkit.main.secure.server.Server;
+import ml.extbukkit.main.server.Server;
 
 public class ScheduledTask implements IScheduledTask {
-    private long delay, interval, time = 0;
-    private TimeUnit unitDelay, unitInterval;
+    private long delay, interval, time, delayTime;
     private AExtension owner;
     private ISchedulerManager schedulerManager = Server.getInstance().getSchedulerManager();
     private ITask task;
     private UUID uuid;
     private TaskType type;
 
-    public ScheduledTask(long delay, long interval, TimeUnit unitDelay, TimeUnit unitInterval, AExtension owner, ITask task, UUID uuid, TaskType type) {
+    public ScheduledTask(long delay, long interval, AExtension owner, ITask task, UUID uuid, TaskType type) {
         this.uuid = uuid;
         this.delay = delay;
         this.interval = interval;
-        this.unitDelay = unitDelay;
-        this.unitInterval = unitInterval;
         this.owner = owner;
         this.task = task;
         this.type = type;
+        this.time = 0;
+        this.delayTime = delay;
     }
 
     @Override
@@ -39,11 +38,6 @@ public class ScheduledTask implements IScheduledTask {
     @Override
     public long getInterval() {
         return interval;
-    }
-
-    @Override
-    public TimeUnit getDelayUnit() {
-        return unitDelay;
     }
 
     @Override
@@ -66,11 +60,6 @@ public class ScheduledTask implements IScheduledTask {
         return type;
     }
 
-    @Override
-    public TimeUnit getIntervalUnit() {
-        return unitInterval;
-    }
-
     public void setTime(long time) {
         this.time = time;
     }
@@ -79,11 +68,11 @@ public class ScheduledTask implements IScheduledTask {
         return this.time;
     }
 
-    public long getRealInterval() {
-        return unitInterval.multiply(getInterval());
+    public void setDelayTime(long time) {
+        delayTime = time;
     }
 
-    public long getRealDelay() {
-        return unitDelay.multiply(getDelay());
+    public long getDelayTime() {
+        return delayTime;
     }
 }

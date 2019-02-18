@@ -1,6 +1,8 @@
 package ml.extbukkit.api.world;
 
-public interface IPositioned {
-    IPosition getPosition();
-    boolean setPosition(IPosition position);
+/**
+ * Object, which position can be get and set
+ */
+public interface IPositioned extends IPositionGettable, IPositionSettable {
+
 }
