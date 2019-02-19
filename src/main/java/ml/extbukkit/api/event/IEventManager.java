@@ -14,20 +14,9 @@ public interface IEventManager {
     void callEvent(Event event);
 
     /**
-     * Register a handler container
+     * Register a handler
      *
-     * @param container Handler container
+     * @param handler Handler
      */
-    void registerContainer(IHandlerContainer container);
-
-    /**
-     * Returns an unmodifiable collection of a class called "MethodPriority",
-     * containing the priority and the method of a event in the
-     * specified container
-     * <b>This cannot be modified. If you try modifying it, will throw an {@link UnsupportedOperationException}</b>
-     *
-     * @param container the event methods container
-     * @return unmodifiable collection of methods and their priorities
-     */
-    Collection<IMethodPriority> getEventsIn(IHandlerContainer container);
+    void registerHandler(Class<? extends Event> eventClass, IHandler handler);
 }
