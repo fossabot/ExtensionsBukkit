@@ -1,13 +1,15 @@
 package ml.extbukkit.main.secure.event;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.IHandler;
 
-@Data
 @AllArgsConstructor
 public class RegisteredHandler {
+    @Getter
     private IHandler handler;
-    private Class<? extends Event> clazz;
+
+    @Getter
+    private Class<? extends Event> eventClass;
 }

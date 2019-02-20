@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.google.gson.JsonObject;
-import ml.extbukkit.api.types.IEntityType;
+import ml.extbukkit.api.types.EntityType;
 import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
 import ml.extbukkit.api.world.StraightDirection;
@@ -15,11 +15,21 @@ import ml.extbukkit.main.secure.server.Server;
 import ml.extbukkit.main.secure.world.DirectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntity {
+    private EntityType type;
 
     public Entity(org.bukkit.entity.Entity handle) {
         super(handle);
+        if ( handle instanceof Player )
+        {
+            type = EntityType.PLAYER;
+        } else
+        {
+            type = EntityType.ENTITY;
+        }
+
     }
 
     @Override
@@ -35,7 +45,7 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
 
     @Override
     public void getBoundingBox() {
-
+        // TODO
     }
 
     @Override
@@ -75,9 +85,8 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
     }
 
     @Override
-    public IEntityType getType() {
-        // TODO
-        return null;
+    public EntityType getType() {
+        return type;
     }
 
     @Override

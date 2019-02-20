@@ -29,7 +29,6 @@ public class Server implements IServer {
     private File EXTENSIONS = new File("extensions/");
     private static Server SERVER = null;
     private KeyMaker keys;
-    private Logger logger;
     private ServerProperites properties;
 
     public static IServer getInstance() {
@@ -41,7 +40,6 @@ public class Server implements IServer {
         scheduler = new SchedulerManager();
         worlds = new WorldManager();
         keys = new KeyMaker();
-        logger = new Logger();
         properties = new ServerProperites();
     }
 
@@ -57,7 +55,7 @@ public class Server implements IServer {
 
     @Override
     public ILogger getLogger() {
-        return logger;
+        return Logger.getInstance();
     }
 
     @Override

@@ -7,10 +7,10 @@ import ml.extbukkit.api.world.entity.IEntity;
 public class EventEntity extends Event {
 
     @Getter
-    private IEntity entty;
+    private IEntity entity;
 
     public EventEntity(IEntity entity) {
-        this.entty = entity;
+        this.entity = entity;
     }
 
 }

@@ -19,7 +19,14 @@ public class Logger implements ILogger {
     private boolean enabled = true;
     private File LOGS, LATEST, BUKKIT, EB, LOGSTP;
     private List<ILogHandler> handlers = new ArrayList<>();
-    public Logger() {
+    private static Logger instance = new Logger();
+
+    public static Logger getInstance()
+    {
+        return instance;
+    }
+
+    private Logger() {
         LOGS = new File("extensionsbukkit/logs/");
         LATEST = new File(LOGS, "everything.log");
         BUKKIT = new File(LOGS, "bukkit.log");

@@ -1,8 +1,6 @@
 package ml.extbukkit.main.secure.bukkit;
 
 import ml.extbukkit.api.builtin.events.EventLoad;
-import ml.extbukkit.api.builtin.events.EventWorldUnload;
-import ml.extbukkit.api.event.IHandler;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.server.Server;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -16,6 +14,7 @@ import java.io.File;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
+    private ml.extbukkit.main.secure.log.Logger extensionsLogger = ml.extbukkit.main.secure.log.Logger.getInstance();
 
     public BukkitExtensionsBukkit() {
         I = this;
@@ -27,13 +26,12 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        Server.getInstance();
         ((Logger) LogManager.getRootLogger()).addFilter( new AbstractFilter() {
             @Override
             public Result filter(LogEvent event) {
-                ((ml.extbukkit.main.secure.log.Logger) Server.getInstance().getLogger()).logBukkit(event.getLevel(), event.getMessage().getFormattedMessage());
+                extensionsLogger.logBukkit(event.getLevel(), event.getMessage().getFormattedMessage());
                 if(event.getThrown() != null)
-                    ((ml.extbukkit.main.secure.log.Logger) Server.getInstance().getLogger()).logBukkit(event.getLevel(), ExceptionUtils.getStackTrace(event.getThrown()));
+                    extensionsLogger.logBukkit(event.getLevel(), ExceptionUtils.getStackTrace(event.getThrown()));
                 return Result.DENY;
             }
         });
@@ -62,7 +60,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
-        ((ml.extbukkit.main.secure.log.Logger) Server.getInstance().getLogger()).closeLog();
+        extensionsLogger.closeLog();
     }
 
     @Override

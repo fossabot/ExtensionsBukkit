@@ -10,7 +10,7 @@ public interface IHandler<T extends Event> {
     /**
      * Ran when selected event is called
      *
-     * @param event
+     * @param event handled event
      */
     void handle(T event);
 
@@ -21,5 +21,5 @@ public interface IHandler<T extends Event> {
      */
     default HandlePriority priority() {
         return HandlePriority.NORMAL;
-    };
+    }
 }
