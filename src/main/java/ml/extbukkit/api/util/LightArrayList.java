@@ -72,7 +72,7 @@ public class LightArrayList<T> implements LightList<T> {
 
             @Override
             public boolean hasNext() {
-                return arr.length > cur + 1;
+                return la.length > cur + 1;
             }
 
             @Override
