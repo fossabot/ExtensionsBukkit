@@ -1,5 +1,8 @@
 package ml.extbukkit.main.secure.bukkit;
 
+import com.bergerkiller.bukkit.common.events.EntityAddEvent;
+import com.bergerkiller.bukkit.common.events.EntityMoveEvent;
+import com.bergerkiller.bukkit.common.events.EntityRemoveFromServerEvent;
 import ml.extbukkit.api.builtin.events.*;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
@@ -10,6 +13,7 @@ import ml.extbukkit.main.secure.world.World;
 import ml.extbukkit.main.secure.world.entity.Entity;
 import ml.extbukkit.main.secure.server.Server;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -32,22 +36,22 @@ import java.util.stream.Collectors;
 public class BukkitEventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldSave(WorldSaveEvent e) {
-        Server.getInstance().getEventManager().callEvent(new EventWorldSave(new World(e.getWorld())));
+        Server.getInstance().getEventManager().callEvent(new EventWorldSave(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldInit(WorldInitEvent e) {
-        Server.getInstance().getEventManager().callEvent(new EventWorldInitialize(new World(e.getWorld())));
+        Server.getInstance().getEventManager().callEvent(new EventWorldInitialize(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldLoad(WorldLoadEvent e) {
-        Server.getInstance().getEventManager().callEvent(new EventWorldLoad(new World(e.getWorld())));
+        Server.getInstance().getEventManager().callEvent(new EventWorldLoad(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldUnload(WorldUnloadEvent e) {
-        EventWorldUnload ee = new EventWorldUnload(new World(e.getWorld()));
+        EventWorldUnload ee = new EventWorldUnload(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName()));
         Server.getInstance().getEventManager().callEvent(ee);
         e.setCancelled(ee.isPrevented());
     }
@@ -99,6 +103,7 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onInteract(PlayerInteractEvent e) {
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -118,5 +123,25 @@ public class BukkitEventListener implements Listener {
         EventEntityQuit ourEvent = new EventEntityQuit(new Entity(event.getPlayer()), event.getQuitMessage());
         Server.getInstance().getEventManager().callEvent(ourEvent);
         event.setQuitMessage(ourEvent.getQuitMessage());
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityAdd(EntityAddEvent e) {
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityRemove(EntityAddEvent e) {
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityMove(EntityMoveEvent e) {
+
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityRemoveServer(EntityRemoveFromServerEvent e) {
+
     }
 }

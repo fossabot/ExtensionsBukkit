@@ -3,5 +3,6 @@ version: @version@
 main: ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit
 load: STARTUP
 authors: [TSEngineer, MrIvanPlays]
+softdepend: [BKCommonLib]
 description: ExtensionsBukkit is made for making "Extensions". Extensions can add new blocks, handle events and more
 api-version: 1.13
