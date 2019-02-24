@@ -1,21 +1,29 @@
 package ml.extbukkit.main.secure.log;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.log.IHandleResult;
 import ml.extbukkit.api.log.ILogChannel;
 import ml.extbukkit.api.log.ILogHandler;
 import ml.extbukkit.api.log.ILogger;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
 
-import java.io.*;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class Logger implements ILogger {
+
     private boolean enabled = true;
     private File LOGS, LATEST, BUKKIT, EB, LOGSTP;
     private List<ILogHandler> handlers = new ArrayList<>();
@@ -58,6 +66,7 @@ public class Logger implements ILogger {
         fileAppend(RDM, "Log files are no longer here while ExtensionsBukkit is installed");
         fileAppend(RDM, "They are now located at extensionsbukkit/logs");
     }
+
     public void closeLog() {
         enabled = false;
         LATEST.renameTo(new File(LOGSTP, "everything.log"));
@@ -67,10 +76,12 @@ public class Logger implements ILogger {
         BUKKIT.delete();
         EB.delete();
     }
+
     @Override
     public void logSigned(AExtension extension, ILogChannel channel, String message) {
         log(channel, "[" + extension.getName() + "] " + message);
     }
+
     @Override
     public void log(ILogChannel channel, String message) {
         String send = "";
@@ -79,10 +90,27 @@ public class Logger implements ILogger {
             if(!r.send()) return;
             send = r.getMessage();
         }
-        String msg = "[" + timestamp() + "] [EXTENSIONSBUKKIT] [" + channel.getName() + "] " + send;
-        logRaw(msg);
-        fileAppend(EB, msg);
+        if ( send.contains( "\n" ) )
+        {
+            String[] arr = send.split( "\n" );
+            String firstLine = arr[0];
+            String[] others = Arrays.copyOfRange( arr, 1, arr.length );
+            String firstLineFormatted = "[" + timestamp() + "] [EXTENSIONSBUKKIT] " + firstLine;
+            logRaw( firstLineFormatted );
+            fileAppend( EB, firstLineFormatted );
+            for ( String other : others )
+            {
+                logRaw( other );
+                fileAppend( EB, other );
+            }
+        } else
+        {
+            String msg = "[" + timestamp() + "] [EXTENSIONSBUKKIT] " + send;
+            logRaw( msg );
+            fileAppend( EB, msg );
+        }
     }
+
     @Override
     public void logSigned(AExtension extension, String message) {
         logSigned(extension, Channels.INFO, message);
@@ -91,30 +119,58 @@ public class Logger implements ILogger {
     public void log(String message) {
         log(Channels.INFO, message);
     }
+
     @Override
     public void registerLogHandler(ILogHandler handler) {
         handlers.add(handler);
     }
+
     @Override
     public List<ILogHandler> getLogHandlers() {
         return handlers;
     }
 
+    @Override
+    public void logStack(String message, Throwable t)
+    {
+        log( Channels.ERROR, message + "\n" + ExceptionUtils.getStackTrace( t ) );
+    }
+
+    @Override
+    public void logStackSigned(AExtension extension, String message, Throwable t)
+    {
+        logStack( "[" + extension.getName() + "] " + message, t );
+    }
+
+    public void logBukkitStack(Throwable t)
+    {
+        logBukkit( Level.ERROR,  ExceptionUtils.getStackTrace( t ) );
+    }
+
     public void logBukkit(Level level, String message) {
         if(message.contains("\n")) {
             String[] ln = message.split("\n");
-            for(String cl : ln)
-                logBukkit(level, cl);
-        }
-        else {
+            String[] others = Arrays.copyOfRange( ln, 1, ln.length );
+            String msg1st = "[" + timestamp() + "] [BUKKIT] [" + level.name() + "] " + ln[0];
+            logRaw( msg1st );
+            fileAppend( BUKKIT, msg1st );
+            for ( String cl : others )
+            {
+                logRaw( cl );
+                fileAppend( BUKKIT, cl );
+            }
+        } else
+            {
             String msg = "[" + timestamp() + "] [BUKKIT] [" + level.name() + "] " + message;
-            logRaw(msg);
-            fileAppend(BUKKIT, msg);
+            logRaw( msg );
+            fileAppend( BUKKIT, msg );
         }
     }
+
     private String timestamp() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
+
     private void logRaw(String text) {
         if(!enabled) return;
         try {
@@ -125,6 +181,7 @@ public class Logger implements ILogger {
             fileAppend(LATEST, text);
         } catch (IOException e) {}
     }
+
     private void fileAppend(File f, String a) {
         try {
             BufferedWriter o = new BufferedWriter(new FileWriter(f, true));

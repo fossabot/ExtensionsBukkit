@@ -1,23 +1,29 @@
 package ml.extbukkit.api.extension;
 
 import ml.extbukkit.api.builtin.events.EventDependenciesLoaded;
-import ml.extbukkit.api.loader.IExtensionLoader;
-import ml.extbukkit.api.log.ILogger;
-import ml.extbukkit.api.scheduler.ISchedulerManager;
+import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.api.server.IServerProperties;
-import ml.extbukkit.api.types.IKeyMaker;
-import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.main.server.Server;
 
 import java.io.File;
 
 /**
- * Extension class
+ * Represents a collective class which every
+ * extension's main class <b>should</b>
+ * extend in order to be loaded
  */
 public abstract class AExtension {
+
     private boolean depLoaded = false;
     private File file = null;
+    private IExtensionLogger logger = getServer().getLogger( getName() );
+
+    /**
+     * Called when the extension is disabled
+     */
+    public void onDisable()
+    {
+    }
 
     /**
      * Get extension ID<br>
@@ -54,16 +60,6 @@ public abstract class AExtension {
      * @return Extension authors
      */
     public String[] getAuthors() {
-        return new String[0];
-    }
-
-    /**
-     * Get extension dependencies<br>
-     * Default: None
-     *
-     * @return Extension dependencies
-     */
-    public String[] getDependencies() {
         return new String[0];
     }
 
@@ -114,72 +110,11 @@ public abstract class AExtension {
     }
 
     /**
-     * Get logger<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getLogger();
+     * Gets the extension's logger
      *
      * @return Logger instance
      */
-    public ILogger getLogger() {
-        return getServer().getLogger();
-    }
-
-    /**
-     * Log a message<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getLogger().logSigned(this, message);
-     *
-     * @param message Message to log
-     */
-    public void log(String message) {
-        getLogger().logSigned(this, message);
-    }
-
-    /**
-     * Get scheduler manager<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getScheduler();
-     *
-     * @return Scheduler manager
-     */
-    public ISchedulerManager getScheduler() {
-        return getServer().getSchedulerManager();
-    }
-
-    /**
-     * Get world manager<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getWorldManager();
-     *
-     * @return World manager
-     */
-    public IWorldManager getWorlds() {
-        return getServer().getWorldManager();
-    }
-
-    /**
-     * Get key maker<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getKeyMaker();
-     *
-     * @return Key maker
-     */
-    public IKeyMaker getKeys() {
-        return getServer().getKeyMaker();
-    }
-
-    /**
-     * Get extension loader<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getExtensionLoader();
-     *
-     * @return Extension loader
-     */
-    public IExtensionLoader getLoader() {
-        return getServer().getExtensionLoader();
-    }
-
-    /**
-     * Get server properties<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance().getServerProperties();
-     *
-     * @return Server properties
-     */
-    public IServerProperties getProperties() {
-        return getServer().getServerProperties();
+    public IExtensionLogger getLogger() {
+        return logger;
     }
 }

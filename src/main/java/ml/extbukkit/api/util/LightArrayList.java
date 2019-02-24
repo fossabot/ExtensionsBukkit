@@ -3,7 +3,9 @@ package ml.extbukkit.api.util;
 import java.util.Iterator;
 
 public class LightArrayList<T> implements LightList<T> {
+
     private Object[] arr;
+
     public LightArrayList(int initialCapacity) {
         arr = new Object[initialCapacity];
     }

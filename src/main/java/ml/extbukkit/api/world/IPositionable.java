@@ -1,9 +1,14 @@
 package ml.extbukkit.api.world;
 
-/**
- * Object, which position can be set
- */
-public interface IPositionSettable {
+public interface IPositionable
+{
+    /**
+     * Get position of object
+     *
+     * @return Position of object
+     */
+    IPosition getPosition();
+
     /**
      * Set position of object
      *

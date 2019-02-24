@@ -4,6 +4,7 @@ import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.loader.IExtensionLoader;
+import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
 import ml.extbukkit.api.server.IServerProperties;
@@ -13,6 +14,7 @@ import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.event.EventManager;
+import ml.extbukkit.main.secure.log.ExtensionLogger;
 import ml.extbukkit.main.secure.log.Logger;
 import ml.extbukkit.main.secure.manager.ExtensionLoader;
 import ml.extbukkit.main.secure.scheduler.SchedulerManager;
@@ -23,6 +25,7 @@ import org.bukkit.Bukkit;
 import java.io.File;
 
 public class Server implements IServer {
+
     private ExtensionLoader loader;
     private SchedulerManager scheduler;
     private WorldManager worlds;
@@ -54,7 +57,7 @@ public class Server implements IServer {
     }
 
     @Override
-    public ILogger getLogger() {
+    public ILogger getGlobalLogger() {
         return Logger.getInstance();
     }
 
@@ -101,4 +104,11 @@ public class Server implements IServer {
     {
         return null;
     }
+
+    @Override
+    public IExtensionLogger getLogger(String extensionName)
+    {
+        return new ExtensionLogger( extensionName );
+    }
+
 }

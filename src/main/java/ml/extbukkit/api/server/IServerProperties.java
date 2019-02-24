@@ -28,7 +28,7 @@ public interface IServerProperties {
     /**
      * Get default gamemode
      */
-    void getDefaultGamemode();
+    String getDefaultGamemode();
 
     /**
      * Do server generate structures

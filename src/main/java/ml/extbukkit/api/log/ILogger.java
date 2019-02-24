@@ -55,4 +55,14 @@ public interface ILogger {
      * @return List of log handlers
      */
     List<ILogHandler> getLogHandlers();
+
+    /**
+     * Logs a stacktrace with {@link ml.extbukkit.api.builtin.log.Channels#ERROR} channel
+     *
+     * @param message error message (maybe internal?)
+     * @param t error (maybe internal?)
+     */
+    void logStack(String message, Throwable t);
+
+    void logStackSigned(AExtension extension, String message, Throwable t);
 }

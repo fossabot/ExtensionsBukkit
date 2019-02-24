@@ -1,10 +1,14 @@
 package ml.extbukkit.main.secure.event;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.event.IHandler;
-
-import java.util.*;
 
 public class EventManager implements IEventManager {
 

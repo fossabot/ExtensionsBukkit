@@ -4,6 +4,7 @@ import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.loader.IExtensionLoader;
+import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
 import ml.extbukkit.api.types.IKeyMaker;
@@ -32,12 +33,11 @@ public interface IServer {
     File getExtensionsDir();
 
     /**
-     * Get logger<br>
-     * Needed for logging messages
+     * Gets the global logger
      *
      * @return Logger
      */
-    ILogger getLogger();
+    ILogger getGlobalLogger();
 
     /**
      * Get event manager<br>
@@ -105,4 +105,12 @@ public interface IServer {
      * @return Console command executor
      */
     ICommandExecutor getConsole();
+
+    /**
+     * Gets logger for extension
+     *
+     * @param extensionName extension's name (id)
+     * @return extension logger
+     */
+    IExtensionLogger getLogger(String extensionName);
 }

@@ -5,7 +5,10 @@ import org.bukkit.block.BlockFace;
 
 public class DirectionHelper {
     public static StraightDirection bukkitToStraight(BlockFace face) {
-        if(face == null) return null;
+        if(face == null)
+        {
+            return null;
+        }
         switch(face) {
             case UP:
                 return StraightDirection.UP;

@@ -3,7 +3,7 @@ package ml.extbukkit.api.world.entity;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.types.EntityType;
 import ml.extbukkit.api.world.INBTHolder;
-import ml.extbukkit.api.world.IPositioned;
+import ml.extbukkit.api.world.IPositionable;
 import ml.extbukkit.api.world.StraightDirection;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * Entity class
  */
-public interface IEntity extends ICommandExecutor, IPositioned, INBTHolder {
+public interface IEntity extends ICommandExecutor, IPositionable, INBTHolder {
     /**
      * Add passenger to entity
      *

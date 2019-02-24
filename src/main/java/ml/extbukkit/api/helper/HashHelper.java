@@ -24,9 +24,7 @@ public class HashHelper {
     public static String md5FileTry(File file) {
         try {
             return md5File(file);
-        } catch (IOException e) {
-            return null;
-        } catch (NoSuchAlgorithmException e) {
+        } catch ( IOException | NoSuchAlgorithmException e) {
             return null;
         }
     }
