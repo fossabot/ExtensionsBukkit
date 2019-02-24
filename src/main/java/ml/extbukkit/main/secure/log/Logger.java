@@ -90,12 +90,16 @@ public class Logger implements ILogger {
             if(!r.send()) return;
             send = r.getMessage();
         }
+        if ( send == null || send.length() == 0 )
+        {
+            send = message;
+        }
         if ( send.contains( "\n" ) )
         {
             String[] arr = send.split( "\n" );
             String firstLine = arr[0];
             String[] others = Arrays.copyOfRange( arr, 1, arr.length );
-            String firstLineFormatted = "[" + timestamp() + "] [EXTENSIONSBUKKIT] " + firstLine;
+            String firstLineFormatted = "[" + timestamp() + "] [EXTENSIONSBUKKIT] [" + channel.getName() + "] " + firstLine;
             logRaw( firstLineFormatted );
             fileAppend( EB, firstLineFormatted );
             for ( String other : others )
@@ -105,7 +109,7 @@ public class Logger implements ILogger {
             }
         } else
         {
-            String msg = "[" + timestamp() + "] [EXTENSIONSBUKKIT] " + send;
+            String msg = "[" + timestamp() + "] [EXTENSIONSBUKKIT] [" + channel.getName() +  "] " + send;
             logRaw( msg );
             fileAppend( EB, msg );
         }
