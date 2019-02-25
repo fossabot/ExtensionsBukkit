@@ -1,7 +1,7 @@
 package ml.extbukkit.api.world.entity;
 
 import ml.extbukkit.api.command.ICommandExecutor;
-import ml.extbukkit.api.types.EntityType;
+import ml.extbukkit.api.types.IEntityType;
 import ml.extbukkit.api.world.INBTHolder;
 import ml.extbukkit.api.world.IPositionable;
 import ml.extbukkit.api.world.StraightDirection;
@@ -83,7 +83,7 @@ public interface IEntity extends ICommandExecutor, IPositionable, INBTHolder {
      *
      * @return Entity type
      */
-    EntityType getType();
+    IEntityType getType();
 
     /**
      * Get entity UUID

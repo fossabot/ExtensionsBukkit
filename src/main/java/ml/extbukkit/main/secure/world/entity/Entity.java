@@ -1,11 +1,7 @@
 package ml.extbukkit.main.secure.world.entity;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
 import com.google.gson.JsonObject;
-import ml.extbukkit.api.types.EntityType;
+import ml.extbukkit.api.types.IEntityType;
 import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
 import ml.extbukkit.api.world.StraightDirection;
@@ -15,20 +11,14 @@ import ml.extbukkit.main.secure.server.Server;
 import ml.extbukkit.main.secure.world.DirectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntity {
-    private EntityType type;
-
     public Entity(org.bukkit.entity.Entity handle) {
         super(handle);
-        if ( handle instanceof Player )
-        {
-            type = EntityType.PLAYER;
-        } else
-        {
-            type = EntityType.ENTITY;
-        }
 
     }
 
@@ -85,8 +75,8 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
     }
 
     @Override
-    public EntityType getType() {
-        return type;
+    public IEntityType getType() {
+        return EntityHelper.bukkitToEB(handle.getType());
     }
 
     @Override
