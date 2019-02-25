@@ -1,11 +1,15 @@
 package ml.extbukkit.main.secure.command;
 
+import ml.extbukkit.api.chat.ChatMessage;
+import ml.extbukkit.api.chat.ChatMessageJSONer;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.util.AWrapper;
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 public class CommandExecutor extends AWrapper<CommandSender> implements ICommandExecutor {
+
     public CommandExecutor(CommandSender handle) {
         super(handle);
     }
@@ -23,6 +27,13 @@ public class CommandExecutor extends AWrapper<CommandSender> implements ICommand
     @Override
     public void executeCommand(String command) {
         Bukkit.dispatchCommand(handle, command);
+    }
+
+    @Override
+    public void sendMessage(ChatMessage message)
+    {
+        String jsonString = ChatMessageJSONer.getInstance().toJson( message );
+        handle.spigot().sendMessage( ComponentSerializer.parse( jsonString ) );
     }
 
     @Override

@@ -3,6 +3,7 @@ package ml.extbukkit.api.server;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.event.IEventManager;
+import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.ILogger;
@@ -88,8 +89,17 @@ public interface IServer {
 
     /**
      * Stop the server
+     * @deprecated Use {@link #stopServer(AExtension)}
      */
+    @Deprecated
     void stopServer();
+
+    /**
+     * Stops the server. Requires extension.
+     *
+     * @param extension extension, requested from
+     */
+    void stopServer(AExtension extension);
 
     /**
      * Get server properties

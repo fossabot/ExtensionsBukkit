@@ -1,5 +1,9 @@
 package ml.extbukkit.main.secure.log;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.ILogChannel;
@@ -24,9 +28,45 @@ public class ExtensionLogger implements IExtensionLogger
     }
 
     @Override
+    public void info(String... messages)
+    {
+        Arrays.stream( messages ).forEach( this::info );
+    }
+
+    @Override
+    public void info(List<String> messages)
+    {
+        messages.forEach( this::info );
+    }
+
+    @Override
+    public void info(Set<String> messages)
+    {
+        messages.forEach( this::info );
+    }
+
+    @Override
     public void warn(String message)
     {
         globalLogger.log( Channels.WARN, prefix + message );
+    }
+
+    @Override
+    public void warn(String... messages)
+    {
+        Arrays.stream( messages ).forEach( this::warn );
+    }
+
+    @Override
+    public void warn(List<String> messages)
+    {
+        messages.forEach( this::warn );
+    }
+
+    @Override
+    public void warn(Set<String> messages)
+    {
+        messages.forEach( this::warn );
     }
 
     @Override
@@ -48,6 +88,24 @@ public class ExtensionLogger implements IExtensionLogger
     }
 
     @Override
+    public void debug(String... messages)
+    {
+        Arrays.stream( messages ).forEach( this::debug );
+    }
+
+    @Override
+    public void debug(List<String> messages)
+    {
+        messages.forEach( this::debug );
+    }
+
+    @Override
+    public void debug(Set<String> messages)
+    {
+        messages.forEach( this::debug );
+    }
+
+    @Override
     public void fatal(String message)
     {
         globalLogger.log( Channels.FATAL, prefix + message );
@@ -63,6 +121,24 @@ public class ExtensionLogger implements IExtensionLogger
     public void log(ILogChannel channel, String message)
     {
         globalLogger.log( channel, prefix + message );
+    }
+
+    @Override
+    public void log(ILogChannel channel, String... messages)
+    {
+        Arrays.stream( messages ).forEach( message -> log( channel, message ) );
+    }
+
+    @Override
+    public void log(ILogChannel channel, List<String> messages)
+    {
+        messages.forEach( message -> log( channel, message ) );
+    }
+
+    @Override
+    public void log(ILogChannel channel, Set<String> messages)
+    {
+        messages.forEach( message -> log( channel, message ) );
     }
 
     @Override

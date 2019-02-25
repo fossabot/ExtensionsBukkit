@@ -1,5 +1,7 @@
 package ml.extbukkit.api.command;
 
+import ml.extbukkit.api.chat.ChatMessage;
+
 /**
  * Command executor class
  */
@@ -24,4 +26,11 @@ public interface ICommandExecutor extends IPermissible {
      * @param command Command to execute
      */
     void executeCommand(String command);
+
+    /**
+     * Sends a chat message to this executor
+     *
+     * @param message message to send
+     */
+    void sendMessage(ChatMessage message);
 }
