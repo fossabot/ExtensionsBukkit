@@ -19,29 +19,29 @@ public class ChatMessageSerializer implements JsonSerializer<ChatMessage>, JsonD
     {
         JsonObject object = new JsonObject();
         object.addProperty( "text", component.getMessage() );
-        if ( component.getBold() != null )
+        if ( component.isBold() != null )
         {
-            object.addProperty( "bold", component.getBold() );
+            object.addProperty( "bold", component.isBold() );
         }
 
-        if ( component.getItalic() != null )
+        if ( component.isItalic() != null )
         {
-            object.addProperty( "italic", component.getItalic() );
+            object.addProperty( "italic", component.isItalic() );
         }
 
-        if ( component.getUnderlined() != null )
+        if ( component.isUnderlined() != null )
         {
-            object.addProperty( "underlined", component.getUnderlined() );
+            object.addProperty( "underlined", component.isUnderlined() );
         }
 
-        if ( component.getStrikeout() != null )
+        if ( component.isStrikeout() != null )
         {
-            object.addProperty( "strikethrough", component.getStrikeout() );
+            object.addProperty( "strikethrough", component.isStrikeout() );
         }
 
-        if ( component.getObfuscated() != null )
+        if ( component.isObfuscated() != null )
         {
-            object.addProperty( "obfuscated", component.getObfuscated() );
+            object.addProperty( "obfuscated", component.isObfuscated() );
         }
 
         return object;
