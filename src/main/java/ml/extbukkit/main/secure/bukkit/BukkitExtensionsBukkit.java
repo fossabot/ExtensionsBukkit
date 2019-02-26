@@ -20,7 +20,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
     private ml.extbukkit.main.secure.log.Logger extensionsLogger = ml.extbukkit.main.secure.log.Logger.getInstance();
     private IServer server = Server.getInstance();
-    private boolean disabled = false;
 
     public BukkitExtensionsBukkit() {
         I = this;
@@ -40,13 +39,11 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             Updater.downloadBKCL();
             getLogger().warning( "BKCommonLib has been downloaded, disabling..." );
             getServer().getPluginManager().disablePlugin( this );
-            disabled = true;
             return;
         }
         if (!getServer().getVersion().contains("1.13")) {
             extensionsLogger.log("Unsupported Minecraft version found. Only minecraft 1.13 is supported! Disabling...");
             getServer().getPluginManager().disablePlugin( this );
-            disabled = true;
             return;
         }
         ChatMessageJSONer.setInstance( new SimpleJSONer() );
@@ -85,7 +82,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        if ( disabled )
+        if ( !getServer().getPluginManager().isPluginEnabled( this ) )
         {
             return;
         }

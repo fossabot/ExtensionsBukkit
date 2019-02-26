@@ -26,6 +26,8 @@ configurations {
     extraLibs
 }
 
+archivesBaseName = 'ExtensionsBukkit'
+
 dependencies {
     testCompile group: "junit", name: "junit", version: "4.12"
     def f = new File("spigot-1.13.2.jar")

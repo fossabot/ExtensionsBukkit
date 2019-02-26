@@ -1,15 +1,16 @@
 package ml.extbukkit.api.event;
 
 /**
- * Handle priorities
+ * Represents a priorities
  */
 public enum HandlePriority {
     /**
-     * Will be executed last
+     * Last to get executed
+     * <b>By last we do not mean exactly last</b>
      */
     LOWEST,
     /**
-     * Will be executed almost last
+     * Before Last to get executed
      */
     LOW,
     /**
@@ -18,11 +19,12 @@ public enum HandlePriority {
      */
     NORMAL,
     /**
-     * Will be executed almost first
+     * Before first to get executed
      */
     HIGH,
     /**
-     * Will be executed first
+     * First to get executed
+     * <b>By first we do not mean exactly first</b>
      */
     HIGHEST
 }
