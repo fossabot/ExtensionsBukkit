@@ -1,8 +1,7 @@
 package ml.extbukkit.main.secure.world.entity;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import ml.extbukkit.api.chat.ChatMessage;
-import ml.extbukkit.api.chat.ChatMessageJSONer;
 import ml.extbukkit.api.types.IEntityType;
 import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
@@ -11,10 +10,11 @@ import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.nms.NBTUtils;
 import ml.extbukkit.main.secure.server.Server;
 import ml.extbukkit.main.secure.world.DirectionHelper;
-import net.md_5.bungee.chat.ComponentSerializer;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +27,7 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
 
     @Override
     public boolean addPassenger(IEntity passenger) {
-        // TODO
-        return false;
+        return handle.addPassenger(((Entity) passenger).handle);
     }
 
     @Override
@@ -68,8 +67,10 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
 
     @Override
     public List<IEntity> getPassengers() {
-        // TODO
-        return null;
+        List<IEntity> ents = new ArrayList<>();
+        for (org.bukkit.entity.Entity ent : handle.getPassengers())
+            ents.add(new Entity(ent));
+        return ents;
     }
 
     @Override
@@ -89,8 +90,7 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
 
     @Override
     public IEntity getPassengerOf() {
-        // TODO
-        return null;
+        return new Entity(handle.getVehicle());
     }
 
     @Override
@@ -130,8 +130,7 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
 
     @Override
     public boolean removePassenger(IEntity passenger) {
-        // TODO
-        return false;
+        return handle.removePassenger(((Entity) passenger).handle);
     }
 
     @Override
@@ -165,10 +164,8 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
     }
 
     @Override
-    public void sendMessage(ChatMessage message)
-    {
-        String jsonString = ChatMessageJSONer.getInstance().toJson( message );
-        handle.spigot().sendMessage( ComponentSerializer.parse( jsonString ) );
+    public void sendMessage(JsonArray message) {
+        handle.spigot().sendMessage(TextComponent.fromLegacyText(message.toString()));
     }
 
     @Override

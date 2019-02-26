@@ -1,6 +1,6 @@
 package ml.extbukkit.api.command;
 
-import ml.extbukkit.api.chat.ChatMessage;
+import com.google.gson.JsonArray;
 
 /**
  * Command executor class
@@ -32,5 +32,5 @@ public interface ICommandExecutor extends IPermissible {
      *
      * @param message message to send
      */
-    void sendMessage(ChatMessage message);
+    void sendMessage(JsonArray message);
 }

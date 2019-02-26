@@ -3,10 +3,8 @@ package ml.extbukkit.main.secure.bukkit;
 import java.io.File;
 
 import ml.extbukkit.api.builtin.events.EventLoad;
-import ml.extbukkit.api.chat.ChatMessageJSONer;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.secure.chat.SimpleJSONer;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.log.util.LevelToChannel;
 import ml.extbukkit.main.secure.server.Server;
@@ -46,7 +44,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             getServer().getPluginManager().disablePlugin( this );
             return;
         }
-        ChatMessageJSONer.setInstance( new SimpleJSONer() );
         ((Logger) LogManager.getRootLogger()).addFilter( new AbstractFilter() {
             @Override
             public Result filter(LogEvent event) {
