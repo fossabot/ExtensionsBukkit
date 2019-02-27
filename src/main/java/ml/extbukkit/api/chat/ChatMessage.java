@@ -37,7 +37,7 @@ public class ChatMessage
         this.underline = original.isUnderline();
         this.italic = original.isItalic();
         this.strikethrough = original.isStrikethrough();
-        this.obfuscated - original.isObfuscated();
+        this.obfuscated = original.isObfuscated();
     }
 
     /**
