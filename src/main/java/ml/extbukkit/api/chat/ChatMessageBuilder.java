@@ -18,7 +18,7 @@ public class ChatMessageBuilder
 
     public ChatMessageBuilder(String message)
     {
-        currentMessage.setMessage( message );
+        this.currentMessage = new ChatMessage( message );
     }
 
     public ChatMessage create()
