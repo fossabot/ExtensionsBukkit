@@ -2,6 +2,7 @@ package ml.extbukkit.api.server;
 
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
+import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -12,6 +13,8 @@ import ml.extbukkit.api.types.IKeyMaker;
 import ml.extbukkit.api.world.IWorldManager;
 
 import java.io.File;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Server class
@@ -123,4 +126,35 @@ public interface IServer {
      * @return extension logger
      */
     IExtensionLogger getLogger(String extensionName);
+
+    /**
+     * Gets all online players
+     * <b>This is unmodifiable</b>
+     *
+     * @return online players
+     */
+    Set<ExtensionedPlayer> getPlayers();
+
+    /**
+     * Gets the online players count
+     *
+     * @return players count
+     */
+    int getOnlineCount();
+
+    /**
+     * Gets a player via its name
+     *
+     * @param name player name
+     * @return player or null
+     */
+    ExtensionedPlayer getPlayer(String name);
+
+    /**
+     * Gets a player via its UUID
+     *
+     * @param uuid player uuid
+     * @return player or null
+     */
+    ExtensionedPlayer getPlayer(UUID uuid);
 }

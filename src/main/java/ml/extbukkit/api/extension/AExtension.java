@@ -6,6 +6,7 @@ import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.main.server.Server;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * Represents a collective class which every
@@ -17,6 +18,7 @@ public abstract class AExtension {
     private boolean depLoaded = false;
     private File file = null;
     private IExtensionLogger logger = getServer().getLogger( getName() );
+    private File dataFolder = new File( getServer().getExtensionsDir() + File.separator + getName() );
 
     /**
      * Called when the extension is disabled
@@ -76,7 +78,10 @@ public abstract class AExtension {
      * @param file Extension file
      */
     public final void setFile(File file) {
-        if (this.file != null) return;
+        if ( this.file != null )
+        {
+            return;
+        }
         this.file = file;
     }
 
@@ -116,5 +121,34 @@ public abstract class AExtension {
      */
     public IExtensionLogger getLogger() {
         return logger;
+    }
+
+    /**
+     * Returns an folder with the extension's name in the extensions location
+     * ex. if your extension is called "MyExtension123", the data folder will
+     * be "./extensions/MyExtension123" (. stands for the path to the server files)
+     *
+     * @return folder with the extension's name
+     */
+    public File getDataFolder()
+    {
+        return dataFolder;
+    }
+
+    /**
+     * Gets a resource as stream from the jar file of your extension
+     *
+     * @param resourceName got resource's name
+     * @return input steam of the exact resource
+     * @throws NullPointerException if the input stream (file in the jar) is null
+     */
+    public InputStream getResourceAsStream(String resourceName)
+    {
+        InputStream stream = getClass().getClassLoader().getResourceAsStream( resourceName );
+        if ( stream == null )
+        {
+            throw new NullPointerException( "Cannot find a file into extension '" + getName() + "' with name '" + resourceName + "'" );
+        }
+        return stream;
     }
 }

@@ -4,8 +4,9 @@ import com.bergerkiller.bukkit.common.events.EntityAddEvent;
 import com.bergerkiller.bukkit.common.events.EntityMoveEvent;
 import com.bergerkiller.bukkit.common.events.EntityRemoveFromServerEvent;
 
-import ml.extbukkit.api.builtin.events.EventEntityJoin;
-import ml.extbukkit.api.builtin.events.EventEntityQuit;
+import com.google.gson.JsonObject;
+import ml.extbukkit.api.builtin.events.EventPlayerJoin;
+import ml.extbukkit.api.builtin.events.EventPlayerQuit;
 import ml.extbukkit.api.builtin.events.EventWorldInitialize;
 import ml.extbukkit.api.builtin.events.EventWorldLoad;
 import ml.extbukkit.api.builtin.events.EventWorldSave;
@@ -13,15 +14,17 @@ import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
+import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.command.CommandExecutor;
-import ml.extbukkit.main.secure.world.entity.Entity;
+import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
 import ml.extbukkit.main.secure.server.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -118,14 +121,14 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
-        EventEntityJoin ourEvent = new EventEntityJoin(new Entity(event.getPlayer()), event.getJoinMessage());
+        EventPlayerJoin ourEvent = new EventPlayerJoin(new SimpleExtensionPlayer(event.getPlayer()), event.getJoinMessage());
         Server.getInstance().getEventManager().callEvent(ourEvent);
         event.setJoinMessage(ourEvent.getJoinMessage());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent event) {
-        EventEntityQuit ourEvent = new EventEntityQuit(new Entity(event.getPlayer()), event.getQuitMessage());
+        EventPlayerQuit ourEvent = new EventPlayerQuit(new SimpleExtensionPlayer(event.getPlayer()), event.getQuitMessage());
         Server.getInstance().getEventManager().callEvent(ourEvent);
         event.setQuitMessage(ourEvent.getQuitMessage());
     }
@@ -148,5 +151,14 @@ public class BukkitEventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityRemoveServer(EntityRemoveFromServerEvent e) {
 
+    }
+
+    @EventHandler
+    public void on(BlockBreakEvent event)
+    {
+        ExtensionedPlayer player = new SimpleExtensionPlayer( event.getPlayer() );
+        JsonObject json = new JsonObject();
+        json.addProperty( "fire", "20s" );
+        player.updateNBT( json );
     }
 }

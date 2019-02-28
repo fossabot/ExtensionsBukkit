@@ -9,6 +9,7 @@ import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.main.secure.chat.SimpleSerializer;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.log.util.LevelToChannel;
+import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
 import ml.extbukkit.main.secure.server.Server;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
@@ -41,8 +42,10 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             getServer().getPluginManager().disablePlugin( this );
             return;
         }
-        if (!getServer().getVersion().contains("1.13")) {
-            extensionsLogger.log("Unsupported Minecraft version found. Only minecraft 1.13 is supported! Disabling...");
+        if ( NMSRUtil.isUnder1_12() )
+        {
+            getLogger().severe( "Unsupported version found! Minimal supported version: 1.12" );
+            getLogger().severe( "Plugin disabled!" );
             getServer().getPluginManager().disablePlugin( this );
             return;
         }

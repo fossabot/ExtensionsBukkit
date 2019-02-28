@@ -33,4 +33,11 @@ public interface ICommandExecutor extends IPermissible {
      * @param message message to send
      */
     void sendMessage(ChatMessage message);
+
+    /**
+     * Get name of this executor
+     *
+     * @return name
+     */
+    String getName();
 }

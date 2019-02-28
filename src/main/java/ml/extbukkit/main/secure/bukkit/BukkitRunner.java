@@ -1,47 +1,55 @@
 package ml.extbukkit.main.secure.bukkit;
 
-import ml.extbukkit.api.scheduler.IScheduledTask;
-import ml.extbukkit.api.scheduler.TaskType;
-import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.secure.scheduler.ScheduledTask;
-import ml.extbukkit.main.secure.server.Server;
-
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
-public class BukkitRunner implements Runnable {
+import ml.extbukkit.main.secure.scheduler.ScheduledTask;
+import ml.extbukkit.main.secure.scheduler.SchedulerManager;
+import ml.extbukkit.main.server.Server;
+import org.bukkit.scheduler.BukkitRunnable;
+
+public class BukkitRunner implements Runnable
+{
+    // don't repeatly get these, can reduce memory leaks
+    private SchedulerManager manager = SchedulerManager.getInstance();
+    private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
+    private Set<ScheduledTask> scheduled = new HashSet<>();
 
     @Override
-    public void run() {
-        IServer server = Server.getInstance();
-        for(Map<UUID, IScheduledTask> mut : server.getSchedulerManager().getTasks().values())
+    public void run()
+    {
+        for ( Map.Entry<UUID, ScheduledTask> taskEntry : manager.getTasks().entrySet() )
         {
-            for ( IScheduledTask t : mut.values() )
+            ScheduledTask task = taskEntry.getValue();
+            if ( scheduled.contains( task ) )
             {
-                ScheduledTask it = (ScheduledTask) t;
-                if ( it.getDelayTime() > 0 )
+                return;
+            }
+            new BukkitRunnable()
+            {
+
+                @Override
+                public void run()
                 {
-                    it.setDelayTime( it.getDelayTime() - 1 );
-                    continue;
-                }
-                it.setTime( it.getTime() + 1 );
-                if ( it.getTime() >= it.getInterval() )
-                {
+                    scheduled.add( task );
+                    if ( !manager.getTasks().containsKey( task.getUUID() ) )
+                    {
+                        cancel();
+                        scheduled.remove( task );
+                        return;
+                    }
                     try
                     {
-                        it.getTask().execute();
-                    } catch ( Throwable thr )
+                        task.getTask().execute();
+                    } catch ( Throwable t )
                     {
-                        server.getGlobalLogger().logStack( "Internal error occured trying to execute task '"
-                                + it.getUUID() + "' in extension '" + it.getOwner().getName() + "'", thr );
-                    }
-                    it.setTime( 0 );
-                    if ( it.getType() == TaskType.DELAYED )
-                    {
-                        it.cancel();
+                        Server.getInstance().getGlobalLogger().logStack( "Internal error occured trying to execute task " +
+                                "'" + task.getUUID() + "' in extension '" + task.getOwner().getName() + "'", t );
                     }
                 }
-            }
+            }.runTaskTimer( plugin, task.getDelay(), task.getInterval() );
         }
     }
 }

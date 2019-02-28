@@ -10,30 +10,27 @@ import java.util.UUID;
  * Scheduler manager class
  */
 public interface ISchedulerManager {
-    /**
-     * Schedule a task<br>
-     * In case of type delayed, delay before start will be delay + interval
-     *
-     * @param owner Extension
-     * @param task Task to run
-     * @param type Task type
-     * @param delay Delay before start
-     * @param interval Interval between runs
-     * @return UUID of task
-     */
-    UUID schedule(AExtension owner, ITask task, TaskType type, Time delay, Time interval);
 
     /**
-     * Schedule a task without delay<br>
-     * In case of type delayed, use interval as delay
+     * Schedules a repeating task until cancelled
      *
      * @param owner Extension
      * @param task Task to run
-     * @param type Task type
-     * @param interval Interval between runs (In case of delayed, delay before run)
+     * @param delay Delay before start
+     * @param interval Interval between running
      * @return UUID of task
      */
-    UUID schedule(AExtension owner, ITask task, TaskType type, Time interval);
+    IScheduledTask schedule(AExtension owner, ITask task, Time delay, Time interval);
+
+    /**
+     * Schedules a delayed task.
+     * NOTE: Delayed tasks are not stored
+     *
+     * @param owner Extension
+     * @param task Task to run
+     * @param delay delay before the task is executed
+     */
+    void schedule(AExtension owner, ITask task, Time delay);
 
     /**
      * Cancel all tasks of an extension
@@ -43,26 +40,17 @@ public interface ISchedulerManager {
     void cancelAll(AExtension extension);
 
     /**
-     * Cancel task by uuid
+     * Cancel task by its UUID
      *
-     * @param extension Extension
      * @param uuid Task UUID
      */
-    void cancel(AExtension extension, UUID uuid);
+    void cancel(UUID uuid);
 
     /**
-     * Get all tasks
+     * Gets the specified task by its id
      *
-     * @return Map of tasks
+     * @param uuid task's id
+     * @return Scheduled task / null if the uuid does not belong to any task
      */
-    Map<String, Map<UUID, IScheduledTask>> getTasks();
-
-    /**
-     * Get task by uuid
-     *
-     * @param extension Extension
-     * @param uuid UUID
-     * @return Scheduled task
-     */
-    IScheduledTask getTask(AExtension extension, UUID uuid);
+    IScheduledTask getTask(UUID uuid);
 }

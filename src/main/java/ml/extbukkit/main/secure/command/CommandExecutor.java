@@ -35,6 +35,12 @@ public class CommandExecutor extends AWrapper<CommandSender> implements ICommand
     }
 
     @Override
+    public String getName()
+    {
+        return handle.getName();
+    }
+
+    @Override
     public boolean hasPermission(String permission) {
         return handle.hasPermission(permission);
     }

@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 
 public class Console extends AWrapper<ConsoleCommandSender> implements ICommandExecutor {
+
     public Console(ConsoleCommandSender handle) {
         super(handle);
     }
@@ -31,6 +32,12 @@ public class Console extends AWrapper<ConsoleCommandSender> implements ICommandE
     @Override
     public void sendMessage(ChatMessage message) {
         handle.spigot().sendMessage( ComponentSerializer.parse( ChatMessageSerializer.getInstance().toString( message ) ) );
+    }
+
+    @Override
+    public String getName()
+    {
+        return handle.getName();
     }
 
     @Override

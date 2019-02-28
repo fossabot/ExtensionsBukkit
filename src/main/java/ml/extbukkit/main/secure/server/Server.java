@@ -3,6 +3,7 @@ package ml.extbukkit.main.secure.server;
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
+import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -15,6 +16,7 @@ import ml.extbukkit.api.world.IWorldManager;
 import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 import ml.extbukkit.main.secure.command.CommandManager;
+import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
 import ml.extbukkit.main.secure.event.EventManager;
 import ml.extbukkit.main.secure.log.ExtensionLogger;
 import ml.extbukkit.main.secure.log.Logger;
@@ -22,9 +24,14 @@ import ml.extbukkit.main.secure.manager.ExtensionLoader;
 import ml.extbukkit.main.secure.scheduler.SchedulerManager;
 import ml.extbukkit.main.secure.types.KeyMaker;
 import ml.extbukkit.main.secure.world.WorldManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class Server implements IServer {
 
@@ -44,7 +51,7 @@ public class Server implements IServer {
     }
     private Server() {
         loader = new ExtensionLoader();
-        scheduler = new SchedulerManager();
+        scheduler = SchedulerManager.getInstance();
         worlds = new WorldManager();
         keys = new KeyMaker();
         events = new EventManager();
@@ -128,6 +135,32 @@ public class Server implements IServer {
     public IExtensionLogger getLogger(String extensionName)
     {
         return new ExtensionLogger( extensionName );
+    }
+
+    @Override
+    public Set<ExtensionedPlayer> getPlayers()
+    {
+        Set<ExtensionedPlayer> players = new HashSet<>();
+        Bukkit.getOnlinePlayers().forEach( player -> players.add( new SimpleExtensionPlayer( player ) ) );
+        return Collections.unmodifiableSet( players );
+    }
+
+    @Override
+    public int getOnlineCount()
+    {
+        return getPlayers().size();
+    }
+
+    @Override
+    public ExtensionedPlayer getPlayer(String name)
+    {
+        return new SimpleExtensionPlayer( name );
+    }
+
+    @Override
+    public ExtensionedPlayer getPlayer(UUID uuid)
+    {
+        return new SimpleExtensionPlayer( uuid );
     }
 
 }

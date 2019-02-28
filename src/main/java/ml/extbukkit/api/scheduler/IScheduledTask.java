@@ -22,6 +22,7 @@ public interface IScheduledTask {
 
     /**
      * Get task interval in ticks
+     * In case of delayed task, this is 0
      *
      * @return Interval in ticks
      */
@@ -41,7 +42,10 @@ public interface IScheduledTask {
      */
     AExtension getOwner();
 
+    /**
+     * Gets the runnable of this scheduled task
+     *
+     * @return runnable
+     */
     ITask getTask();
-
-    TaskType getType();
 }

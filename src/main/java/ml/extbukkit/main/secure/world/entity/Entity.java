@@ -1,6 +1,5 @@
 package ml.extbukkit.main.secure.world.entity;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import ml.extbukkit.api.chat.ChatMessage;
 import ml.extbukkit.api.chat.ChatMessageSerializer;
@@ -12,7 +11,6 @@ import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.nms.NBTUtils;
 import ml.extbukkit.main.secure.server.Server;
 import ml.extbukkit.main.secure.world.DirectionHelper;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntity {
+
     public Entity(org.bukkit.entity.Entity handle) {
         super(handle);
 
@@ -169,6 +168,12 @@ public class Entity extends AWrapper<org.bukkit.entity.Entity> implements IEntit
     @Override
     public void sendMessage(ChatMessage message) {
         handle.spigot().sendMessage( ComponentSerializer.parse( ChatMessageSerializer.getInstance().toString( message ) ) );
+    }
+
+    @Override
+    public String getName()
+    {
+        return handle.getName();
     }
 
     @Override
