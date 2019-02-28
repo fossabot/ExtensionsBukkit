@@ -152,13 +152,4 @@ public class BukkitEventListener implements Listener {
     public void onEntityRemoveServer(EntityRemoveFromServerEvent e) {
 
     }
-
-    @EventHandler
-    public void on(BlockBreakEvent event)
-    {
-        ExtensionedPlayer player = new SimpleExtensionPlayer( event.getPlayer() );
-        JsonObject json = new JsonObject();
-        json.addProperty( "fire", "20s" );
-        player.updateNBT( json );
-    }
 }
