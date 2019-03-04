@@ -10,7 +10,6 @@ import ml.extbukkit.api.chat.ChatMessageSerializer;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.IScheduledTask;
-import ml.extbukkit.api.scheduler.ITask;
 import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.util.Time;
 import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
