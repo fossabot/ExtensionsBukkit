@@ -16,7 +16,7 @@ import java.util.List;
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.log.IHandleResult;
-import ml.extbukkit.api.log.ILogChannel;
+import ml.extbukkit.api.log.LogChannel;
 import ml.extbukkit.api.log.ILogHandler;
 import ml.extbukkit.api.log.ILogger;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -78,12 +78,12 @@ public class Logger implements ILogger {
     }
 
     @Override
-    public void logSigned(AExtension extension, ILogChannel channel, String message) {
+    public void logSigned(AExtension extension, LogChannel channel, String message) {
         log(channel, "[" + extension.getName() + "] " + message);
     }
 
     @Override
-    public void log(ILogChannel channel, String message) {
+    public void log(LogChannel channel, String message) {
         String send = "";
         for(ILogHandler h : handlers) {
             IHandleResult r = h.log(channel, message);

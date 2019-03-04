@@ -9,7 +9,6 @@ import com.google.common.collect.Multimap;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.IScheduledTask;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.api.scheduler.ITask;
 import ml.extbukkit.api.util.Time;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 import ml.extbukkit.main.server.Server;
@@ -32,7 +31,7 @@ public class SchedulerManager implements ISchedulerManager
     }
 
     @Override
-    public IScheduledTask schedule(AExtension owner, ITask task, Time delay, Time interval)
+    public IScheduledTask schedule(AExtension owner, Runnable task, Time delay, Time interval)
     {
         ScheduledTask taskScheduled = new ScheduledTask( delay.toLong(), interval.toLong(), owner, task );
         tasks.put( taskScheduled.getUUID(), taskScheduled );
@@ -41,12 +40,12 @@ public class SchedulerManager implements ISchedulerManager
     }
 
     @Override
-    public void schedule(AExtension owner, ITask task, Time delay)
+    public void schedule(AExtension owner, Runnable task, Time delay)
     {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask( plugin, () -> {
             try
             {
-                task.execute();
+                task.run();
             } catch ( Throwable t )
             {
                 Server.getInstance().getGlobalLogger().logStack( "Internal error occured trying to execute delayed task in extension " +

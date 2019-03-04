@@ -20,7 +20,7 @@ public interface ISchedulerManager {
      * @param interval Interval between running
      * @return UUID of task
      */
-    IScheduledTask schedule(AExtension owner, ITask task, Time delay, Time interval);
+    IScheduledTask schedule(AExtension owner, Runnable task, Time delay, Time interval);
 
     /**
      * Schedules a delayed task.
@@ -30,7 +30,7 @@ public interface ISchedulerManager {
      * @param task Task to run
      * @param delay delay before the task is executed
      */
-    void schedule(AExtension owner, ITask task, Time delay);
+    void schedule(AExtension owner, Runnable task, Time delay);
 
     /**
      * Cancel all tasks of an extension

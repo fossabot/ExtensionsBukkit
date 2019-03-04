@@ -1,12 +1,10 @@
-package ml.extbukkit.main.log;
-
-import ml.extbukkit.api.log.ILogChannel;
+package ml.extbukkit.api.log;
 
 /**
- * Simple implementation of {@link ILogChannel}
+ * Log channel class
  */
-public class LogChannel implements ILogChannel {
-
+public class LogChannel
+{
     /**
      * Log channel name
      */
@@ -26,7 +24,6 @@ public class LogChannel implements ILogChannel {
      *
      * @return name
      */
-    @Override
     public String getName() {
         return name;
     }

@@ -42,7 +42,7 @@ public class BukkitRunner implements Runnable
                     }
                     try
                     {
-                        task.getTask().execute();
+                        task.getTask().run();
                     } catch ( Throwable t )
                     {
                         Server.getInstance().getGlobalLogger().logStack( "Internal error occured trying to execute task " +

@@ -16,7 +16,7 @@ public interface IHandleResult {
      *
      * @return Log channel
      */
-    ILogChannel getChannel();
+    LogChannel getChannel();
 
     /**
      * Send it or not

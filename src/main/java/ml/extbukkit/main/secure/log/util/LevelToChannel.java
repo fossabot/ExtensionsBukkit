@@ -1,15 +1,15 @@
 package ml.extbukkit.main.secure.log.util;
 
 import ml.extbukkit.api.builtin.log.Channels;
-import ml.extbukkit.api.log.ILogChannel;
+import ml.extbukkit.api.log.LogChannel;
 import org.apache.logging.log4j.Level;
 
 public class LevelToChannel
 {
 
-    public static ILogChannel transform(Level level)
+    public static LogChannel transform(Level level)
     {
-        ILogChannel returned;
+        LogChannel returned;
         // Bukkit doesn't use the other channels, so that's why we don't handle them
         switch ( level.getStandardLevel() )
         {

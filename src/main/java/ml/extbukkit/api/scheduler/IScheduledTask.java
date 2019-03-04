@@ -47,5 +47,5 @@ public interface IScheduledTask {
      *
      * @return runnable
      */
-    ITask getTask();
+    Runnable getTask();
 }

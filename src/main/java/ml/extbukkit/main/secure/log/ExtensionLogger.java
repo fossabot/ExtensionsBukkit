@@ -6,7 +6,7 @@ import java.util.Set;
 
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.log.IExtensionLogger;
-import ml.extbukkit.api.log.ILogChannel;
+import ml.extbukkit.api.log.LogChannel;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.main.server.Server;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -118,31 +118,31 @@ public class ExtensionLogger implements IExtensionLogger
     }
 
     @Override
-    public void log(ILogChannel channel, String message)
+    public void log(LogChannel channel, String message)
     {
         globalLogger.log( channel, prefix + message );
     }
 
     @Override
-    public void log(ILogChannel channel, String... messages)
+    public void log(LogChannel channel, String... messages)
     {
         Arrays.stream( messages ).forEach( message -> log( channel, message ) );
     }
 
     @Override
-    public void log(ILogChannel channel, List<String> messages)
+    public void log(LogChannel channel, List<String> messages)
     {
         messages.forEach( message -> log( channel, message ) );
     }
 
     @Override
-    public void log(ILogChannel channel, Set<String> messages)
+    public void log(LogChannel channel, Set<String> messages)
     {
         messages.forEach( message -> log( channel, message ) );
     }
 
     @Override
-    public void log(ILogChannel channel, String message, Throwable stack)
+    public void log(LogChannel channel, String message, Throwable stack)
     {
         globalLogger.log( channel, prefix + message + "\n" + ExceptionUtils.getMessage( stack ) );
     }

@@ -16,7 +16,7 @@ public interface ILogger {
      * @param channel Log channel
      * @param message Log message
      */
-    void logSigned(AExtension extension, ILogChannel channel, String message);
+    void logSigned(AExtension extension, LogChannel channel, String message);
 
     /**
      * Send a signed log message with an INFO channel to console<br>
@@ -40,7 +40,7 @@ public interface ILogger {
      * @param channel Log channel
      * @param message Log message
      */
-    void log(ILogChannel channel, String message);
+    void log(LogChannel channel, String message);
 
     /**
      * Register a log handler

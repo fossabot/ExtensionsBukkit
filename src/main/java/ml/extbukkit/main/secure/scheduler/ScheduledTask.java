@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.IScheduledTask;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.api.scheduler.ITask;
 import ml.extbukkit.main.server.Server;
 
 @EqualsAndHashCode
@@ -16,10 +15,10 @@ public class ScheduledTask implements IScheduledTask
     private long delay, interval;
     private AExtension owner;
     private ISchedulerManager schedulerManager = Server.getInstance().getSchedulerManager();
-    private ITask task;
+    private Runnable task;
     private UUID uuid;
 
-    public ScheduledTask(long delay, long interval, AExtension owner, ITask task )
+    public ScheduledTask(long delay, long interval, AExtension owner, Runnable task )
     {
         this.uuid = UUID.randomUUID();
         this.delay = delay;
@@ -59,7 +58,7 @@ public class ScheduledTask implements IScheduledTask
     }
 
     @Override
-    public ITask getTask()
+    public Runnable getTask()
     {
         return task;
     }

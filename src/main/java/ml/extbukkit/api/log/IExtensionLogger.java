@@ -42,14 +42,14 @@ public interface IExtensionLogger
 
     void fatal(String message, Throwable stack);
 
-    void log(ILogChannel channel, String message);
+    void log(LogChannel channel, String message);
 
-    void log(ILogChannel channel, String... messages);
+    void log(LogChannel channel, String... messages);
 
-    void log(ILogChannel channel, List<String> messages);
+    void log(LogChannel channel, List<String> messages);
 
-    void log(ILogChannel channel, Set<String> messages);
+    void log(LogChannel channel, Set<String> messages);
 
-    void log(ILogChannel channel, String message, Throwable stack);
+    void log(LogChannel channel, String message, Throwable stack);
 
 }

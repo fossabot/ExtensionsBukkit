@@ -1,7 +1,6 @@
 package ml.extbukkit.api.builtin.log;
 
-import ml.extbukkit.api.log.ILogChannel;
-import ml.extbukkit.main.log.LogChannel;
+import ml.extbukkit.api.log.LogChannel;
 
 /**
  * Default channels class
@@ -10,25 +9,25 @@ public class Channels {
     /**
      * Default INFO channel, used for information
      */
-    public static final ILogChannel INFO = new LogChannel("INFO");
+    public static final LogChannel INFO = new LogChannel("INFO");
 
     /**
      * Default WARN channel, used for warnings
      */
-    public static final ILogChannel WARN = new LogChannel("WARN");
+    public static final LogChannel WARN = new LogChannel("WARN");
 
     /**
      * Default ERROR channel, used for errors
      */
-    public static final ILogChannel ERROR = new LogChannel("ERROR");
+    public static final LogChannel ERROR = new LogChannel("ERROR");
 
     /**
      * Default DEBUG channel, used for debugging
      */
-    public static final ILogChannel DEBUG = new LogChannel("DEBUG");
+    public static final LogChannel DEBUG = new LogChannel("DEBUG");
 
     /**
      * Default FATAL channel, used for fatal errors
      */
-    public static final ILogChannel FATAL = new LogChannel("FATAL");
+    public static final LogChannel FATAL = new LogChannel("FATAL");
 }

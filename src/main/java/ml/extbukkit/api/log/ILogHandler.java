@@ -11,5 +11,5 @@ public interface ILogHandler {
      * @param message Message string
      * @return Handle result
      */
-    IHandleResult log(ILogChannel channel, String message);
+    IHandleResult log(LogChannel channel, String message);
 }
