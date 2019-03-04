@@ -21,12 +21,18 @@ public class ChatMessageBuilder
         this.currentMessage = new ChatMessage( message );
     }
 
+    /**
+     * Duplicates the current created message into a new one
+     *
+     * @return chat message
+     */
     public ChatMessage create()
     {
         return currentMessage.duplicate();
     }
 
     //-------------------------------------------------------------------------------
+    // I don't think its pointless to create comments for these
 
     public ChatMessageBuilder bold(boolean b)
     {
@@ -55,6 +61,12 @@ public class ChatMessageBuilder
     public ChatMessageBuilder underline(boolean b)
     {
         currentMessage.setUnderline( b );
+        return this;
+    }
+
+    public ChatMessageBuilder color(TextColor color)
+    {
+        currentMessage.setColor( color );
         return this;
     }
 

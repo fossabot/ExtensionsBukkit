@@ -11,18 +11,19 @@ import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
 import ml.extbukkit.api.server.IServerProperties;
-import ml.extbukkit.api.types.IKeyMaker;
+import ml.extbukkit.api.server.Server;
+import ml.extbukkit.api.types.IKey;
 import ml.extbukkit.api.world.IWorldManager;
-import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 import ml.extbukkit.main.secure.command.CommandManager;
+import ml.extbukkit.main.secure.command.Console;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
 import ml.extbukkit.main.secure.event.EventManager;
 import ml.extbukkit.main.secure.log.ExtensionLogger;
 import ml.extbukkit.main.secure.log.Logger;
 import ml.extbukkit.main.secure.manager.ExtensionLoader;
 import ml.extbukkit.main.secure.scheduler.SchedulerManager;
-import ml.extbukkit.main.secure.types.KeyMaker;
+import ml.extbukkit.main.secure.types.Key;
 import ml.extbukkit.main.secure.world.WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,29 +34,25 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class Server implements IServer {
+public class ExtensionedServer extends Server
+{
 
     private ExtensionLoader loader;
     private SchedulerManager scheduler;
     private WorldManager worlds;
     private File EXTENSIONS = new File("extensions/");
-    private static Server SERVER = null;
-    private KeyMaker keys;
     private ServerProperites properties;
     private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
     private EventManager events;
+    private Console console;
 
-    public static IServer getInstance() {
-        if(SERVER == null) SERVER = new Server();
-        return SERVER;
-    }
-    private Server() {
+    public ExtensionedServer() {
         loader = new ExtensionLoader();
         scheduler = SchedulerManager.getInstance();
         worlds = new WorldManager();
-        keys = new KeyMaker();
         events = new EventManager();
         properties = new ServerProperites();
+        console = new Console();
     }
 
     @Override
@@ -99,7 +96,10 @@ public class Server implements IServer {
     }
 
     @Override
-    public IKeyMaker getKeyMaker() { return keys; }
+    public IKey createKey(String namespace, String key)
+    {
+        return new Key( namespace, key );
+    }
 
     @Override
     public void stopServer() {
@@ -128,7 +128,7 @@ public class Server implements IServer {
     @Override
     public ICommandExecutor getConsole()
     {
-        return null;
+        return console;
     }
 
     @Override

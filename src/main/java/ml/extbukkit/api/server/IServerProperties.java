@@ -1,7 +1,7 @@
 package ml.extbukkit.api.server;
 
 /**
- * Server properties class
+ * ExtensionedServer properties class
  */
 public interface IServerProperties {
     /**
@@ -47,7 +47,7 @@ public interface IServerProperties {
     /**
      * Get server IP
      *
-     * @return Server IP
+     * @return ExtensionedServer IP
      */
     String getIp();
 
@@ -61,28 +61,28 @@ public interface IServerProperties {
     /**
      * Get server MOTD
      *
-     * @return Server MOTD
+     * @return ExtensionedServer MOTD
      */
     String getMOTD();
 
     /**
      * Get server name
      *
-     * @return Server name
+     * @return ExtensionedServer name
      */
     String getServerName();
 
     /**
      * Get server port
      *
-     * @return Server port
+     * @return ExtensionedServer port
      */
     int getPort();
 
     /**
      * Get server stopping message
      *
-     * @return Server stopping message
+     * @return ExtensionedServer stopping message
      */
     String getStopMessage();
 

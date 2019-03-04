@@ -32,14 +32,6 @@ public interface IExtensionLoader {
     Collection<AExtension> getExtensions();
 
     /**
-     * Reload an extension
-     * <b>This doesn't reload the extension. Instead, it calls {@link ml.extbukkit.api.builtin.events.EventExtensionReload}</b>
-     *
-     * @param extension Extension to reload
-     */
-    void reload(AExtension extension);
-
-    /**
      * Disables extension
      *
      * @param extension specified extension

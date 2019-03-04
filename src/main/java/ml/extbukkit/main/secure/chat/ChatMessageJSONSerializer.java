@@ -10,6 +10,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import ml.extbukkit.api.chat.ChatMessage;
+import ml.extbukkit.api.chat.TextColor;
 
 public class ChatMessageJSONSerializer implements JsonSerializer<ChatMessage>, JsonDeserializer<ChatMessage>
 {
@@ -43,6 +44,16 @@ public class ChatMessageJSONSerializer implements JsonSerializer<ChatMessage>, J
         {
             message.setObfuscated( object.get( "obfuscated" ).getAsBoolean() );
         }
+        if ( object.has( "color" ) )
+        {
+            String color = object.get( "color" ).getAsString();
+            if ( color.equalsIgnoreCase( "obfuscated" ) || color.equalsIgnoreCase( "bold" ) || color.equalsIgnoreCase( "strikethrough" ) ||
+                    color.equalsIgnoreCase( "underline" ) || color.equalsIgnoreCase( "italic" ) )
+            {
+                throw new JsonParseException( "Invalid color '" + color + "'" );
+            }
+            message.setColor( TextColor.valueOf( color.toUpperCase() ) );
+        }
         return message;
     }
 
@@ -70,6 +81,10 @@ public class ChatMessageJSONSerializer implements JsonSerializer<ChatMessage>, J
         if ( message.isObfuscated() )
         {
             object.addProperty( "obfuscated", message.isObfuscated() );
+        }
+        if ( message.getColor() != TextColor.WHITE )
+        {
+            object.addProperty( "color", message.getColor().name().toLowerCase() );
         }
         return object;
     }

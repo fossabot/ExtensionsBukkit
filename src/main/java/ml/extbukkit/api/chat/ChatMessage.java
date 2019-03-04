@@ -23,6 +23,7 @@ public class ChatMessage
     private boolean italic = false;
     private boolean strikethrough = false;
     private boolean obfuscated = false;
+    private TextColor color = TextColor.WHITE;
     //--------------------------------------------------------------------------
 
     public ChatMessage(String message)
@@ -38,6 +39,7 @@ public class ChatMessage
         this.italic = original.isItalic();
         this.strikethrough = original.isStrikethrough();
         this.obfuscated = original.isObfuscated();
+        this.color = original.getColor();
     }
 
     /**
@@ -53,6 +55,7 @@ public class ChatMessage
         newMessage.setItalic( italic );
         newMessage.setStrikethrough( strikethrough );
         newMessage.setObfuscated( obfuscated );
+        newMessage.setColor( color );
         return newMessage;
     }
 

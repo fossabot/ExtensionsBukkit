@@ -45,12 +45,7 @@ public interface IEntity extends ICommandExecutor, IPositionable, INBTHolder {
      *
      * @return Entity straight direction
      */
-    StraightDirection getStraightDirection();
-
-    /**
-     * Get entity direction
-     */
-    void getDirection();
+    StraightDirection getDirection();
 
     /**
      * Get entity height

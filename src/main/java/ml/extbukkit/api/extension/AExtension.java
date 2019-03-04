@@ -1,9 +1,8 @@
 package ml.extbukkit.api.extension;
 
-import ml.extbukkit.api.builtin.events.EventDependenciesLoaded;
+import com.google.common.base.Preconditions;
 import ml.extbukkit.api.log.IExtensionLogger;
-import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.server.Server;
+import ml.extbukkit.api.server.Server;
 
 import java.io.File;
 import java.io.InputStream;
@@ -15,7 +14,6 @@ import java.io.InputStream;
  */
 public abstract class AExtension {
 
-    private boolean depLoaded = false;
     private File file = null;
     private IExtensionLogger logger = getServer().getLogger( getName() );
     private File dataFolder = new File( getServer().getExtensionsDir() + File.separator + getName() );
@@ -78,21 +76,8 @@ public abstract class AExtension {
      * @param file Extension file
      */
     public final void setFile(File file) {
-        if ( this.file != null )
-        {
-            return;
-        }
+        Preconditions.checkNotNull( file, "Loading file cannot be null" );
         this.file = file;
-    }
-
-    /**
-     * Called when all dependencies loaded
-     */
-    public final void depLoaded() {
-        if (!depLoaded) {
-            getServer().getEventManager().callEvent(new EventDependenciesLoaded(this));
-            depLoaded = true;
-        }
     }
 
     /**
@@ -105,12 +90,11 @@ public abstract class AExtension {
     }
 
     /**
-     * Get server instance<br>
-     * Shortcut for: {@link ml.extbukkit.main.server.Server}.getInstance();
+     * Gets the extensioned server
      *
-     * @return Server instance
+     * @return ExtensionedServer instance
      */
-    public IServer getServer() {
+    public Server getServer() {
         return Server.getInstance();
     }
 

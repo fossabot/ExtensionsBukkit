@@ -2,15 +2,14 @@ package ml.extbukkit.main.secure.bukkit;
 
 import java.io.File;
 
-import ml.extbukkit.api.builtin.events.EventLoad;
 import ml.extbukkit.api.chat.ChatMessageSerializer;
 import ml.extbukkit.api.loader.IExtensionLoader;
-import ml.extbukkit.api.server.IServer;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.chat.SimpleSerializer;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.log.util.LevelToChannel;
 import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
-import ml.extbukkit.main.secure.server.Server;
+import ml.extbukkit.main.secure.server.ExtensionedServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
@@ -20,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
     private ml.extbukkit.main.secure.log.Logger extensionsLogger = ml.extbukkit.main.secure.log.Logger.getInstance();
-    private IServer server = Server.getInstance();
+    private ExtensionedServer server = new ExtensionedServer();
 
     public BukkitExtensionsBukkit() {
         I = this;
@@ -50,6 +49,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             return;
         }
         ChatMessageSerializer.setInstance( new SimpleSerializer() );
+        Server.setInstance( server );
         ((Logger) LogManager.getRootLogger()).addFilter( new AbstractFilter() {
             @Override
             public Result filter(LogEvent event) {
@@ -75,12 +75,11 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             server.getExtensionsDir().mkdirs();
         }
         server.getExtensionLoader().loadAll(server.getExtensionsDir());
-        server.getEventManager().callEvent(new EventLoad());
         CommandManager.getInstance().registerCommands();
         if (getFile().exists()) {
             getFile().delete();
         }
-        Updater.download();
+//        Updater.download();
     }
 
     @Override

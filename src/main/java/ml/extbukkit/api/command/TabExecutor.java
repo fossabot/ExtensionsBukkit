@@ -4,8 +4,9 @@ package ml.extbukkit.api.command;
  * Command and TabCompleter at once
  */
 public abstract class TabExecutor extends Command implements TabCompleter {
+
     /**
-     * Tab executor
+     * Creates a command with no aliases
      *
      * @param name Command name
      */
@@ -14,7 +15,7 @@ public abstract class TabExecutor extends Command implements TabCompleter {
     }
 
     /**
-     * Tab executor
+     * Creates a command
      *
      * @param name Command name
      * @param aliases List of aliases

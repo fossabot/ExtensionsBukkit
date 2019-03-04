@@ -19,6 +19,7 @@ public class ServerProperites implements IServerProperties {
     public boolean isAllowNether() {
         return Bukkit.getAllowNether();
     }
+
     @Override
     public String getDefaultGamemode()
     {

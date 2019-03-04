@@ -11,11 +11,10 @@ import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.IScheduledTask;
 import ml.extbukkit.api.scheduler.ITask;
-import ml.extbukkit.api.server.IServer;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.util.Time;
 import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
 import ml.extbukkit.main.secure.world.entity.Entity;
-import ml.extbukkit.main.server.Server;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
@@ -26,7 +25,7 @@ import org.bukkit.scoreboard.Team;
 public class SimpleExtensionPlayer extends Entity implements ExtensionedPlayer
 {
     private Player base;
-    private IServer server = Server.getInstance();
+    private Server server = Server.getInstance();
     private ChatMessageSerializer cmSerializer = ChatMessageSerializer.getInstance();
 
     public SimpleExtensionPlayer(Player handle)
@@ -147,13 +146,13 @@ public class SimpleExtensionPlayer extends Entity implements ExtensionedPlayer
     @Override
     public void sendActionbar(ChatMessage message, AExtension extension, int stayTime)
     {
-        new ITask()
+        new Runnable()
         {
             IScheduledTask task = server.getSchedulerManager().schedule( extension, this, new Time( 0 ), new Time( 20 ) );
             int stayed;
 
             @Override
-            public void execute()
+            public void run()
             {
                 if ( stayed == stayTime )
                 {

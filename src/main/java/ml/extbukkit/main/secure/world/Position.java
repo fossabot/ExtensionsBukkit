@@ -1,9 +1,9 @@
 package ml.extbukkit.main.secure.world;
 
 import ml.extbukkit.api.math.MathFunction;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
-import ml.extbukkit.main.secure.server.Server;
 import org.bukkit.Location;
 
 public class Position extends AWrapper<Location> implements IPosition {

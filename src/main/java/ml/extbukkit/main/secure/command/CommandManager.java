@@ -3,13 +3,11 @@ package ml.extbukkit.main.secure.command;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import ml.extbukkit.api.command.Command;
-import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
-import ml.extbukkit.api.command.exception.CommandException;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -18,7 +16,6 @@ import java.util.Map;
 public class CommandManager implements ICommandManager {
     private Map<String, Command> commandMap = new HashMap<>();
     private Multimap<AExtension, Command> commandsByExtension = ArrayListMultimap.create();
-    private Map<Command, AExtension> extensionsByComand = new HashMap<>();
     private CommandMap bcmp;
     private static CommandManager instance = new CommandManager();
 
@@ -36,7 +33,6 @@ public class CommandManager implements ICommandManager {
             }
         }
         commandsByExtension.put(extension, command);
-        extensionsByComand.put(command, extension);
     }
 
     @Override
@@ -62,48 +58,23 @@ public class CommandManager implements ICommandManager {
         }
     }*/
 
-    @Override
-    public AExtension getExtensionForCommand(Command command) {
-        return extensionsByComand.get(command);
-    }
-
     public Map<String, Command> getCommandMap() {
         return commandMap;
-    }
-
-    public Multimap<AExtension, Command> getCommandsByExtension() {
-        return commandsByExtension;
     }
 
     public void registerCommands() {
         BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
         try {
-            Field field = plugin.getServer().getClass().getDeclaredField("commandMap");
+            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
             field.setAccessible(true);
-            bcmp = (CommandMap) field.get(plugin.getServer());
+            bcmp = (CommandMap) field.get(Bukkit.getServer());
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
-        commandMap.forEach( (name, command) ->
+        commandsByExtension.forEach( (extension, command) ->
         {
-            AExtension extension = getExtensionForCommand( command );
             String registerName = plugin.getName() + ":" + extension.getName();
-            bcmp.register( command.getName(), registerName, new org.bukkit.command.Command (command.getName() )
-            {
-
-                @Override
-                public boolean execute(CommandSender commandSender, String s, String[] strings)
-                {
-//                    ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(commandSender);
-                    ICommandExecutor executor = new CommandExecutor( commandSender ); // Time only
-                    try {
-                        command.execute(executor, s, strings);
-                    } catch (Throwable t) {
-                        throw new CommandException("Internal exception executing command '/" + s + "' in extension " + extension.getName(), t);
-                    }
-                    return true;
-                }
-            });
+            bcmp.register( command.getName(), registerName, new BridgeCommand( command, extension ) );
         });
     }
 }

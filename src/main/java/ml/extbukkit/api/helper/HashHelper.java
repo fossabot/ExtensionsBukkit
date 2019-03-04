@@ -6,26 +6,28 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 /**
  * MD5 encryption helper
  */
 public class HashHelper {
-    private HashHelper() {
 
+    private HashHelper() {
+        throw new UnsupportedOperationException( "This class cannot be instanced." );
     }
 
     /**
-     * Try to encrypt a file<br>
-     * Recommended to use
+     * Encrypt a file safely.
      *
      * @param file File to encrypt
-     * @return MD5 encrypted string
+     * @return MD5 encrypted string if not fail
      */
-    public static String md5FileTry(File file) {
+    public static String md5FileSafe(File file) {
         try {
             return md5File(file);
         } catch ( IOException | NoSuchAlgorithmException e) {
-            return null;
+            return "Encryption has failed: " + ExceptionUtils.getMessage( e.fillInStackTrace() );
         }
     }
 
@@ -41,14 +43,22 @@ public class HashHelper {
         MessageDigest digest = MessageDigest.getInstance("MD5");
         FileInputStream fis = new FileInputStream(f);
         byte[] byteArray = new byte[1024];
-        int bytes = 0;
+        int bytes;
+
         while((bytes = fis.read(byteArray)) != -1)
+        {
             digest.update(byteArray, 0, bytes);
+        }
+
         fis.close();
         byte[] bts = digest.digest();
         StringBuilder sb = new StringBuilder();
+
         for(int i = 0; i < bts.length; i++)
+        {
             sb.append(Integer.toString((bts[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
         return sb.toString();
     }
 }

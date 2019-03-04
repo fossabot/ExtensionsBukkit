@@ -1,12 +1,11 @@
 package ml.extbukkit.main.secure.manager;
 
 import ml.extbukkit.api.builtin.events.EventExtensionDisable;
-import ml.extbukkit.api.builtin.events.EventExtensionReload;
 import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.exception.LoadException;
-import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.secure.server.Server;
+import ml.extbukkit.api.server.Server;
+import ml.extbukkit.main.secure.server.ExtensionedServer;
 
 import java.io.File;
 import java.net.URL;
@@ -28,6 +27,7 @@ public class ExtensionLoader implements IExtensionLoader {
 
     private Map<String, AExtension> extensions = new HashMap<>();
     private Map<AExtension, Map<String, String>> data = new HashMap<>();
+    private Server server = Server.getInstance();
 
     //TODO Better dependency handling
     public void load(File extension) {
@@ -63,7 +63,7 @@ public class ExtensionLoader implements IExtensionLoader {
                 {
                     loadedExtensionClass.setFile( extension );
                     extensions.put( loadedExtensionClass.getID(), loadedExtensionClass );
-                    Server.getInstance().getGlobalLogger().log( "Extension loaded: " + extension.getName() );
+                    server.getGlobalLogger().log( "Extension loaded: " + extension.getName() );
                     Map<String, String> map = new HashMap<>();
                     map.put( "description", loadedExtensionClass.getDescription() );
                     String authors;
@@ -101,19 +101,14 @@ public class ExtensionLoader implements IExtensionLoader {
         getExtensions().forEach( extension -> ids.add( extension.getName() ) );
         return ids;
     }
+
     public Collection<AExtension> getExtensions() {
         return Collections.unmodifiableCollection( extensions.values() );
     }
 
     @Override
-    public void reload(AExtension extension) {
-        Server.getInstance().getEventManager().callEvent(new EventExtensionReload(extension));
-    }
-
-    @Override
     public void disable(AExtension extension)
     {
-        IServer server = Server.getInstance();
         try
         {
             server.getSchedulerManager().cancelAll( extension );
@@ -128,7 +123,7 @@ public class ExtensionLoader implements IExtensionLoader {
         {
             server.getGlobalLogger().logStack( "An internal error occurred trying disabling extension '" + extension.getName() + "'", t );
         }
-        Server.getInstance().getEventManager().callEvent( new EventExtensionDisable( extension ) );
+        server.getEventManager().callEvent( new EventExtensionDisable( extension ) );
     }
 
     @Override

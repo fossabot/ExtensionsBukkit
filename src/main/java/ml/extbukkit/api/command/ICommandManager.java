@@ -21,12 +21,4 @@ public interface ICommandManager {
      * @return Matched command
      */
     Command matchCommand(String commandName);
-
-    /**
-     * Get extension, that registered a command
-     *
-     * @param command Command to get extension from
-     * @return Extension, that registered a command
-     */
-    AExtension getExtensionForCommand(Command command);
 }

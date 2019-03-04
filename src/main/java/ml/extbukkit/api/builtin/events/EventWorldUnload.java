@@ -6,6 +6,7 @@ import ml.extbukkit.api.event.IPreventable;
 import ml.extbukkit.api.world.IWorld;
 
 public class EventWorldUnload extends EventWorld implements IPreventable {
+
     @Getter
     @Setter
     private boolean prevented;

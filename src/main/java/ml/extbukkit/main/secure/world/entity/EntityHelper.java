@@ -5,10 +5,15 @@ import ml.extbukkit.api.types.IEntityType;
 import org.bukkit.entity.EntityType;
 
 public class EntityHelper {
+
     public static EntityType ebToBukkit(IEntityType type) {
         if (type instanceof EntityPig)
+        {
             return EntityType.PIG;
-        else return EntityType.UNKNOWN;
+        } else
+        {
+            return EntityType.UNKNOWN;
+        }
     }
 
     public static IEntityType bukkitToEB(EntityType type) {

@@ -4,7 +4,6 @@ import com.bergerkiller.bukkit.common.events.EntityAddEvent;
 import com.bergerkiller.bukkit.common.events.EntityMoveEvent;
 import com.bergerkiller.bukkit.common.events.EntityRemoveFromServerEvent;
 
-import com.google.gson.JsonObject;
 import ml.extbukkit.api.builtin.events.EventPlayerJoin;
 import ml.extbukkit.api.builtin.events.EventPlayerQuit;
 import ml.extbukkit.api.builtin.events.EventWorldInitialize;
@@ -14,17 +13,15 @@ import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
-import ml.extbukkit.api.connection.ExtensionedPlayer;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.command.CommandExecutor;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
-import ml.extbukkit.main.secure.server.Server;
+import ml.extbukkit.main.secure.server.ExtensionedServer;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -38,61 +35,56 @@ import org.bukkit.event.world.WorldUnloadEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BukkitEventListener implements Listener {
 
+    private Server server = Server.getInstance();
+
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldSave(WorldSaveEvent e) {
-        Server.getInstance().getEventManager().callEvent(new EventWorldSave(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName())));
+        server.getEventManager().callEvent(new EventWorldSave( server.getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldInit(WorldInitEvent e) {
-        Server.getInstance().getEventManager().callEvent(new EventWorldInitialize(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName())));
+        server.getEventManager().callEvent(new EventWorldInitialize( server.getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldLoad(WorldLoadEvent e) {
-        Server.getInstance().getEventManager().callEvent(new EventWorldLoad(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName())));
+        server.getEventManager().callEvent(new EventWorldLoad( server.getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldUnload(WorldUnloadEvent e) {
-        EventWorldUnload ee = new EventWorldUnload(Server.getInstance().getWorldManager().getWorld(e.getWorld().getName()));
-        Server.getInstance().getEventManager().callEvent(ee);
+        EventWorldUnload ee = new EventWorldUnload( server.getWorldManager().getWorld(e.getWorld().getName()));
+        server.getEventManager().callEvent(ee);
         e.setCancelled(ee.isPrevented());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onTabComplete(TabCompleteEvent event) {
-        CommandManager extensionManager = (CommandManager) Server.getInstance().getCommandManager();
-        String[] rawArgs = event.getBuffer().split(" ");
-        String name = rawArgs[0].substring(1);
-        String[] args = Arrays.copyOfRange(rawArgs, 1, rawArgs.length);
-        if (args.length == 0) {
-            for (String commandCompletes : extensionManager.getCommandMap().keySet()) {
-                event.getCompletions().add(commandCompletes);
+        CommandManager manager = CommandManager.getInstance();
+        String[] argsRaw = event.getBuffer().split( " " );
+        String[] args = Arrays.copyOfRange( argsRaw, 1, argsRaw.length );
+        String commandName = argsRaw[0];
+        for ( Map.Entry<String, Command> commandEntry : manager.getCommandMap().entrySet() )
+        {
+            if ( commandEntry.getValue() instanceof TabCompleter )
+            {
+                TabCompleter completer = (TabCompleter) commandEntry.getValue();
+                if ( commandName.equalsIgnoreCase( commandEntry.getValue().getName() ) )
+                {
+// ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? ExtensionedServer.getInstance().getConsole() : new CommandExecutor( event.getSender() );
+                    ICommandExecutor executor = new CommandExecutor( event.getSender() ); // Time only
+                    event.getCompletions().addAll( completer.onTabComplete( executor, args ) );
+                }
+            } else
+            {
+                event.getCompletions().addAll( tabCompleteDefault( args ) );
             }
-        }
-        Command matchedCommand = extensionManager.matchCommand(name);
-        List<String> completions;
-        if (!(matchedCommand instanceof TabCompleter)) {
-            completions = tabCompleteDefault(args);
-            for (String completion : completions) {
-                event.getCompletions().add(completion);
-            }
-            return;
-        }
-        TabCompleter completer = (TabCompleter) matchedCommand;
-        ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(event.getSender());
-        if (completer.onTabComplete(executor, args) == null) {
-            completions = tabCompleteDefault(args);
-        } else {
-            completions = completer.onTabComplete(executor, args);
-        }
-        for (String completion : completions) {
-            event.getCompletions().add(completion);
         }
     }
 
@@ -122,14 +114,14 @@ public class BukkitEventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
         EventPlayerJoin ourEvent = new EventPlayerJoin(new SimpleExtensionPlayer(event.getPlayer()), event.getJoinMessage());
-        Server.getInstance().getEventManager().callEvent(ourEvent);
+        server.getEventManager().callEvent(ourEvent);
         event.setJoinMessage(ourEvent.getJoinMessage());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent event) {
         EventPlayerQuit ourEvent = new EventPlayerQuit(new SimpleExtensionPlayer(event.getPlayer()), event.getQuitMessage());
-        Server.getInstance().getEventManager().callEvent(ourEvent);
+        server.getEventManager().callEvent(ourEvent);
         event.setQuitMessage(ourEvent.getQuitMessage());
     }
 

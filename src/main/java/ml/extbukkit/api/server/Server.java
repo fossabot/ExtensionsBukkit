@@ -1,5 +1,7 @@
 package ml.extbukkit.api.server;
 
+import com.google.common.base.Preconditions;
+import lombok.Getter;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
@@ -9,7 +11,7 @@ import ml.extbukkit.api.loader.IExtensionLoader;
 import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.api.types.IKeyMaker;
+import ml.extbukkit.api.types.IKey;
 import ml.extbukkit.api.world.IWorldManager;
 
 import java.io.File;
@@ -17,16 +19,33 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Server class
+ * ExtensionedServer class
  */
-public interface IServer {
+public abstract class Server
+{
+
+    @Getter
+    private static Server instance;
+
+    /**
+     * Sets instance of this class
+     *
+     * @param instance new instance
+     */
+    public static void setInstance(Server instance)
+    {
+        Preconditions.checkNotNull( instance, "New instance cannot be null" );
+        Preconditions.checkArgument( Server.instance == null, "Instance already set" );
+        Server.instance = instance;
+    }
+
     /**
      * Get extension loader<br>
      * Needed for loading extensions
      *
      * @return Extension loader
      */
-    IExtensionLoader getExtensionLoader();
+    public abstract IExtensionLoader getExtensionLoader();
 
     /**
      * Get default extensions loading directory<br>
@@ -34,14 +53,14 @@ public interface IServer {
      *
      * @return Default loading directory
      */
-    File getExtensionsDir();
+    public abstract File getExtensionsDir();
 
     /**
      * Gets the global logger
      *
      * @return Logger
      */
-    ILogger getGlobalLogger();
+    public abstract ILogger getGlobalLogger();
 
     /**
      * Get event manager<br>
@@ -49,7 +68,7 @@ public interface IServer {
      *
      * @return Event manager
      */
-    IEventManager getEventManager();
+    public abstract IEventManager getEventManager();
 
     /**
      * Get scheduler manager<br>
@@ -57,14 +76,14 @@ public interface IServer {
      *
      * @return Scheduler manager
      */
-    ISchedulerManager getSchedulerManager();
+    public abstract ISchedulerManager getSchedulerManager();
 
     /**
      * Get ExtensionsBukkit jar file
      *
      * @return ExtensionsBukkit file
      */
-    File getExtensionsBukkitFile();
+    public abstract File getExtensionsBukkitFile();
 
     /**
      * Get world manager<br>
@@ -72,7 +91,7 @@ public interface IServer {
      *
      * @return World manager
      */
-    IWorldManager getWorldManager();
+    public abstract IWorldManager getWorldManager();
 
     /**
      * Get command manager<br>
@@ -80,36 +99,35 @@ public interface IServer {
      *
      * @return Command manager
      */
-    ICommandManager getCommandManager();
+    public abstract ICommandManager getCommandManager();
 
     /**
-     * Get key maker<br>
-     * Needed for making keys (Used when registering blocks, items, etc.)
+     * Creates a new key that is used when registering blocks, items...
      *
-     * @return Key maker
+     * @return new key
      */
-    IKeyMaker getKeyMaker();
+    public abstract IKey createKey(String namespace, String key);
 
     /**
      * Stop the server
      * @deprecated Use {@link #stopServer(AExtension)}
      */
     @Deprecated
-    void stopServer();
+    public abstract void stopServer();
 
     /**
      * Stops the server. Requires extension.
      *
      * @param extension extension, requested from
      */
-    void stopServer(AExtension extension);
+    public abstract void stopServer(AExtension extension);
 
     /**
      * Get server properties
      *
-     * @return Server properties
+     * @return ExtensionedServer properties
      */
-    IServerProperties getServerProperties();
+    public abstract IServerProperties getServerProperties();
 
     /**
      * Get console command executor<br>
@@ -117,7 +135,7 @@ public interface IServer {
      *
      * @return Console command executor
      */
-    ICommandExecutor getConsole();
+    public abstract ICommandExecutor getConsole();
 
     /**
      * Gets logger for extension
@@ -125,7 +143,7 @@ public interface IServer {
      * @param extensionName extension's name (id)
      * @return extension logger
      */
-    IExtensionLogger getLogger(String extensionName);
+    public abstract IExtensionLogger getLogger(String extensionName);
 
     /**
      * Gets all online players
@@ -133,14 +151,14 @@ public interface IServer {
      *
      * @return online players
      */
-    Set<ExtensionedPlayer> getPlayers();
+    public abstract Set<ExtensionedPlayer> getPlayers();
 
     /**
      * Gets the online players count
      *
      * @return players count
      */
-    int getOnlineCount();
+    public abstract int getOnlineCount();
 
     /**
      * Gets a player via its name
@@ -148,7 +166,7 @@ public interface IServer {
      * @param name player name
      * @return player or null
      */
-    ExtensionedPlayer getPlayer(String name);
+    public abstract ExtensionedPlayer getPlayer(String name);
 
     /**
      * Gets a player via its UUID
@@ -156,5 +174,5 @@ public interface IServer {
      * @param uuid player uuid
      * @return player or null
      */
-    ExtensionedPlayer getPlayer(UUID uuid);
+    public abstract ExtensionedPlayer getPlayer(UUID uuid);
 }

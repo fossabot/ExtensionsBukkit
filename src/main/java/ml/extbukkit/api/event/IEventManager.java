@@ -23,14 +23,6 @@ public interface IEventManager {
     void registerHandler(Class<? extends Event> eventClass, IHandler handler);
 
     /**
-     * Unregisters a specific event handler.
-     *
-     * @param eventClass event's class
-     * @param handler handler
-     */
-    void unregisterHandler(Class<? extends Event> eventClass, IHandler handler);
-
-    /**
      * Returns an unmodifiable collection of all registered handlers for the specific event class.
      *
      * @param eventClass the event's class you wish to get the handlers of

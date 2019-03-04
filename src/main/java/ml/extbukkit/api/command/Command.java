@@ -4,7 +4,7 @@ import lombok.Data;
 import ml.extbukkit.api.extension.AExtension;
 
 /**
- * Command class
+ * Represents a command
  */
 @Data
 public abstract class Command {
@@ -12,7 +12,7 @@ public abstract class Command {
     private String[] aliases;
 
     /**
-     * Command
+     * Creates a command with no aliases
      *
      * @param name Command name
      */
@@ -21,7 +21,7 @@ public abstract class Command {
     }
 
     /**
-     * Command
+     * Creates a command
      *
      * @param name Command name
      * @param aliases List of aliases
@@ -32,11 +32,11 @@ public abstract class Command {
     }
 
     /**
-     * Execute command as someone
+     * This method is called when the command is executed
      *
-     * @param executor Executor
-     * @param command Command
-     * @param arguments Arguments
+     * @param sender command executor
+     * @param alias exact alias used to invoke the command
+     * @param args command arguments
      */
-    public abstract void execute(ICommandExecutor executor, String command, String[] arguments);
+    public abstract void execute(ICommandExecutor sender, String alias, String[] args);
 }

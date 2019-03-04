@@ -1,21 +1,21 @@
 package ml.extbukkit.main.server;
 
-import ml.extbukkit.api.server.IServer;
-
 /**
- * Server retriever class
+ * Server retriever
+ * <b>Change to {@link ml.extbukkit.api.server.Server}, in the future this class will be removed</b>
  */
 public class Server {
-    private Server() {
 
+    private Server() {
+        throw new UnsupportedOperationException( "This class cannot be instanced" );
     }
 
     /**
      * Get server instance
      *
-     * @return Server instance
+     * @return ExtensionedServer instance
      */
-    public static IServer getInstance() {
-        return ml.extbukkit.main.secure.server.Server.getInstance();
+    public static ml.extbukkit.api.server.Server getInstance() {
+        return ml.extbukkit.api.server.Server.getInstance();
     }
 }

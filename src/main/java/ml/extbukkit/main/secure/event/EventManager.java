@@ -63,19 +63,6 @@ public class EventManager implements IEventManager {
     }
 
     @Override
-    public void unregisterHandler(Class<? extends Event> eventClass, IHandler handler) {
-        Iterator<RegisteredHandler> iterator = handlers.iterator();
-        while (iterator.hasNext()) {
-            RegisteredHandler reg = iterator.next();
-            if (reg.getEventClass().equals(eventClass)) {
-                if (reg.getHandler().equals(handler)) {
-                    iterator.remove();
-                }
-            }
-        }
-    }
-
-    @Override
     public Collection<IHandler> getHandlers(Class<? extends Event> eventClass) {
         Collection<IHandler> normalCollection = new HashSet<>();
         handlers.forEach(registeredHandler -> {

@@ -4,6 +4,7 @@ import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.extension.AExtension;
 
 public class EventAddressed extends Event {
+
     private String ext;
 
     public EventAddressed(String extensionID) {

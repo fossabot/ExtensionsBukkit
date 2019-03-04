@@ -4,6 +4,7 @@ import ml.extbukkit.api.world.StraightDirection;
 import org.bukkit.block.BlockFace;
 
 public class DirectionHelper {
+
     public static StraightDirection bukkitToStraight(BlockFace face) {
         if(face == null)
         {

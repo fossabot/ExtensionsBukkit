@@ -7,6 +7,7 @@ import ml.extbukkit.api.world.IPosition;
 import org.bukkit.Location;
 
 public class World extends AWrapper<org.bukkit.World> implements IWorld {
+
     public World(org.bukkit.World w) {
         super(w);
     }

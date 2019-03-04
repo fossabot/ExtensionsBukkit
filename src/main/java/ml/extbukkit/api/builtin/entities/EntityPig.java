@@ -5,6 +5,7 @@ import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.types.Key;
 
 public class EntityPig implements IEntityType {
+
     @Override
     public Key getID() {
         return null;
