@@ -79,7 +79,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
         if (getFile().exists()) {
             getFile().delete();
         }
-//        Updater.download();
+        Updater.download();
     }
 
     @Override
