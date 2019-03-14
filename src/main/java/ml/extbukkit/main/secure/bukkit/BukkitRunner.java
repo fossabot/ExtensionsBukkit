@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.scheduler.ScheduledTask;
 import ml.extbukkit.main.secure.scheduler.SchedulerManager;
-import ml.extbukkit.main.server.Server;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class BukkitRunner implements Runnable

@@ -5,6 +5,7 @@ import ml.extbukkit.api.util.Time;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * Scheduler manager class
@@ -18,9 +19,21 @@ public interface ISchedulerManager {
      * @param task Task to run
      * @param delay Delay before start
      * @param interval Interval between running
-     * @return UUID of task
+     * @return task
      */
     IScheduledTask schedule(AExtension owner, Runnable task, Time delay, Time interval);
+
+    /**
+     * Schedules a repeating task until cancelled
+     *
+     * @param owner the owner of the scheduler
+     * @param callbackTask a consumer, which acts like a runnable,
+     *                     but giving you access to the scheduled
+     *                     task directly
+     * @param delay delay before start
+     * @param interval interval between running
+     */
+    void schedule(AExtension owner, Consumer<IScheduledTask> callbackTask, Time delay, Time interval);
 
     /**
      * Schedules a delayed task.

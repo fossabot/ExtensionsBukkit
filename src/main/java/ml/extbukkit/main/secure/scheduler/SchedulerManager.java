@@ -3,6 +3,7 @@ package ml.extbukkit.main.secure.scheduler;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -11,7 +12,7 @@ import ml.extbukkit.api.scheduler.IScheduledTask;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
 import ml.extbukkit.api.util.Time;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
-import ml.extbukkit.main.server.Server;
+import ml.extbukkit.api.server.Server;
 
 public class SchedulerManager implements ISchedulerManager
 {
@@ -37,6 +38,14 @@ public class SchedulerManager implements ISchedulerManager
         tasks.put( taskScheduled.getUUID(), taskScheduled );
         tasksByExtension.put( owner, taskScheduled );
         return taskScheduled;
+    }
+
+    @Override
+    public void schedule(AExtension owner, Consumer<IScheduledTask> callbackTask, Time delay, Time interval)
+    {
+        ScheduledTask taskScheduled = new ScheduledTask( delay.toLong(), interval.toLong(), owner, callbackTask );
+        tasks.put( taskScheduled.getUUID(), taskScheduled );
+        tasksByExtension.put( owner, taskScheduled );
     }
 
     @Override

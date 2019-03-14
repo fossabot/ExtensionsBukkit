@@ -8,7 +8,7 @@ import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.log.LogChannel;
 import ml.extbukkit.api.log.ILogger;
-import ml.extbukkit.main.server.Server;
+import ml.extbukkit.api.server.Server;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class ExtensionLogger implements IExtensionLogger

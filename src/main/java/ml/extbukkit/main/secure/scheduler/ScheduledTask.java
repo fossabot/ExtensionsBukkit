@@ -1,12 +1,13 @@
 package ml.extbukkit.main.secure.scheduler;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import lombok.EqualsAndHashCode;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.IScheduledTask;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.main.server.Server;
+import ml.extbukkit.api.server.Server;
 
 @EqualsAndHashCode
 public class ScheduledTask implements IScheduledTask
@@ -25,6 +26,15 @@ public class ScheduledTask implements IScheduledTask
         this.interval = interval;
         this.owner = owner;
         this.task = task;
+    }
+
+    public ScheduledTask(long delay, long interval, AExtension owner, Consumer<IScheduledTask> callback)
+    {
+        this.uuid = UUID.randomUUID();
+        this.delay = delay;
+        this.interval = interval;
+        this.owner = owner;
+        this.task = () -> callback.accept( this );
     }
 
     @Override
