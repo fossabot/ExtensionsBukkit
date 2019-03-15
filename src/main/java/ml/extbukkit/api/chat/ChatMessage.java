@@ -1,11 +1,13 @@
 package ml.extbukkit.api.chat;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * Represents a chat message, which works with json
  */
 @Data
+@Builder(builderClassName = "Builder")
 public class ChatMessage
 {
 
