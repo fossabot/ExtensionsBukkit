@@ -17,8 +17,8 @@ import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.command.CommandExecutor;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
-import ml.extbukkit.main.secure.server.ExtensionedServer;
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -77,8 +77,7 @@ public class BukkitEventListener implements Listener {
                 TabCompleter completer = (TabCompleter) commandEntry.getValue();
                 if ( commandName.equalsIgnoreCase( commandEntry.getValue().getName() ) )
                 {
-// ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? ExtensionedServer.getInstance().getConsole() : new CommandExecutor( event.getSender() );
-                    ICommandExecutor executor = new CommandExecutor( event.getSender() ); // Time only
+                    ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor( event.getSender() );
                     event.getCompletions().addAll( completer.onTabComplete( executor, args ) );
                 }
             } else

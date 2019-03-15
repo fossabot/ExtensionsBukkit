@@ -3,8 +3,10 @@ package ml.extbukkit.main.secure.command;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.exception.CommandException;
 import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.api.server.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 
 public class BridgeCommand extends Command
 {
@@ -21,8 +23,7 @@ public class BridgeCommand extends Command
     @Override
     public boolean execute(CommandSender commandSender, String s, String[] strings)
     {
-        // ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? ExtensionedServer.getInstance().getConsole() : new CommandExecutor(commandSender);
-        ICommandExecutor executor = new CommandExecutor( commandSender ); // Time only
+        ICommandExecutor executor = commandSender instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(commandSender);
         try
         {
             command.execute( executor, s, strings );

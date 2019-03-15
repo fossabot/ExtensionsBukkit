@@ -2,6 +2,8 @@ package ml.extbukkit.main.secure.command;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.extension.AExtension;
@@ -13,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.NONE)
 public class CommandManager implements ICommandManager {
     private Map<String, Command> commandMap = new HashMap<>();
     private Multimap<AExtension, Command> commandsByExtension = ArrayListMultimap.create();

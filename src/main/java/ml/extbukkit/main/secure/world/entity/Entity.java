@@ -1,13 +1,13 @@
 package ml.extbukkit.main.secure.world.entity;
 
 import com.google.gson.JsonObject;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.types.IEntityType;
 import ml.extbukkit.api.world.IPosition;
 import ml.extbukkit.api.world.StraightDirection;
 import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.command.CommandExecutor;
 import ml.extbukkit.main.secure.nms.NBTUtils;
-import ml.extbukkit.main.secure.server.ExtensionedServer;
 import ml.extbukkit.main.secure.world.DirectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -158,7 +158,7 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public IPosition getPosition() {
-        return ExtensionedServer.getInstance().getWorldManager().getWorld( base.getWorld().getName()).positionRotated( base.getLocation().getX(), base.getLocation().getY(), base.getLocation().getZ(), base.getLocation().getYaw(), base.getLocation().getPitch());
+        return Server.getInstance().getWorldManager().getWorld( base.getWorld().getName()).positionRotated( base.getLocation().getX(), base.getLocation().getY(), base.getLocation().getZ(), base.getLocation().getYaw(), base.getLocation().getPitch());
     }
 
     @Override
