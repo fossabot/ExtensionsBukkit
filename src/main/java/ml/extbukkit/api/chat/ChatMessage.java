@@ -20,28 +20,27 @@ public class ChatMessage
     /**
      * Modifiers of the message
      */
-    private boolean bold = false;
-    private boolean underline = false;
-    private boolean italic = false;
-    private boolean strikethrough = false;
-    private boolean obfuscated = false;
-    private TextColor color = TextColor.WHITE;
+    private boolean bold;
+    private boolean underline;
+    private boolean italic;
+    private boolean strikethrough;
+    private boolean obfuscated;
+    private TextColor color;
     //--------------------------------------------------------------------------
 
     public ChatMessage(String message)
     {
-        this.message = message;
+        init( message, false, false, false, false, false, TextColor.WHITE );
     }
 
     public ChatMessage(ChatMessage original)
     {
-        this.message = original.getMessage();
-        this.bold = original.isBold();
-        this.underline = original.isUnderline();
-        this.italic = original.isItalic();
-        this.strikethrough = original.isStrikethrough();
-        this.obfuscated = original.isObfuscated();
-        this.color = original.getColor();
+        init( original.getMessage(), original.isBold(), original.isUnderline(), original.isItalic(), original.isStrikethrough(), original.isObfuscated(), original.getColor() );
+    }
+
+    public ChatMessage(String message, boolean bold, boolean underline, boolean italic, boolean strikethrough, boolean obfuscated, TextColor color)
+    {
+        init( message, bold, underline, italic, strikethrough, obfuscated, color );
     }
 
     /**
@@ -59,6 +58,17 @@ public class ChatMessage
         newMessage.setObfuscated( obfuscated );
         newMessage.setColor( color );
         return newMessage;
+    }
+
+    private void init(String message, boolean bold, boolean underline, boolean italic, boolean strikethrough, boolean obfuscated, TextColor color)
+    {
+        this.message = message;
+        this.bold = bold;
+        this.underline = underline;
+        this.italic = italic;
+        this.strikethrough = strikethrough;
+        this.obfuscated = obfuscated;
+        this.color = color;
     }
 
 }
