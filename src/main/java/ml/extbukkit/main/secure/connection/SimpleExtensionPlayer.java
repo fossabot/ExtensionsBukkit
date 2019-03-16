@@ -166,4 +166,16 @@ public class SimpleExtensionPlayer extends Entity implements ExtensionedPlayer
         };
     }
 
+    @Override
+    public boolean isOp()
+    {
+        return base.isOp();
+    }
+
+    @Override
+    public void setOp(boolean value)
+    {
+        base.setOp( value );
+    }
+
 }

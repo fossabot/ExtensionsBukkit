@@ -115,6 +115,7 @@ public class BukkitEventListener implements Listener {
         EventPlayerJoin ourEvent = new EventPlayerJoin(new SimpleExtensionPlayer(event.getPlayer()), event.getJoinMessage());
         server.getEventManager().callEvent(ourEvent);
         event.setJoinMessage(ourEvent.getJoinMessage());
+        BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUn().add( new SimpleExtensionPlayer( event.getPlayer() ) );
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -122,6 +123,7 @@ public class BukkitEventListener implements Listener {
         EventPlayerQuit ourEvent = new EventPlayerQuit(new SimpleExtensionPlayer(event.getPlayer()), event.getQuitMessage());
         server.getEventManager().callEvent(ourEvent);
         event.setQuitMessage(ourEvent.getQuitMessage());
+        BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUn().remove( new SimpleExtensionPlayer( event.getPlayer() ) );
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)

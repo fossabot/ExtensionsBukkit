@@ -1,6 +1,8 @@
 package ml.extbukkit.main.secure.server;
 
 import ml.extbukkit.api.builtin.log.Channels;
+import ml.extbukkit.api.chat.ChatMessage;
+import ml.extbukkit.api.chat.TextColor;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
@@ -26,7 +28,6 @@ import ml.extbukkit.main.secure.scheduler.SchedulerManager;
 import ml.extbukkit.main.secure.types.Key;
 import ml.extbukkit.main.secure.world.WorldManager;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.Collections;
@@ -110,11 +111,14 @@ public class ExtensionedServer extends Server
     public void stopServer(AExtension extension)
     {
         getGlobalLogger().log( Channels.WARN, "'" + extension.getName() + "' has requested server stop. Stopping the server in 5 seconds" );
-        for ( Player online : plugin.getServer().getOnlinePlayers() )
+        for ( ExtensionedPlayer online : getPlayers() )
         {
             if ( online.isOp() )
             {
-                online.sendMessage( "§cEXTENSIONSBUKKIT: '" + extension.getName() + "' requested a server stop. Stopping the server in 5 seconds" );
+                online.sendMessage( ChatMessage.builder()
+                        .message( "EXTENSIONSBUKKIT: '" + extension.getName() + "' requested a server stop. Stopping the server in 5 seconds" )
+                        .color( TextColor.RED )
+                        .build() );
             }
         }
         plugin.getServer().getScheduler().scheduleSyncDelayedTask( plugin, () -> plugin.getServer().shutdown(),100 );
@@ -140,9 +144,14 @@ public class ExtensionedServer extends Server
     @Override
     public Set<ExtensionedPlayer> getPlayers()
     {
+        return Collections.unmodifiableSet( getPlayersUn() );
+    }
+
+    public Set<ExtensionedPlayer> getPlayersUn()
+    {
         Set<ExtensionedPlayer> players = new HashSet<>();
         Bukkit.getOnlinePlayers().forEach( player -> players.add( new SimpleExtensionPlayer( player ) ) );
-        return Collections.unmodifiableSet( players );
+        return players;
     }
 
     @Override

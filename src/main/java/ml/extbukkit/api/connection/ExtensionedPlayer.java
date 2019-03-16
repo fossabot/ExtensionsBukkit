@@ -109,4 +109,18 @@ public interface ExtensionedPlayer extends IEntity
      * @param stayTime stay time (seconds)
      */
     void sendActionbar(ChatMessage message, AExtension extension, int stayTime);
+
+    /**
+     * Checks if the specified player is a server operator
+     *
+     * @return true if server operator
+     */
+    boolean isOp();
+
+    /**
+     * Sets the player a server operator
+     *
+     * @param value true or false
+     */
+    void setOp(boolean value);
 }

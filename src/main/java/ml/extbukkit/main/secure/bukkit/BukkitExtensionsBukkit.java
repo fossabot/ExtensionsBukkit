@@ -104,4 +104,9 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     public File getFile() {
         return super.getFile();
     }
+
+    public ExtensionedServer getServerImplementation()
+    {
+        return server;
+    }
 }
