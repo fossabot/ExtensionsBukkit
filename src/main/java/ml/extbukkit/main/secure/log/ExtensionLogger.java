@@ -14,7 +14,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public class ExtensionLogger implements IExtensionLogger
 {
     private String prefix;
-    private ILogger globalLogger = Server.getInstance().getGlobalLogger();
+    private ILogger globalLogger = IServer.getInstance().getGlobalLogger();
 
     public ExtensionLogger(String name)
     {

@@ -50,7 +50,7 @@ public class Server implements IServer {
     private Server() {
         if(server != null) return;
         loader = new ExtensionLoader();
-        scheduler = SchedulerManager.getInstance();
+        scheduler = new SchedulerManager();
         worlds = new WorldManager();
         events = new EventManager();
         properties = new ServerProperites();

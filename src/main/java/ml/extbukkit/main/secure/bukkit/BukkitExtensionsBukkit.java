@@ -8,10 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.filter.AbstractFilter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -92,10 +88,5 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public File getFile() {
         return super.getFile();
-    }
-
-    public ExtensionedServer getServerImplementation()
-    {
-        return server;
     }
 }
