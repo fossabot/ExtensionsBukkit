@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Tab completer class
  */
-public interface TabCompleter {
+public interface ITabCompleter {
 
     /**
      * Handle tab complete

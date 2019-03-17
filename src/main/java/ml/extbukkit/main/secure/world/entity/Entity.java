@@ -1,13 +1,13 @@
 package ml.extbukkit.main.secure.world.entity;
 
 import com.google.gson.JsonObject;
+import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.api.types.IEntityType;
 import ml.extbukkit.api.world.IPosition;
 import ml.extbukkit.api.world.StraightDirection;
 import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.command.CommandExecutor;
 import ml.extbukkit.main.secure.nms.NBTUtils;
-import ml.extbukkit.main.secure.server.ExtensionedServer;
 import ml.extbukkit.main.secure.world.DirectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Entity extends CommandExecutor implements IEntity
-{
+public class Entity extends CommandExecutor implements IEntity {
 
     private org.bukkit.entity.Entity base;
 
@@ -28,7 +27,7 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public boolean addPassenger(IEntity passenger) {
-        return base.addPassenger(((Entity) passenger).base );
+        return base.addPassenger(((Entity) passenger).base);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public StraightDirection getDirection() {
-        return DirectionHelper.bukkitToStraight( base.getFacing());
+        return DirectionHelper.bukkitToStraight(base.getFacing());
     }
 
     @Override
@@ -64,8 +63,7 @@ public class Entity extends CommandExecutor implements IEntity
     @Override
     public List<IEntity> getPassengers() {
         List<IEntity> ents = new ArrayList<>();
-        for (org.bukkit.entity.Entity ent : base.getPassengers())
-        {
+        for (org.bukkit.entity.Entity ent : base.getPassengers()) {
             ents.add(new Entity(ent));
         }
         return ents;
@@ -78,7 +76,7 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public IEntityType getType() {
-        return EntityHelper.bukkitToEB( base.getType());
+        return EntityHelper.bukkitToEB(base.getType());
     }
 
     @Override
@@ -88,7 +86,7 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public IEntity getPassengerOf() {
-        return new Entity( base.getVehicle());
+        return new Entity(base.getVehicle());
     }
 
     @Override
@@ -128,7 +126,7 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public boolean removePassenger(IEntity passenger) {
-        return base.removePassenger(((Entity) passenger).base );
+        return base.removePassenger(((Entity) passenger).base);
     }
 
     @Override
@@ -148,17 +146,17 @@ public class Entity extends CommandExecutor implements IEntity
 
     @Override
     public JsonObject getNBT() {
-        return NBTUtils.nbtToJson(NBTUtils.getEntityNbt( base ));
+        return NBTUtils.nbtToJson(NBTUtils.getEntityNbt(base));
     }
 
     @Override
     public void updateNBT(JsonObject nbt) {
-        NBTUtils.setEntityNbt( base, NBTUtils.jsonToNbt(nbt));
+        NBTUtils.setEntityNbt(base, NBTUtils.jsonToNbt(nbt));
     }
 
     @Override
     public IPosition getPosition() {
-        return ExtensionedServer.getInstance().getWorldManager().getWorld( base.getWorld().getName()).positionRotated( base.getLocation().getX(), base.getLocation().getY(), base.getLocation().getZ(), base.getLocation().getYaw(), base.getLocation().getPitch());
+        return IServer.getInstance().getWorldManager().getWorld(base.getWorld().getName()).positionRotated(base.getLocation().getX(), base.getLocation().getY(), base.getLocation().getZ(), base.getLocation().getYaw(), base.getLocation().getPitch());
     }
 
     @Override

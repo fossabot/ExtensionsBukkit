@@ -12,7 +12,7 @@ public interface ICommandManager {
      * @param extension Extension
      * @param command Command to register
      */
-    void registerCommand(AExtension extension, Command command);
+    void registerCommand(AExtension extension, ACommand command);
 
     /**
      * Match command by name
@@ -20,5 +20,5 @@ public interface ICommandManager {
      * @param commandName Command name
      * @return Matched command
      */
-    Command matchCommand(String commandName);
+    ACommand matchCommand(String commandName);
 }

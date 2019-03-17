@@ -1,15 +1,14 @@
 package ml.extbukkit.api.builtin.events;
 
 import lombok.Getter;
-import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.event.Event;
+import ml.extbukkit.api.world.entity.IEntity;
 
 public class EventPlayer extends Event {
-
     @Getter
-    private ExtensionedPlayer player;
+    private IEntity player;
 
-    public EventPlayer(ExtensionedPlayer player) {
+    public EventPlayer(IEntity player) {
         this.player = player;
     }
 

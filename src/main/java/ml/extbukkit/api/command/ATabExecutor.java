@@ -3,14 +3,14 @@ package ml.extbukkit.api.command;
 /**
  * Command and TabCompleter at once
  */
-public abstract class TabExecutor extends Command implements TabCompleter {
+public abstract class ATabExecutor extends ACommand implements ITabCompleter {
 
     /**
      * Creates a command with no aliases
      *
      * @param name Command name
      */
-    public TabExecutor(String name) {
+    public ATabExecutor(String name) {
         super(name);
     }
 
@@ -20,7 +20,7 @@ public abstract class TabExecutor extends Command implements TabCompleter {
      * @param name Command name
      * @param aliases List of aliases
      */
-    public TabExecutor(String name, String[] aliases) {
+    public ATabExecutor(String name, String[] aliases) {
         super(name, aliases);
     }
 }

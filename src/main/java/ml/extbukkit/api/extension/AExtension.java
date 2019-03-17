@@ -2,7 +2,7 @@ package ml.extbukkit.api.extension;
 
 import com.google.common.base.Preconditions;
 import ml.extbukkit.api.log.IExtensionLogger;
-import ml.extbukkit.api.server.Server;
+import ml.extbukkit.api.server.IServer;
 
 import java.io.File;
 import java.io.InputStream;
@@ -13,17 +13,7 @@ import java.io.InputStream;
  * extend in order to be loaded
  */
 public abstract class AExtension {
-
     private File file = null;
-    private IExtensionLogger logger = getServer().getLogger( getName() );
-    private File dataFolder = new File( getServer().getExtensionsDir() + File.separator + getName() );
-
-    /**
-     * Called when the extension is disabled
-     */
-    public void onDisable()
-    {
-    }
 
     /**
      * Get extension ID<br>
@@ -76,7 +66,7 @@ public abstract class AExtension {
      * @param file Extension file
      */
     public final void setFile(File file) {
-        Preconditions.checkNotNull( file, "Loading file cannot be null" );
+        Preconditions.checkNotNull(file, "Loading file cannot be null");
         this.file = file;
     }
 
@@ -94,8 +84,8 @@ public abstract class AExtension {
      *
      * @return ExtensionedServer instance
      */
-    public Server getServer() {
-        return Server.getInstance();
+    public IServer getServer() {
+        return IServer.getInstance();
     }
 
     /**
@@ -104,19 +94,7 @@ public abstract class AExtension {
      * @return Logger instance
      */
     public IExtensionLogger getLogger() {
-        return logger;
-    }
-
-    /**
-     * Returns an folder with the extension's name in the extensions location
-     * ex. if your extension is called "MyExtension123", the data folder will
-     * be "./extensions/MyExtension123" (. stands for the path to the server files)
-     *
-     * @return folder with the extension's name
-     */
-    public File getDataFolder()
-    {
-        return dataFolder;
+        return IServer.getInstance().getLogger(this.getName());
     }
 
     /**
@@ -126,12 +104,10 @@ public abstract class AExtension {
      * @return input steam of the exact resource
      * @throws NullPointerException if the input stream (file in the jar) is null
      */
-    public InputStream getResourceAsStream(String resourceName)
-    {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream( resourceName );
-        if ( stream == null )
-        {
-            throw new NullPointerException( "Cannot find a file into extension '" + getName() + "' with name '" + resourceName + "'" );
+    public InputStream getResourceAsStream(String resourceName) {
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(resourceName);
+        if (stream == null) {
+            throw new NullPointerException("Cannot find a file into extension '" + getName() + "' with name '" + resourceName + "'");
         }
         return stream;
     }

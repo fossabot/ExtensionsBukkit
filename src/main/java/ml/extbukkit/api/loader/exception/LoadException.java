@@ -5,12 +5,10 @@ package ml.extbukkit.api.loader.exception;
  * something is wrong with loading on some
  * of the extensions
  */
-public class LoadException extends RuntimeException
-{
+public class LoadException extends RuntimeException {
 
-    public LoadException(String message, Throwable cause)
-    {
-        super( message, cause );
+    public LoadException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

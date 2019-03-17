@@ -1,13 +1,12 @@
 package ml.extbukkit.api.command;
 
 import lombok.Data;
-import ml.extbukkit.api.extension.AExtension;
 
 /**
  * Represents a command
  */
 @Data
-public abstract class Command {
+public abstract class ACommand {
     private String name;
     private String[] aliases;
 
@@ -16,7 +15,7 @@ public abstract class Command {
      *
      * @param name Command name
      */
-    public Command(String name) {
+    public ACommand(String name) {
         this(name, new String[0]);
     }
 
@@ -26,7 +25,7 @@ public abstract class Command {
      * @param name Command name
      * @param aliases List of aliases
      */
-    public Command(String name, String[] aliases) {
+    public ACommand(String name, String[] aliases) {
         this.name = name;
         this.aliases = aliases;
     }

@@ -1,10 +1,8 @@
 package ml.extbukkit.api.server;
 
-import com.google.common.base.Preconditions;
-import lombok.Getter;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.ICommandManager;
-import ml.extbukkit.api.connection.ExtensionedPlayer;
+import ml.extbukkit.api.command.IPermissionManager;
 import ml.extbukkit.api.event.IEventManager;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.loader.IExtensionLoader;
@@ -13,6 +11,8 @@ import ml.extbukkit.api.log.ILogger;
 import ml.extbukkit.api.scheduler.ISchedulerManager;
 import ml.extbukkit.api.types.IKey;
 import ml.extbukkit.api.world.IWorldManager;
+import ml.extbukkit.api.world.entity.IEntity;
+import ml.extbukkit.main.secure.server.Server;
 
 import java.io.File;
 import java.util.Set;
@@ -21,22 +21,9 @@ import java.util.UUID;
 /**
  * ExtensionedServer class
  */
-public abstract class Server
-{
-
-    @Getter
-    private static Server instance;
-
-    /**
-     * Sets instance of this class
-     *
-     * @param instance new instance
-     */
-    public static void setInstance(Server instance)
-    {
-        Preconditions.checkNotNull( instance, "New instance cannot be null" );
-        Preconditions.checkArgument( Server.instance == null, "Instance already set" );
-        Server.instance = instance;
+public interface IServer {
+    static IServer getInstance() {
+        return Server.getInstance();
     }
 
     /**
@@ -45,7 +32,7 @@ public abstract class Server
      *
      * @return Extension loader
      */
-    public abstract IExtensionLoader getExtensionLoader();
+    IExtensionLoader getExtensionLoader();
 
     /**
      * Get default extensions loading directory<br>
@@ -53,14 +40,14 @@ public abstract class Server
      *
      * @return Default loading directory
      */
-    public abstract File getExtensionsDir();
+    File getExtensionsDir();
 
     /**
      * Gets the global logger
      *
      * @return Logger
      */
-    public abstract ILogger getGlobalLogger();
+    ILogger getGlobalLogger();
 
     /**
      * Get event manager<br>
@@ -68,7 +55,7 @@ public abstract class Server
      *
      * @return Event manager
      */
-    public abstract IEventManager getEventManager();
+    IEventManager getEventManager();
 
     /**
      * Get scheduler manager<br>
@@ -76,14 +63,14 @@ public abstract class Server
      *
      * @return Scheduler manager
      */
-    public abstract ISchedulerManager getSchedulerManager();
+    ISchedulerManager getSchedulerManager();
 
     /**
      * Get ExtensionsBukkit jar file
      *
      * @return ExtensionsBukkit file
      */
-    public abstract File getExtensionsBukkitFile();
+    File getExtensionsBukkitFile();
 
     /**
      * Get world manager<br>
@@ -91,7 +78,7 @@ public abstract class Server
      *
      * @return World manager
      */
-    public abstract IWorldManager getWorldManager();
+    IWorldManager getWorldManager();
 
     /**
      * Get command manager<br>
@@ -99,35 +86,42 @@ public abstract class Server
      *
      * @return Command manager
      */
-    public abstract ICommandManager getCommandManager();
+    ICommandManager getCommandManager();
+
+    /**
+     * Get permission manager<br>
+     * Needed for registering own permission providers
+     *
+     * @return
+     */
+    IPermissionManager getPermissionManager();
 
     /**
      * Creates a new key that is used when registering blocks, items...
      *
      * @return new key
      */
-    public abstract IKey createKey(String namespace, String key);
+    IKey createKey(String namespace, String key);
 
     /**
-     * Stop the server
-     * @deprecated Use {@link #stopServer(AExtension)}
+     * Stop the server<br>
+     * Use stopServer(extension) instead
      */
-    @Deprecated
-    public abstract void stopServer();
+    void stopServer();
 
     /**
      * Stops the server. Requires extension.
      *
      * @param extension extension, requested from
      */
-    public abstract void stopServer(AExtension extension);
+    void stopServer(AExtension extension);
 
     /**
      * Get server properties
      *
      * @return ExtensionedServer properties
      */
-    public abstract IServerProperties getServerProperties();
+    IServerProperties getServerProperties();
 
     /**
      * Get console command executor<br>
@@ -135,7 +129,7 @@ public abstract class Server
      *
      * @return Console command executor
      */
-    public abstract ICommandExecutor getConsole();
+    ICommandExecutor getConsole();
 
     /**
      * Gets logger for extension
@@ -143,7 +137,7 @@ public abstract class Server
      * @param extensionName extension's name (id)
      * @return extension logger
      */
-    public abstract IExtensionLogger getLogger(String extensionName);
+    IExtensionLogger getLogger(String extensionName);
 
     /**
      * Gets all online players
@@ -151,14 +145,14 @@ public abstract class Server
      *
      * @return online players
      */
-    public abstract Set<ExtensionedPlayer> getPlayers();
+    Set<IEntity> getPlayers();
 
     /**
      * Gets the online players count
      *
      * @return players count
      */
-    public abstract int getOnlineCount();
+    int getOnlineCount();
 
     /**
      * Gets a player via its name
@@ -166,7 +160,7 @@ public abstract class Server
      * @param name player name
      * @return player or null
      */
-    public abstract ExtensionedPlayer getPlayer(String name);
+    IEntity getPlayer(String name);
 
     /**
      * Gets a player via its UUID
@@ -174,5 +168,5 @@ public abstract class Server
      * @param uuid player uuid
      * @return player or null
      */
-    public abstract ExtensionedPlayer getPlayer(UUID uuid);
+    IEntity getPlayer(UUID uuid);
 }

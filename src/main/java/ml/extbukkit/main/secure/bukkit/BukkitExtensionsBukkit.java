@@ -1,25 +1,24 @@
 package ml.extbukkit.main.secure.bukkit;
 
-import java.io.File;
-
-import ml.extbukkit.api.chat.ChatMessageSerializer;
-import ml.extbukkit.api.loader.IExtensionLoader;
-import ml.extbukkit.api.server.Server;
-import ml.extbukkit.main.secure.chat.SimpleSerializer;
+import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.log.util.LevelToChannel;
-import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
-import ml.extbukkit.main.secure.server.ExtensionedServer;
+import ml.extbukkit.main.secure.nms.reflection.NMSUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.filter.AbstractFilter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
     private static BukkitExtensionsBukkit I;
     private ml.extbukkit.main.secure.log.Logger extensionsLogger = ml.extbukkit.main.secure.log.Logger.getInstance();
-    private ExtensionedServer server = new ExtensionedServer();
 
     public BukkitExtensionsBukkit() {
         I = this;
@@ -37,44 +36,37 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
             getLogger().severe("BKCommonLib is not installed, but is required by ExtensionsBukkit!");
             getLogger().severe("Downloading BKCommonLib...");
             Updater.downloadBKCL();
-            getLogger().warning( "BKCommonLib has been downloaded, disabling..." );
-            getServer().getPluginManager().disablePlugin( this );
+            getLogger().warning("BKCommonLib has been downloaded, disabling...");
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        if ( NMSRUtil.isUnder1_12() )
-        {
-            getLogger().severe( "Unsupported version found! Minimal supported version: 1.12" );
-            getLogger().severe( "Plugin disabled!" );
-            getServer().getPluginManager().disablePlugin( this );
+        if (NMSUtil.isUnder1_13()) {
+            getLogger().severe("Unsupported version found! Minimal supported version: 1.13");
+            getLogger().severe("Plugin disabled!");
+            getServer().getPluginManager().disablePlugin(this);
             return;
         }
-        ChatMessageSerializer.setInstance( new SimpleSerializer() );
-        Server.setInstance( server );
-        ((Logger) LogManager.getRootLogger()).addFilter( new AbstractFilter() {
+        ((Logger) LogManager.getRootLogger()).addFilter(new AbstractFilter() {
             @Override
             public Result filter(LogEvent event) {
-                if ( event.getMessage().getFormattedMessage().contains( "ExtensionsBukkit" ) )
-                {
-                    extensionsLogger.log( LevelToChannel.transform( event.getLevel() ), event.getMessage().getFormattedMessage() );
-                    if( event.getThrown() != null )
-                    {
-                        extensionsLogger.logStack( event.getThrown().getMessage(), event.getThrown() );
+                if (event.getMessage().getFormattedMessage().contains("ExtensionsBukkit")) {
+                    extensionsLogger.log(LevelToChannel.transform(event.getLevel()), event.getMessage().getFormattedMessage());
+                    if (event.getThrown() != null) {
+                        extensionsLogger.logStack(event.getThrown().getMessage(), event.getThrown());
                     }
-                } else
-                {
-                    extensionsLogger.logBukkit( event.getLevel(), event.getMessage().getFormattedMessage() );
-                    if( event.getThrown() != null )
-                    {
-                        extensionsLogger.logBukkitStack( event.getThrown() );
+                } else {
+                    extensionsLogger.logBukkit(event.getLevel(), event.getMessage().getFormattedMessage());
+                    if (event.getThrown() != null) {
+                        extensionsLogger.logBukkitStack(event.getThrown());
                     }
                 }
                 return Result.DENY;
             }
         });
-        if (!server.getExtensionsDir().exists()) {
-            server.getExtensionsDir().mkdirs();
+        if (!IServer.getInstance().getExtensionsDir().exists()) {
+            IServer.getInstance().getExtensionsDir().mkdirs();
         }
-        server.getExtensionLoader().loadAll(server.getExtensionsDir());
+        IServer.getInstance().getExtensionLoader().loadAll(IServer.getInstance().getExtensionsDir());
         CommandManager.getInstance().registerCommands();
         if (getFile().exists()) {
             getFile().delete();
@@ -84,8 +76,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        if ( !getServer().getPluginManager().isPluginEnabled( this ) )
-        {
+        if (!getServer().getPluginManager().isPluginEnabled(this)) {
             return;
         }
         getServer().getPluginManager().registerEvents(new BukkitEventListener(), this);
@@ -95,8 +86,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelTasks(this);
-        IExtensionLoader extensionLoader = server.getExtensionLoader();
-        extensionLoader.getExtensions().forEach( extensionLoader::disable );
         extensionsLogger.closeLog();
     }
 
