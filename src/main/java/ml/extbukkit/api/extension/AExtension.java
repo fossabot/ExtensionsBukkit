@@ -1,6 +1,7 @@
 package ml.extbukkit.api.extension;
 
 import com.google.common.base.Preconditions;
+import lombok.Getter;
 import ml.extbukkit.api.log.IExtensionLogger;
 import ml.extbukkit.api.server.Server;
 
@@ -15,7 +16,10 @@ import java.io.InputStream;
 public abstract class AExtension {
 
     private File file = null;
+
+    @Getter
     private IExtensionLogger logger = getServer().getLogger( getName() );
+
     private File dataFolder = new File( getServer().getExtensionsDir() + File.separator + getName() );
 
     /**
@@ -85,7 +89,7 @@ public abstract class AExtension {
      *
      * @return Extension file
      */
-    public File getFile() {
+    public final File getFile() {
         return file;
     }
 
@@ -99,22 +103,13 @@ public abstract class AExtension {
     }
 
     /**
-     * Gets the extension's logger
-     *
-     * @return Logger instance
-     */
-    public IExtensionLogger getLogger() {
-        return logger;
-    }
-
-    /**
      * Returns an folder with the extension's name in the extensions location
      * ex. if your extension is called "MyExtension123", the data folder will
      * be "./extensions/MyExtension123" (. stands for the path to the server files)
      *
      * @return folder with the extension's name
      */
-    public File getDataFolder()
+    public final File getDataFolder()
     {
         return dataFolder;
     }
@@ -126,7 +121,7 @@ public abstract class AExtension {
      * @return input steam of the exact resource
      * @throws NullPointerException if the input stream (file in the jar) is null
      */
-    public InputStream getResourceAsStream(String resourceName)
+    public final InputStream getResourceAsStream(String resourceName)
     {
         InputStream stream = getClass().getClassLoader().getResourceAsStream( resourceName );
         if ( stream == null )
