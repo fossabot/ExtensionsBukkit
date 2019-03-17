@@ -2,17 +2,22 @@ package ml.extbukkit.main.secure.bukkit;
 
 import com.bergerkiller.bukkit.common.events.EntityAddEvent;
 import com.bergerkiller.bukkit.common.events.EntityMoveEvent;
-import com.bergerkiller.bukkit.common.events.EntityRemoveEvent;
 import com.bergerkiller.bukkit.common.events.EntityRemoveFromServerEvent;
-import ml.extbukkit.api.builtin.events.*;
-import ml.extbukkit.api.command.ACommand;
+
+import ml.extbukkit.api.builtin.events.EventPlayerJoin;
+import ml.extbukkit.api.builtin.events.EventPlayerQuit;
+import ml.extbukkit.api.builtin.events.EventWorldInitialize;
+import ml.extbukkit.api.builtin.events.EventWorldLoad;
+import ml.extbukkit.api.builtin.events.EventWorldSave;
+import ml.extbukkit.api.builtin.events.EventWorldUnload;
+import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandExecutor;
-import ml.extbukkit.api.command.ITabCompleter;
-import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.secure.command.CommandExecutor;
+import ml.extbukkit.api.command.TabCompleter;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.command.CommandManager;
-import ml.extbukkit.main.secure.command.PermissionManager;
-import ml.extbukkit.main.secure.world.entity.Entity;
+import ml.extbukkit.main.secure.command.CommandExecutor;
+import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
+import ml.extbukkit.main.secure.server.ExtensionedServer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,7 +40,7 @@ import java.util.stream.Collectors;
 
 public class BukkitEventListener implements Listener {
 
-    private IServer server = IServer.getInstance();
+    private Server server = Server.getInstance();
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldSave(WorldSaveEvent e) {
@@ -65,12 +70,11 @@ public class BukkitEventListener implements Listener {
         String[] argsRaw = event.getBuffer().split(" ");
         String[] args = Arrays.copyOfRange(argsRaw, 1, argsRaw.length);
         String commandName = argsRaw[0];
-        for (Map.Entry<String, ACommand> commandEntry : manager.getCommandMap().entrySet()) {
-            if (commandEntry.getValue() instanceof ITabCompleter) {
-                ITabCompleter completer = (ITabCompleter) commandEntry.getValue();
+        for (Map.Entry<String, Command> commandEntry : manager.getCommandMap().entrySet()) {
+            if (commandEntry.getValue() instanceof TabCompleter) {
+                TabCompleter completer = (TabCompleter) commandEntry.getValue();
                 if (commandName.equalsIgnoreCase(commandEntry.getValue().getName())) {
-// ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? ExtensionedServer.getInstance().getConsole() : new CommandExecutor( event.getSender() );
-                    ICommandExecutor executor = new CommandExecutor(event.getSender()); // Time only
+                    ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(event.getSender());
                     event.getCompletions().addAll(completer.onTabComplete(executor, args));
                 }
             } else {

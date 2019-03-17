@@ -1,16 +1,17 @@
 package ml.extbukkit.main.secure.bukkit;
 
-import ml.extbukkit.api.server.IServer;
-import ml.extbukkit.main.secure.scheduler.ScheduledTask;
-import ml.extbukkit.main.secure.scheduler.SchedulerManager;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import ml.extbukkit.api.server.Server;
+import ml.extbukkit.main.secure.scheduler.ScheduledTask;
+import ml.extbukkit.main.secure.scheduler.SchedulerManager;
+import org.bukkit.scheduler.BukkitRunnable;
+
 public class BukkitRunner implements Runnable {
+    // don't repeatly get these, can reduce memory leaks
     private SchedulerManager manager = SchedulerManager.getInstance();
     private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
     private Set<ScheduledTask> scheduled = new HashSet<>();
@@ -35,7 +36,8 @@ public class BukkitRunner implements Runnable {
                     try {
                         task.getTask().run();
                     } catch (Throwable t) {
-                        IServer.getInstance().getGlobalLogger().logStack("Internal error occured trying to execute task " + "'" + task.getUUID() + "' in extension '" + task.getOwner().getName() + "'", t);
+                        Server.getInstance().getGlobalLogger().logStack("Internal error occured trying to execute task " +
+                                "'" + task.getUUID() + "' in extension '" + task.getOwner().getName() + "'", t);
                     }
                 }
             }.runTaskTimer(plugin, task.getDelay(), task.getInterval());

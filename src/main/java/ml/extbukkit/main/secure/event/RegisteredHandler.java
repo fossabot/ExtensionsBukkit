@@ -6,10 +6,10 @@ import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.IHandler;
 
 @AllArgsConstructor
+@Getter
 public class RegisteredHandler {
-    @Getter
+
     private IHandler handler;
 
-    @Getter
     private Class<? extends Event> eventClass;
 }

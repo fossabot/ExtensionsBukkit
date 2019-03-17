@@ -1,5 +1,10 @@
 package ml.extbukkit.main.secure.scheduler;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Consumer;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import ml.extbukkit.api.extension.AExtension;
@@ -9,22 +14,14 @@ import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.api.util.Time;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class SchedulerManager implements ISchedulerManager {
 
     private Map<UUID, ScheduledTask> tasks = new HashMap<>();
     private Multimap<AExtension, ScheduledTask> tasksByExtension = ArrayListMultimap.create();
     private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
-    private static SchedulerManager instance = new SchedulerManager();
-
-    public static SchedulerManager getInstance() {
-        return instance;
-    }
 
     private SchedulerManager() {
+
     }
 
     @Override
@@ -36,12 +33,19 @@ public class SchedulerManager implements ISchedulerManager {
     }
 
     @Override
+    public void schedule(AExtension owner, Consumer<IScheduledTask> callbackTask, Time delay, Time interval) {
+        ScheduledTask taskScheduled = new ScheduledTask(delay.toLong(), interval.toLong(), owner, callbackTask);
+        tasks.put(taskScheduled.getUUID(), taskScheduled);
+        tasksByExtension.put(owner, taskScheduled);
+    }
+
+    @Override
     public void schedule(AExtension owner, Runnable task, Time delay) {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             try {
                 task.run();
             } catch (Throwable t) {
-                IServer.getInstance().getGlobalLogger().logStack("Internal error occured trying to execute delayed task in extension " +
+                Server.getInstance().getGlobalLogger().logStack("Internal error occured trying to execute delayed task in extension " +
                         "'" + owner.getName() + "'", t);
             }
         }, delay.toLong());

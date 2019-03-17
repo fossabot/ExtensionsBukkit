@@ -14,7 +14,6 @@ import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.api.server.IServerProperties;
 import ml.extbukkit.api.types.IKey;
 import ml.extbukkit.api.world.IWorldManager;
-import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.command.Console;
@@ -26,6 +25,7 @@ import ml.extbukkit.main.secure.manager.ExtensionLoader;
 import ml.extbukkit.main.secure.scheduler.SchedulerManager;
 import ml.extbukkit.main.secure.types.Key;
 import ml.extbukkit.main.secure.world.WorldManager;
+import ml.extbukkit.api.world.entity.IEntity;
 import ml.extbukkit.main.secure.world.entity.Entity;
 import org.bukkit.Bukkit;
 

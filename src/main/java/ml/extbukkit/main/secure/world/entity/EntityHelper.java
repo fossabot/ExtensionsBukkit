@@ -4,6 +4,7 @@ import ml.extbukkit.api.builtin.entities.EntityPig;
 import ml.extbukkit.api.types.IEntityType;
 import org.bukkit.entity.EntityType;
 
+// TODO: Abstract this to allow addons
 public class EntityHelper {
 
     public static EntityType ebToBukkit(IEntityType type) {
