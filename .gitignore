@@ -1,2 +1,4 @@
 .idea
 *.iml
+spigot-1.13.2.jar
+.gradle
