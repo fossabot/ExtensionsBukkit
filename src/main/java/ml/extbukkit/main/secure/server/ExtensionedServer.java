@@ -1,30 +1,30 @@
 package ml.extbukkit.main.secure.server;
 
 import ml.extbukkit.api.builtin.log.Channels;
-import ml.extbukkit.api.command.ICommandExecutor;
-import ml.extbukkit.api.command.ICommandManager;
+import ml.extbukkit.api.command.CommandExecutor;
+import ml.extbukkit.api.command.CommandManager;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
-import ml.extbukkit.api.event.IEventManager;
-import ml.extbukkit.api.extension.AExtension;
-import ml.extbukkit.api.loader.IExtensionLoader;
-import ml.extbukkit.api.log.IExtensionLogger;
-import ml.extbukkit.api.log.ILogger;
-import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.api.server.IServerProperties;
+import ml.extbukkit.api.event.EventManager;
+import ml.extbukkit.api.extension.Extension;
+import ml.extbukkit.api.loader.ExtensionLoader;
+import ml.extbukkit.api.log.ExtensionLogger;
+import ml.extbukkit.api.log.Logger;
+import ml.extbukkit.api.scheduler.SchedulerManager;
+import ml.extbukkit.api.server.ServerProperties;
 import ml.extbukkit.api.server.Server;
-import ml.extbukkit.api.types.IKey;
-import ml.extbukkit.api.world.IWorldManager;
+import ml.extbukkit.api.types.Key;
+import ml.extbukkit.api.world.WorldManager;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
-import ml.extbukkit.main.secure.command.CommandManager;
 import ml.extbukkit.main.secure.command.Console;
+import ml.extbukkit.main.secure.command.SimpleCommandManager;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
-import ml.extbukkit.main.secure.event.EventManager;
-import ml.extbukkit.main.secure.log.ExtensionLogger;
-import ml.extbukkit.main.secure.log.Logger;
-import ml.extbukkit.main.secure.manager.ExtensionLoader;
-import ml.extbukkit.main.secure.scheduler.SchedulerManager;
-import ml.extbukkit.main.secure.types.Key;
-import ml.extbukkit.main.secure.world.WorldManager;
+import ml.extbukkit.main.secure.event.ExtensionEventManager;
+import ml.extbukkit.main.secure.log.SimpleExtensionLogger;
+import ml.extbukkit.main.secure.log.SimpleLogger;
+import ml.extbukkit.main.secure.manager.SimpleExtensionLoader;
+import ml.extbukkit.main.secure.scheduler.SimpleScheduler;
+import ml.extbukkit.main.secure.types.NamespacedKey;
+import ml.extbukkit.main.secure.world.Worlds;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -37,26 +37,26 @@ import java.util.UUID;
 public class ExtensionedServer extends Server
 {
 
-    private ExtensionLoader loader;
-    private SchedulerManager scheduler;
-    private WorldManager worlds;
+    private SimpleExtensionLoader loader;
+    private SimpleScheduler scheduler;
+    private Worlds worlds;
     private File EXTENSIONS = new File("extensions/");
-    private ServerProperites properties;
+    private ExtensionedServerProperites properties;
     private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
-    private EventManager events;
+    private ExtensionEventManager events;
     private Console console;
 
     public ExtensionedServer() {
-        loader = new ExtensionLoader();
-        scheduler = SchedulerManager.getInstance();
-        worlds = new WorldManager();
-        events = new EventManager();
-        properties = new ServerProperites();
+        loader = new SimpleExtensionLoader();
+        scheduler = SimpleScheduler.getInstance();
+        worlds = new Worlds();
+        events = new ExtensionEventManager();
+        properties = new ExtensionedServerProperites();
         console = new Console();
     }
 
     @Override
-    public IExtensionLoader getExtensionLoader() {
+    public ExtensionLoader getExtensionLoader() {
         return loader;
     }
 
@@ -66,17 +66,17 @@ public class ExtensionedServer extends Server
     }
 
     @Override
-    public ILogger getGlobalLogger() {
-        return Logger.getInstance();
+    public Logger getGlobalLogger() {
+        return SimpleLogger.getInstance();
     }
 
     @Override
-    public IEventManager getEventManager() {
+    public EventManager getEventManager() {
         return events;
     }
 
     @Override
-    public ISchedulerManager getSchedulerManager() {
+    public SchedulerManager getSchedulerManager() {
         return scheduler;
     }
 
@@ -86,19 +86,19 @@ public class ExtensionedServer extends Server
     }
 
     @Override
-    public IWorldManager getWorldManager() {
+    public WorldManager getWorldManager() {
         return worlds;
     }
 
     @Override
-    public ICommandManager getCommandManager() {
-        return CommandManager.getInstance();
+    public CommandManager getCommandManager() {
+        return SimpleCommandManager.getInstance();
     }
 
     @Override
-    public IKey createKey(String namespace, String key)
+    public Key createKey(String namespace, String key)
     {
-        return new Key( namespace, key );
+        return new NamespacedKey( namespace, key );
     }
 
     @Override
@@ -107,7 +107,7 @@ public class ExtensionedServer extends Server
     }
 
     @Override
-    public void stopServer(AExtension extension)
+    public void stopServer(Extension extension)
     {
         getGlobalLogger().log( Channels.WARN, "'" + extension.getName() + "' has requested server stop. Stopping the server in 5 seconds" );
         for ( Player online : plugin.getServer().getOnlinePlayers() )
@@ -121,20 +121,20 @@ public class ExtensionedServer extends Server
     }
 
     @Override
-    public IServerProperties getServerProperties() {
+    public ServerProperties getServerProperties() {
         return properties;
     }
 
     @Override
-    public ICommandExecutor getConsole()
+    public CommandExecutor getConsole()
     {
         return console;
     }
 
     @Override
-    public IExtensionLogger getLogger(String extensionName)
+    public ExtensionLogger getLogger(String extensionName)
     {
-        return new ExtensionLogger( extensionName );
+        return new SimpleExtensionLogger( extensionName );
     }
 
     @Override

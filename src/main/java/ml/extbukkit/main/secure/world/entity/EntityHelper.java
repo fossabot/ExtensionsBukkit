@@ -1,23 +1,22 @@
 package ml.extbukkit.main.secure.world.entity;
 
 import ml.extbukkit.api.builtin.entities.EntityPig;
-import ml.extbukkit.api.types.IEntityType;
-import org.bukkit.entity.EntityType;
+import ml.extbukkit.api.types.EntityType;
 
 // TODO: Abstract this to allow addons
 public class EntityHelper {
 
-    public static EntityType ebToBukkit(IEntityType type) {
+    public static org.bukkit.entity.EntityType ebToBukkit(EntityType type) {
         if (type instanceof EntityPig)
         {
-            return EntityType.PIG;
+            return org.bukkit.entity.EntityType.PIG;
         } else
         {
-            return EntityType.UNKNOWN;
+            return org.bukkit.entity.EntityType.UNKNOWN;
         }
     }
 
-    public static IEntityType bukkitToEB(EntityType type) {
+    public static EntityType bukkitToEB(org.bukkit.entity.EntityType type) {
         switch (type) {
             case DROPPED_ITEM:
                 return null;

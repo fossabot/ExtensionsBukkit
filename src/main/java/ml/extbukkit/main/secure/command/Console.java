@@ -5,14 +5,12 @@ import java.util.Arrays;
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.chat.ChatMessage;
 import ml.extbukkit.api.chat.ChatMessageSerializer;
-import ml.extbukkit.api.command.ICommandExecutor;
+import ml.extbukkit.api.command.CommandExecutor;
 import ml.extbukkit.api.server.Server;
-import ml.extbukkit.api.util.AWrapper;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 
-public class Console implements ICommandExecutor
+public class Console implements CommandExecutor
 {
 
     private Server server = Server.getInstance();

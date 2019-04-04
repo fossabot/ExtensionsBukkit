@@ -1,16 +1,14 @@
 package ml.extbukkit.api.builtin.events;
 
-import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.api.extension.Extension;
 
 /**
  * Event, called when extension is disabled
  */
-public class EventExtensionDisable extends EventExtension
-{
+public class EventExtensionDisable extends EventExtension {
 
-    public EventExtensionDisable(AExtension extension)
-    {
-        super( extension );
-    }
+  public EventExtensionDisable(Extension extension) {
+    super(extension);
+  }
 
 }

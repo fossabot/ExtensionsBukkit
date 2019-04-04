@@ -11,7 +11,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 /**
  * MD5 encryption helper
  */
-public class HashHelper {
+public final class HashHelper {
 
     private HashHelper() {
         throw new UnsupportedOperationException( "This class cannot be instanced." );

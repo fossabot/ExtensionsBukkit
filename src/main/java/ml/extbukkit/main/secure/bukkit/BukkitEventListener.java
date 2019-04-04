@@ -11,13 +11,12 @@ import ml.extbukkit.api.builtin.events.EventWorldLoad;
 import ml.extbukkit.api.builtin.events.EventWorldSave;
 import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.Command;
-import ml.extbukkit.api.command.ICommandExecutor;
+import ml.extbukkit.api.command.CommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
 import ml.extbukkit.api.server.Server;
-import ml.extbukkit.main.secure.command.CommandManager;
-import ml.extbukkit.main.secure.command.CommandExecutor;
+import ml.extbukkit.main.secure.command.SimpleCommandManager;
+import ml.extbukkit.main.secure.command.ExtensionedCommandExecutor;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
-import ml.extbukkit.main.secure.server.ExtensionedServer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
@@ -67,7 +66,7 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onTabComplete(TabCompleteEvent event) {
-        CommandManager manager = CommandManager.getInstance();
+        SimpleCommandManager manager = SimpleCommandManager.getInstance();
         String[] argsRaw = event.getBuffer().split( " " );
         String[] args = Arrays.copyOfRange( argsRaw, 1, argsRaw.length );
         String commandName = argsRaw[0];
@@ -75,7 +74,7 @@ public class BukkitEventListener implements Listener {
             if(commandEntry.getValue() instanceof TabCompleter) {
                 TabCompleter completer = (TabCompleter) commandEntry.getValue();
                 if(commandName.equalsIgnoreCase(commandEntry.getValue().getName())) {
-                    ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(event.getSender());
+                    CommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new ExtensionedCommandExecutor(event.getSender());
                     event.getCompletions().addAll(completer.onTabComplete(executor, args));
                 }
             } else {

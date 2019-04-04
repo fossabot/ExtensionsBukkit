@@ -1,7 +1,7 @@
 package ml.extbukkit.api.builtin.events;
 
 import ml.extbukkit.api.event.Event;
-import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.api.extension.Extension;
 
 public class EventAddressed extends Event {
 
@@ -11,7 +11,7 @@ public class EventAddressed extends Event {
         this.ext = extensionID;
     }
 
-    public EventAddressed(AExtension extension) {
+    public EventAddressed(Extension extension) {
         this.ext = extension.getID();
     }
 
@@ -19,7 +19,7 @@ public class EventAddressed extends Event {
         return ext;
     }
 
-    public boolean check(AExtension extension) {
+    public boolean check(Extension extension) {
         return extension.getID().equals(ext);
     }
 }

@@ -1,10 +1,10 @@
 package ml.extbukkit.api.builtin.events;
 
-import ml.extbukkit.api.extension.AExtension;
+import ml.extbukkit.api.extension.Extension;
 
 public class EventExtensionLoad extends EventExtension {
 
-    public EventExtensionLoad(AExtension extension) {
+    public EventExtensionLoad(Extension extension) {
         super(extension);
     }
 }

@@ -1,23 +1,23 @@
 package ml.extbukkit.api.builtin.entities;
 
-import ml.extbukkit.api.types.IEntityType;
-import ml.extbukkit.api.world.entity.IEntity;
-import ml.extbukkit.main.secure.types.Key;
+import ml.extbukkit.api.types.EntityType;
+import ml.extbukkit.api.world.entity.Entity;
+import ml.extbukkit.main.secure.types.NamespacedKey;
 
-public class EntityPig implements IEntityType {
+public class EntityPig implements EntityType {
 
     @Override
-    public Key getID() {
+    public NamespacedKey getID() {
         return null;
     }
 
     @Override
-    public void load(IEntity entity) {
+    public void load(Entity entity) {
 
     }
 
     @Override
-    public void save(IEntity entity) {
+    public void save(Entity entity) {
 
     }
 
@@ -28,7 +28,7 @@ public class EntityPig implements IEntityType {
     }
 
     @Override
-    public void tick(IEntity entity) {
+    public void tick(Entity entity) {
 
     }
 }

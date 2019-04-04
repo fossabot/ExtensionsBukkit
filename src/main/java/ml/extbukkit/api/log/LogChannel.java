@@ -3,28 +3,27 @@ package ml.extbukkit.api.log;
 /**
  * Log channel class
  */
-public class LogChannel
-{
-    /**
-     * Log channel name
-     */
-    private String name;
+public final class LogChannel {
+  /**
+   * Log channel name
+   */
+  private String name;
 
-    /**
-     * Creates a new log channel
-     *
-     * @param name Name of the log channel
-     */
-    public LogChannel(String name) {
-        this.name = name;
-    }
+  /**
+   * Creates a new log channel
+   *
+   * @param name Name of the log channel
+   */
+  public LogChannel(String name) {
+    this.name = name;
+  }
 
-    /**
-     * Gets the name of the channel
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * Gets the name of the channel
+   *
+   * @return name
+   */
+  public String getName() {
+    return name;
+  }
 }

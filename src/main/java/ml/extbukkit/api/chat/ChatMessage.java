@@ -6,57 +6,53 @@ import lombok.Data;
  * Represents a chat message, which works with json
  */
 @Data
-public class ChatMessage
-{
+public class ChatMessage {
 
-    /**
-     * Sent message
-     */
-    private String message;
-    //--------------------------------------------------------------------------
+  /**
+   * Sent message
+   */
+  private String message;
+  //--------------------------------------------------------------------------
 
-    /**
-     * Modifiers of the message
-     */
-    private boolean bold = false;
-    private boolean underline = false;
-    private boolean italic = false;
-    private boolean strikethrough = false;
-    private boolean obfuscated = false;
-    private TextColor color = TextColor.WHITE;
-    //--------------------------------------------------------------------------
+  /**
+   * Modifiers of the message
+   */
+  private boolean bold = false;
+  private boolean underline = false;
+  private boolean italic = false;
+  private boolean strikethrough = false;
+  private boolean obfuscated = false;
+  private TextColor color = TextColor.WHITE;
+  //--------------------------------------------------------------------------
 
-    public ChatMessage(String message)
-    {
-        this.message = message;
-    }
+  public ChatMessage(String message) {
+    this.message = message;
+  }
 
-    public ChatMessage(ChatMessage original)
-    {
-        this.message = original.getMessage();
-        this.bold = original.isBold();
-        this.underline = original.isUnderline();
-        this.italic = original.isItalic();
-        this.strikethrough = original.isStrikethrough();
-        this.obfuscated = original.isObfuscated();
-        this.color = original.getColor();
-    }
+  public ChatMessage(ChatMessage original) {
+    this.message = original.getMessage();
+    this.bold = original.isBold();
+    this.underline = original.isUnderline();
+    this.italic = original.isItalic();
+    this.strikethrough = original.isStrikethrough();
+    this.obfuscated = original.isObfuscated();
+    this.color = original.getColor();
+  }
 
-    /**
-     * Creates a new chat message from this one.
-     *
-     * @return cloned message
-     */
-    public ChatMessage duplicate()
-    {
-        ChatMessage newMessage = new ChatMessage( message );
-        newMessage.setBold( bold );
-        newMessage.setUnderline( underline );
-        newMessage.setItalic( italic );
-        newMessage.setStrikethrough( strikethrough );
-        newMessage.setObfuscated( obfuscated );
-        newMessage.setColor( color );
-        return newMessage;
-    }
+  /**
+   * Creates a new chat message from this one.
+   *
+   * @return cloned message
+   */
+  public ChatMessage duplicate() {
+    ChatMessage newMessage = new ChatMessage(message);
+    newMessage.setBold(bold);
+    newMessage.setUnderline(underline);
+    newMessage.setItalic(italic);
+    newMessage.setStrikethrough(strikethrough);
+    newMessage.setObfuscated(obfuscated);
+    newMessage.setColor(color);
+    return newMessage;
+  }
 
 }

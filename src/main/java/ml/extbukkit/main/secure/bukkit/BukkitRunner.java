@@ -6,21 +6,21 @@ import java.util.Set;
 import java.util.UUID;
 
 import ml.extbukkit.api.server.Server;
-import ml.extbukkit.main.secure.scheduler.ScheduledTask;
-import ml.extbukkit.main.secure.scheduler.SchedulerManager;
+import ml.extbukkit.main.secure.scheduler.ExtensionedScheduledTask;
+import ml.extbukkit.main.secure.scheduler.SimpleScheduler;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class BukkitRunner implements Runnable {
 
   // don't repeatly get these, can reduce memory leaks
-  private SchedulerManager manager = SchedulerManager.getInstance();
+  private SimpleScheduler manager = SimpleScheduler.getInstance();
   private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
-  private Set<ScheduledTask> scheduled = new HashSet<>();
+  private Set<ExtensionedScheduledTask> scheduled = new HashSet<>();
 
   @Override
   public void run() {
-    for(Map.Entry<UUID, ScheduledTask> taskEntry : manager.getTasks().entrySet()) {
-      ScheduledTask task = taskEntry.getValue();
+    for(Map.Entry<UUID, ExtensionedScheduledTask> taskEntry : manager.getTasks().entrySet()) {
+      ExtensionedScheduledTask task = taskEntry.getValue();
       if(scheduled.contains(task)) {
         return;
       }

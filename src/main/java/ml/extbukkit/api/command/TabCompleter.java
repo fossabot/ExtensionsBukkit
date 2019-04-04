@@ -14,5 +14,5 @@ public interface TabCompleter {
      * @param args Arguments used while tab completing
      * @return List of tab completion variants for the specific command
      */
-    List<String> onTabComplete(ICommandExecutor sender, String[] args);
+    List<String> onTabComplete(CommandExecutor sender, String[] args);
 }

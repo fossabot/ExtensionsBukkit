@@ -3,10 +3,11 @@ package ml.extbukkit.main.secure.bukkit;
 import java.io.File;
 
 import ml.extbukkit.api.chat.ChatMessageSerializer;
-import ml.extbukkit.api.loader.IExtensionLoader;
+import ml.extbukkit.api.loader.ExtensionLoader;
 import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.chat.SimpleSerializer;
-import ml.extbukkit.main.secure.command.CommandManager;
+import ml.extbukkit.main.secure.command.SimpleCommandManager;
+import ml.extbukkit.main.secure.log.SimpleLogger;
 import ml.extbukkit.main.secure.log.util.LevelToChannel;
 import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
 import ml.extbukkit.main.secure.server.ExtensionedServer;
@@ -18,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
   private static BukkitExtensionsBukkit I;
-  private ml.extbukkit.main.secure.log.Logger extensionsLogger = ml.extbukkit.main.secure.log.Logger.getInstance();
+  private SimpleLogger extensionsLogger = SimpleLogger.getInstance();
   private ExtensionedServer server = new ExtensionedServer();
 
   public BukkitExtensionsBukkit() {
@@ -70,7 +71,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
       server.getExtensionsDir().mkdirs();
     }
     server.getExtensionLoader().loadAll(server.getExtensionsDir());
-    CommandManager.getInstance().registerCommands();
+    SimpleCommandManager.getInstance().registerCommands();
     if(getFile().exists()) {
       getFile().delete();
     }
@@ -89,7 +90,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
   @Override
   public void onDisable() {
     getServer().getScheduler().cancelTasks(this);
-    IExtensionLoader extensionLoader = server.getExtensionLoader();
+    ExtensionLoader extensionLoader = server.getExtensionLoader();
     extensionLoader.getExtensions().forEach(extensionLoader::disable);
     extensionsLogger.closeLog();
   }

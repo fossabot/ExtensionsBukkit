@@ -1,10 +1,10 @@
 package ml.extbukkit.api.builtin.events;
 
-import ml.extbukkit.api.world.IWorld;
+import ml.extbukkit.api.world.World;
 
 public class EventWorldLoad extends EventWorld {
 
-    public EventWorldLoad(IWorld world) {
+    public EventWorldLoad(World world) {
         super(world);
     }
 }

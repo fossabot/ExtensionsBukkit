@@ -1,7 +1,6 @@
 package ml.extbukkit.api.command;
 
 import lombok.Data;
-import ml.extbukkit.api.extension.AExtension;
 
 /**
  * Represents a command
@@ -38,5 +37,5 @@ public abstract class Command {
      * @param alias exact alias used to invoke the command
      * @param args command arguments
      */
-    public abstract void execute(ICommandExecutor sender, String alias, String[] args);
+    public abstract void execute(CommandExecutor sender, String alias, String[] args);
 }

@@ -2,17 +2,17 @@ package ml.extbukkit.api.server;
 
 import com.google.common.base.Preconditions;
 import lombok.Getter;
-import ml.extbukkit.api.command.ICommandExecutor;
-import ml.extbukkit.api.command.ICommandManager;
+import ml.extbukkit.api.command.CommandExecutor;
+import ml.extbukkit.api.command.CommandManager;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
-import ml.extbukkit.api.event.IEventManager;
-import ml.extbukkit.api.extension.AExtension;
-import ml.extbukkit.api.loader.IExtensionLoader;
-import ml.extbukkit.api.log.IExtensionLogger;
-import ml.extbukkit.api.log.ILogger;
-import ml.extbukkit.api.scheduler.ISchedulerManager;
-import ml.extbukkit.api.types.IKey;
-import ml.extbukkit.api.world.IWorldManager;
+import ml.extbukkit.api.event.EventManager;
+import ml.extbukkit.api.extension.Extension;
+import ml.extbukkit.api.loader.ExtensionLoader;
+import ml.extbukkit.api.log.ExtensionLogger;
+import ml.extbukkit.api.log.Logger;
+import ml.extbukkit.api.scheduler.SchedulerManager;
+import ml.extbukkit.api.types.Key;
+import ml.extbukkit.api.world.WorldManager;
 
 import java.io.File;
 import java.util.Set;
@@ -45,7 +45,7 @@ public abstract class Server
      *
      * @return Extension loader
      */
-    public abstract IExtensionLoader getExtensionLoader();
+    public abstract ExtensionLoader getExtensionLoader();
 
     /**
      * Get default extensions loading directory<br>
@@ -58,9 +58,9 @@ public abstract class Server
     /**
      * Gets the global logger
      *
-     * @return Logger
+     * @return SimpleLogger
      */
-    public abstract ILogger getGlobalLogger();
+    public abstract Logger getGlobalLogger();
 
     /**
      * Get event manager<br>
@@ -68,7 +68,7 @@ public abstract class Server
      *
      * @return Event manager
      */
-    public abstract IEventManager getEventManager();
+    public abstract EventManager getEventManager();
 
     /**
      * Get scheduler manager<br>
@@ -76,7 +76,7 @@ public abstract class Server
      *
      * @return Scheduler manager
      */
-    public abstract ISchedulerManager getSchedulerManager();
+    public abstract SchedulerManager getSchedulerManager();
 
     /**
      * Get ExtensionsBukkit jar file
@@ -89,9 +89,9 @@ public abstract class Server
      * Get world manager<br>
      * Needed for managing world (setting blocks, getting positions...)
      *
-     * @return World manager
+     * @return SimpleWorld manager
      */
-    public abstract IWorldManager getWorldManager();
+    public abstract WorldManager getWorldManager();
 
     /**
      * Get command manager<br>
@@ -99,18 +99,18 @@ public abstract class Server
      *
      * @return Command manager
      */
-    public abstract ICommandManager getCommandManager();
+    public abstract CommandManager getCommandManager();
 
     /**
      * Creates a new key that is used when registering blocks, items...
      *
      * @return new key
      */
-    public abstract IKey createKey(String namespace, String key);
+    public abstract Key createKey(String namespace, String key);
 
     /**
      * Stop the server
-     * @deprecated Use {@link #stopServer(AExtension)}
+     * @deprecated Use {@link #stopServer(Extension)}
      */
     @Deprecated
     public abstract void stopServer();
@@ -120,14 +120,14 @@ public abstract class Server
      *
      * @param extension extension, requested from
      */
-    public abstract void stopServer(AExtension extension);
+    public abstract void stopServer(Extension extension);
 
     /**
      * Get server properties
      *
      * @return ExtensionedServer properties
      */
-    public abstract IServerProperties getServerProperties();
+    public abstract ServerProperties getServerProperties();
 
     /**
      * Get console command executor<br>
@@ -135,7 +135,7 @@ public abstract class Server
      *
      * @return Console command executor
      */
-    public abstract ICommandExecutor getConsole();
+    public abstract CommandExecutor getConsole();
 
     /**
      * Gets logger for extension
@@ -143,7 +143,7 @@ public abstract class Server
      * @param extensionName extension's name (id)
      * @return extension logger
      */
-    public abstract IExtensionLogger getLogger(String extensionName);
+    public abstract ExtensionLogger getLogger(String extensionName);
 
     /**
      * Gets all online players
