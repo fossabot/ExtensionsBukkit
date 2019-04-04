@@ -1,6 +1,5 @@
 package ml.extbukkit.main.secure.command;
 
-import ml.extbukkit.api.command.ACommand;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.command.exception.CommandException;
 import ml.extbukkit.api.extension.AExtension;
@@ -11,10 +10,10 @@ import org.bukkit.command.ConsoleCommandSender;
 
 public class BridgeCommand extends Command
 {
-    private ACommand command;
+    private ml.extbukkit.api.command.Command command;
     private AExtension extension;
 
-    public BridgeCommand(ACommand our, AExtension extension)
+    public BridgeCommand(ml.extbukkit.api.command.Command our, AExtension extension)
     {
         super( our.getName() );
         this.command = our;

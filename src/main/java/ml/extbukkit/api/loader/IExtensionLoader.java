@@ -32,6 +32,13 @@ public interface IExtensionLoader {
     Collection<AExtension> getExtensions();
 
     /**
+     * Disables extension
+     *
+     * @param extension specified extension
+     */
+    void disable(AExtension extension);
+
+    /**
      * Returns an unmodifiable map of the data of the extension
      *
      * @param extension extension

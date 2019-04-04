@@ -1,14 +1,18 @@
-/*package ml.extbukkit.main.secure.connection;
+package ml.extbukkit.main.secure.connection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
+import ml.extbukkit.api.chat.ChatMessage;
+import ml.extbukkit.api.chat.ChatMessageSerializer;
+import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.api.scheduler.IScheduledTask;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.util.Time;
-import ml.extbukkit.main.secure.nms.reflection.NMRUtil;
+import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
 import ml.extbukkit.main.secure.world.entity.Entity;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -162,4 +166,4 @@ public class SimpleExtensionPlayer extends Entity implements ExtensionedPlayer
         };
     }
 
-}*/
+}

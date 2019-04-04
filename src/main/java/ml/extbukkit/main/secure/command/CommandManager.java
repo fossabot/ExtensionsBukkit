@@ -4,7 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import ml.extbukkit.api.command.ACommand;
+import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.ICommandManager;
 import ml.extbukkit.api.extension.AExtension;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
@@ -17,8 +17,8 @@ import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class CommandManager implements ICommandManager {
-    private Map<String, ACommand> commandMap = new HashMap<>();
-    private Multimap<AExtension, ACommand> commandsByExtension = ArrayListMultimap.create();
+    private Map<String, Command> commandMap = new HashMap<>();
+    private Multimap<AExtension, Command> commandsByExtension = ArrayListMultimap.create();
     private CommandMap bcmp;
     private static CommandManager instance = new CommandManager();
 
@@ -28,7 +28,7 @@ public class CommandManager implements ICommandManager {
     }
 
     @Override
-    public void registerCommand(AExtension extension, ACommand command) {
+    public void registerCommand(AExtension extension, Command command) {
         commandMap.put(command.getName().toLowerCase(), command);
         if (command.getAliases() != null) {
             for (String alias : command.getAliases()) {
@@ -39,7 +39,7 @@ public class CommandManager implements ICommandManager {
     }
 
     @Override
-    public ACommand matchCommand(String commandName) {
+    public Command matchCommand(String commandName) {
         return commandMap.get(commandName);
     }
 
@@ -61,7 +61,7 @@ public class CommandManager implements ICommandManager {
         }
     }*/
 
-    public Map<String, ACommand> getCommandMap() {
+    public Map<String, Command> getCommandMap() {
         return commandMap;
     }
 

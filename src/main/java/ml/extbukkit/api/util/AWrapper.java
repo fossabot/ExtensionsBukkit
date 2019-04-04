@@ -10,7 +10,7 @@ public abstract class AWrapper<T> {
     /**
      * Instance of wrapped class
      */
-    public T handle;
+    protected T handle;
 
     /**
      * Wrapper constructor

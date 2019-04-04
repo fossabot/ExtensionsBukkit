@@ -19,6 +19,7 @@ import ml.extbukkit.main.secure.command.CommandExecutor;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
 import ml.extbukkit.main.secure.server.ExtensionedServer;
 import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -44,22 +45,22 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldSave(WorldSaveEvent e) {
-        server.getEventManager().callEvent(new EventWorldSave(server.getWorldManager().getWorld(e.getWorld().getName())));
+        server.getEventManager().callEvent(new EventWorldSave( server.getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldInit(WorldInitEvent e) {
-        server.getEventManager().callEvent(new EventWorldInitialize(server.getWorldManager().getWorld(e.getWorld().getName())));
+        server.getEventManager().callEvent(new EventWorldInitialize( server.getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldLoad(WorldLoadEvent e) {
-        server.getEventManager().callEvent(new EventWorldLoad(server.getWorldManager().getWorld(e.getWorld().getName())));
+        server.getEventManager().callEvent(new EventWorldLoad( server.getWorldManager().getWorld(e.getWorld().getName())));
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onWorldUnload(WorldUnloadEvent e) {
-        EventWorldUnload ee = new EventWorldUnload(server.getWorldManager().getWorld(e.getWorld().getName()));
+        EventWorldUnload ee = new EventWorldUnload( server.getWorldManager().getWorld(e.getWorld().getName()));
         server.getEventManager().callEvent(ee);
         e.setCancelled(ee.isPrevented());
     }
@@ -67,13 +68,13 @@ public class BukkitEventListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onTabComplete(TabCompleteEvent event) {
         CommandManager manager = CommandManager.getInstance();
-        String[] argsRaw = event.getBuffer().split(" ");
-        String[] args = Arrays.copyOfRange(argsRaw, 1, argsRaw.length);
+        String[] argsRaw = event.getBuffer().split( " " );
+        String[] args = Arrays.copyOfRange( argsRaw, 1, argsRaw.length );
         String commandName = argsRaw[0];
         for (Map.Entry<String, Command> commandEntry : manager.getCommandMap().entrySet()) {
-            if (commandEntry.getValue() instanceof TabCompleter) {
+            if(commandEntry.getValue() instanceof TabCompleter) {
                 TabCompleter completer = (TabCompleter) commandEntry.getValue();
-                if (commandName.equalsIgnoreCase(commandEntry.getValue().getName())) {
+                if(commandName.equalsIgnoreCase(commandEntry.getValue().getName())) {
                     ICommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new CommandExecutor(event.getSender());
                     event.getCompletions().addAll(completer.onTabComplete(executor, args));
                 }
@@ -108,26 +109,26 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent event) {
-        EventPlayerJoin ourEvent = new EventPlayerJoin(new Entity(event.getPlayer()), event.getJoinMessage());
+        EventPlayerJoin ourEvent = new EventPlayerJoin(new SimpleExtensionPlayer(event.getPlayer()), event.getJoinMessage());
         server.getEventManager().callEvent(ourEvent);
         event.setJoinMessage(ourEvent.getJoinMessage());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onQuit(PlayerQuitEvent event) {
-        EventPlayerQuit ourEvent = new EventPlayerQuit(new Entity(event.getPlayer()), event.getQuitMessage());
+        EventPlayerQuit ourEvent = new EventPlayerQuit(new SimpleExtensionPlayer(event.getPlayer()), event.getQuitMessage());
         server.getEventManager().callEvent(ourEvent);
         event.setQuitMessage(ourEvent.getQuitMessage());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityAdd(EntityAddEvent e) {
-        ((PermissionManager) IServer.getInstance().getPermissionManager()).updatePermissions();
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void onEntityRemove(EntityRemoveEvent e) {
-        ((PermissionManager) IServer.getInstance().getPermissionManager()).updatePermissions();
+    public void onEntityRemove(EntityAddEvent e) {
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -137,6 +138,6 @@ public class BukkitEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityRemoveServer(EntityRemoveFromServerEvent e) {
-        ((PermissionManager) IServer.getInstance().getPermissionManager()).updatePermissions();
+
     }
 }

@@ -1,6 +1,7 @@
 package ml.extbukkit.main.secure.command;
 
-import com.google.gson.JsonArray;
+import ml.extbukkit.api.chat.ChatMessage;
+import ml.extbukkit.api.chat.ChatMessageSerializer;
 import ml.extbukkit.api.command.ICommandExecutor;
 import ml.extbukkit.api.util.AWrapper;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -29,8 +30,8 @@ public class CommandExecutor extends AWrapper<CommandSender> implements ICommand
     }
 
     @Override
-    public void sendMessage(JsonArray message) {
-        handle.spigot().sendMessage(ComponentSerializer.parse(message.toString()));
+    public void sendMessage(ChatMessage message) {
+        handle.spigot().sendMessage( ComponentSerializer.parse( ChatMessageSerializer.getInstance().toString( message ) ) );
     }
 
     @Override
@@ -43,6 +44,4 @@ public class CommandExecutor extends AWrapper<CommandSender> implements ICommand
     public boolean hasPermission(String permission) {
         return handle.hasPermission(permission);
     }
-
-    
 }

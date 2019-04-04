@@ -1,7 +1,7 @@
 package ml.extbukkit.main.secure.world;
 
 import ml.extbukkit.api.math.MathFunction;
-import ml.extbukkit.api.server.IServer;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.util.AWrapper;
 import ml.extbukkit.api.world.IPosition;
 import org.bukkit.Location;
@@ -88,7 +88,7 @@ public class Position extends AWrapper<Location> implements IPosition {
 
     @Override
     public IPosition copy() {
-        return IServer.getInstance().getWorldManager().getWorld(getWorld()).positionRotated(getX(), getY(), getZ(), getYaw(), getPitch());
+        return Server.getInstance().getWorldManager().getWorld(getWorld()).positionRotated(getX(), getY(), getZ(), getYaw(), getPitch());
     }
 
     @Override

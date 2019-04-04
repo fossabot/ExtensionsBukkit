@@ -2,7 +2,7 @@ package ml.extbukkit.api.builtin.events;
 
 import lombok.Getter;
 import lombok.Setter;
-import ml.extbukkit.api.world.entity.IEntity;
+import ml.extbukkit.api.connection.ExtensionedPlayer;
 
 public class EventPlayerJoin extends EventPlayer
 {
@@ -11,7 +11,7 @@ public class EventPlayerJoin extends EventPlayer
     @Setter
     private String joinMessage;
 
-    public EventPlayerJoin(IEntity entity, String joinMessage) {
+    public EventPlayerJoin(ExtensionedPlayer entity, String joinMessage) {
         super(entity);
         this.joinMessage = joinMessage;
     }

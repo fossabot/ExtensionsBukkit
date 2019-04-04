@@ -1,18 +1,11 @@
 package ml.extbukkit.api.command;
 
-import com.google.gson.JsonArray;
+import ml.extbukkit.api.chat.ChatMessage;
 
 /**
  * Command executor class
  */
-public interface ICommandExecutor {
-    /**
-     * Check permission
-     *
-     * @param permission Permission to check
-     * @return true, if object has permission
-     */
-    boolean hasPermission(String permission);
+public interface ICommandExecutor extends IPermissible {
     /**
      * Send message to executor
      *
@@ -39,7 +32,7 @@ public interface ICommandExecutor {
      *
      * @param message message to send
      */
-    void sendMessage(JsonArray message);
+    void sendMessage(ChatMessage message);
 
     /**
      * Get name of this executor

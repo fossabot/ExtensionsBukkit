@@ -15,6 +15,15 @@ import java.io.InputStream;
 public abstract class AExtension {
 
     private File file = null;
+    private IExtensionLogger logger = getServer().getLogger( getName() );
+    private File dataFolder = new File( getServer().getExtensionsDir() + File.separator + getName() );
+
+    /**
+     * Called when the extension is disabled
+     */
+    public void onDisable()
+    {
+    }
 
     /**
      * Get extension ID<br>
@@ -67,7 +76,7 @@ public abstract class AExtension {
      * @param file Extension file
      */
     public final void setFile(File file) {
-        Preconditions.checkNotNull(file, "Loading file cannot be null");
+        Preconditions.checkNotNull( file, "Loading file cannot be null" );
         this.file = file;
     }
 
@@ -95,7 +104,19 @@ public abstract class AExtension {
      * @return Logger instance
      */
     public IExtensionLogger getLogger() {
-        return IServer.getInstance().getLogger(this.getName());
+        return logger;
+    }
+
+    /**
+     * Returns an folder with the extension's name in the extensions location
+     * ex. if your extension is called "MyExtension123", the data folder will
+     * be "./extensions/MyExtension123" (. stands for the path to the server files)
+     *
+     * @return folder with the extension's name
+     */
+    public File getDataFolder()
+    {
+        return dataFolder;
     }
 
     /**
@@ -105,10 +126,12 @@ public abstract class AExtension {
      * @return input steam of the exact resource
      * @throws NullPointerException if the input stream (file in the jar) is null
      */
-    public InputStream getResourceAsStream(String resourceName) {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(resourceName);
-        if (stream == null) {
-            throw new NullPointerException("Cannot find a file into extension '" + getName() + "' with name '" + resourceName + "'");
+    public InputStream getResourceAsStream(String resourceName)
+    {
+        InputStream stream = getClass().getClassLoader().getResourceAsStream( resourceName );
+        if ( stream == null )
+        {
+            throw new NullPointerException( "Cannot find a file into extension '" + getName() + "' with name '" + resourceName + "'" );
         }
         return stream;
     }

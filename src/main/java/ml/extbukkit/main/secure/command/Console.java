@@ -1,26 +1,30 @@
 package ml.extbukkit.main.secure.command;
 
-import com.google.gson.JsonArray;
-import ml.extbukkit.api.builtin.log.Channels;
-import ml.extbukkit.api.command.ICommandExecutor;
-import ml.extbukkit.api.server.IServer;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.Bukkit;
-
 import java.util.Arrays;
 
-public class Console implements ICommandExecutor {
+import ml.extbukkit.api.builtin.log.Channels;
+import ml.extbukkit.api.chat.ChatMessage;
+import ml.extbukkit.api.chat.ChatMessageSerializer;
+import ml.extbukkit.api.command.ICommandExecutor;
+import ml.extbukkit.api.server.Server;
+import ml.extbukkit.api.util.AWrapper;
+import net.md_5.bungee.chat.ComponentSerializer;
+import org.bukkit.Bukkit;
+import org.bukkit.command.ConsoleCommandSender;
 
-    private IServer server = IServer.getInstance();
+public class Console implements ICommandExecutor
+{
+
+    private Server server = Server.getInstance();
 
     @Override
     public void sendMessage(String message) {
-        server.getGlobalLogger().log(Channels.INFO, message);
+        server.getGlobalLogger().log( Channels.INFO, message );
     }
 
     @Override
     public void sendMessages(String... message) {
-        Arrays.stream(message).forEach(this::sendMessage);
+        Arrays.stream( message ).forEach( this::sendMessage );
     }
 
     @Override
@@ -29,12 +33,13 @@ public class Console implements ICommandExecutor {
     }
 
     @Override
-    public void sendMessage(JsonArray message) {
-        Bukkit.getConsoleSender().spigot().sendMessage(ComponentSerializer.parse(message.toString()));
+    public void sendMessage(ChatMessage message) {
+        Bukkit.getConsoleSender().spigot().sendMessage( ComponentSerializer.parse( ChatMessageSerializer.getInstance().toString( message ) ) );
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "CONSOLE";
     }
 
