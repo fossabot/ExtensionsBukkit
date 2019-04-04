@@ -1,5 +1,10 @@
 package ml.extbukkit.main.secure.scheduler;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Consumer;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import ml.extbukkit.api.extension.AExtension;
@@ -9,16 +14,15 @@ import ml.extbukkit.api.server.IServer;
 import ml.extbukkit.api.util.Time;
 import ml.extbukkit.main.secure.bukkit.BukkitExtensionsBukkit;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.function.Consumer;
-
 public class SchedulerManager implements ISchedulerManager {
 
     private Map<UUID, ScheduledTask> tasks = new HashMap<>();
     private Multimap<AExtension, ScheduledTask> tasksByExtension = ArrayListMultimap.create();
     private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
+
+    private SchedulerManager() {
+
+    }
 
     @Override
     public IScheduledTask schedule(AExtension owner, Runnable task, Time delay, Time interval) {
@@ -41,7 +45,7 @@ public class SchedulerManager implements ISchedulerManager {
             try {
                 task.run();
             } catch (Throwable t) {
-                IServer.getInstance().getGlobalLogger().logStack("Internal error occured trying to execute delayed task in extension " +
+                Server.getInstance().getGlobalLogger().logStack("Internal error occured trying to execute delayed task in extension " +
                         "'" + owner.getName() + "'", t);
             }
         }, delay.toLong());

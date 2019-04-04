@@ -2,7 +2,7 @@ package ml.extbukkit.api.extension;
 
 import com.google.common.base.Preconditions;
 import ml.extbukkit.api.log.IExtensionLogger;
-import ml.extbukkit.api.server.IServer;
+import ml.extbukkit.api.server.Server;
 
 import java.io.File;
 import java.io.InputStream;
@@ -85,8 +85,8 @@ public abstract class AExtension {
      *
      * @return ExtensionedServer instance
      */
-    public IServer getServer() {
-        return IServer.getInstance();
+    public Server getServer() {
+        return Server.getInstance();
     }
 
     /**
