@@ -12,7 +12,7 @@ public interface EventManager {
      *
      * @param event called event
      */
-    void callEvent(Event event);
+    <T extends Event> T callEvent(T event);
 
     /**
      * Register a specific event handler.
@@ -20,7 +20,7 @@ public interface EventManager {
      * @param eventClass event's class
      * @param handler Handler
      */
-    void registerHandler(Class<? extends Event> eventClass, EventHandler handler);
+    <T extends Event> void registerHandler(Class<T> eventClass, EventHandler<T> handler);
 
     /**
      * Returns an unmodifiable collection of all registered handlers for the specific event class.

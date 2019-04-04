@@ -7,13 +7,14 @@ import java.util.Set;
 
 import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.EventHandler;
+import ml.extbukkit.api.event.EventManager;
 
-public class ExtensionEventManager implements ml.extbukkit.api.event.EventManager {
+public class ExtensionEventManager implements EventManager {
 
   private static Set<RegisteredHandler> handlers = new HashSet<>(); // !! MUST BE STATIC !!
 
   @Override
-  public void callEvent(Event event) {
+  public <T extends Event> T callEvent(T event) {
     Set<EventHandler> hsh = new HashSet<>();
     Set<EventHandler> hh = new HashSet<>();
     Set<EventHandler> nh = new HashSet<>();
@@ -50,10 +51,11 @@ public class ExtensionEventManager implements ml.extbukkit.api.event.EventManage
     nh.clear();
     hh.clear();
     hsh.clear();
+    return event;
   }
 
   @Override
-  public void registerHandler(Class<? extends Event> clazz, EventHandler handler) {
+  public <T extends Event> void registerHandler(Class<T> clazz, EventHandler<T> handler) {
     handlers.add(new RegisteredHandler(handler, clazz));
   }
 

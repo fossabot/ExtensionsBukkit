@@ -9,7 +9,7 @@ import ml.extbukkit.api.event.EventHandler;
 @Getter
 public class RegisteredHandler {
 
-    private EventHandler handler;
+    private EventHandler<? extends Event> handler;
 
     private Class<? extends Event> eventClass;
 }
