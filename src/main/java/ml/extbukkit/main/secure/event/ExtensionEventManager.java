@@ -2,70 +2,53 @@ package ml.extbukkit.main.secure.event;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.EventHandler;
 import ml.extbukkit.api.event.EventManager;
+import ml.extbukkit.api.event.HandlePriority;
 
 public class ExtensionEventManager implements EventManager {
 
-  private static Set<RegisteredHandler> handlers = new HashSet<>(); // !! MUST BE STATIC !!
+  private static Map<HandlePriority, Map<Class<? extends Event>, EventHandler<? extends Event>>> byPriority = new LinkedHashMap<>(); // !! MUST BE STATIC !!
 
   @Override
   public <T extends Event> T callEvent(T event) {
-    Set<EventHandler> hsh = new HashSet<>();
-    Set<EventHandler> hh = new HashSet<>();
-    Set<EventHandler> nh = new HashSet<>();
-    Set<EventHandler> lh = new HashSet<>();
-    Set<EventHandler> lsh = new HashSet<>();
-    handlers.forEach(rHandler -> {
-      if(rHandler.getEventClass().isAssignableFrom(event.getClass())) {
-        switch(rHandler.getHandler().priority()) {
-          case HIGHEST:
-            hsh.add(rHandler.getHandler());
-            break;
-          case HIGH:
-            hh.add(rHandler.getHandler());
-            break;
-          case LOW:
-            lh.add(rHandler.getHandler());
-            break;
-          case LOWEST:
-            lsh.add(rHandler.getHandler());
-            break;
-          default:
-            nh.add(rHandler.getHandler());
-            break;
-        }
+    Map<HandlePriority, Map<Class<? extends Event>, EventHandler<? extends Event>>> sortedMap
+      = byPriority.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey))
+      .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e1, LinkedHashMap::new));
+    sortedMap.forEach((priority, handlers) -> {
+      EventHandler handler = handlers.get(event.getClass());
+      if(handler == null) {
+        return; // no handlers for event, skip
       }
+      handler.handle(event);
     });
-    hsh.forEach(h -> h.handle(event));
-    hh.forEach(h -> h.handle(event));
-    nh.forEach(h -> h.handle(event));
-    lh.forEach(h -> h.handle(event));
-    lsh.forEach(h -> h.handle(event));
-    lsh.clear();
-    lh.clear();
-    nh.clear();
-    hh.clear();
-    hsh.clear();
     return event;
   }
 
   @Override
   public <T extends Event> void registerHandler(Class<T> clazz, EventHandler<T> handler) {
-    handlers.add(new RegisteredHandler(handler, clazz));
+    Map<Class<? extends Event>, EventHandler<? extends Event>> handlersMap = byPriority.get(handler.priority());
+    if(handlersMap == null) {
+      handlersMap = new HashMap<>();
+    }
+    handlersMap.put(clazz, handler);
+    byPriority.put(handler.priority(), handlersMap);
   }
 
   @Override
   public Collection<EventHandler<? extends Event>> getHandlers(Class<? extends Event> eventClass) {
     Collection<EventHandler<? extends Event>> normalCollection = new HashSet<>();
-    handlers.forEach(registeredHandler -> {
-      if(registeredHandler.getEventClass().isAssignableFrom(eventClass)) {
-        normalCollection.add(registeredHandler.getHandler());
-      }
+    byPriority.forEach((priority, handlers) -> {
+      EventHandler<? extends Event> handler = handlers.get(eventClass);
+      normalCollection.add(handler);
     });
     return Collections.unmodifiableCollection(normalCollection);
   }

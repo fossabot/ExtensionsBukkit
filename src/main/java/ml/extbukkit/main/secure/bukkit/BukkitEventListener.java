@@ -1,9 +1,5 @@
 package ml.extbukkit.main.secure.bukkit;
 
-import com.bergerkiller.bukkit.common.events.EntityAddEvent;
-import com.bergerkiller.bukkit.common.events.EntityMoveEvent;
-import com.bergerkiller.bukkit.common.events.EntityRemoveFromServerEvent;
-
 import ml.extbukkit.api.builtin.events.EventPlayerJoin;
 import ml.extbukkit.api.builtin.events.EventPlayerQuit;
 import ml.extbukkit.api.builtin.events.EventWorldInitialize;
@@ -117,25 +113,5 @@ public class BukkitEventListener implements Listener {
     EventPlayerQuit ourEvent = new EventPlayerQuit(new SimpleExtensionPlayer(event.getPlayer()), event.getQuitMessage());
     server.getEventManager().callEvent(ourEvent);
     event.setQuitMessage(ourEvent.getQuitMessage());
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onEntityAdd(EntityAddEvent e) {
-
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onEntityRemove(EntityAddEvent e) {
-
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onEntityMove(EntityMoveEvent e) {
-
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onEntityRemoveServer(EntityRemoveFromServerEvent e) {
-
   }
 }
