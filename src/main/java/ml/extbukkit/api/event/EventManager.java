@@ -28,5 +28,5 @@ public interface EventManager {
      * @param eventClass the event's class you wish to get the handlers of
      * @return registered handlers for the specific event class
      */
-    Collection<EventHandler> getHandlers(Class<? extends Event> eventClass);
+    Collection<EventHandler<? extends Event>> getHandlers(Class<? extends Event> eventClass);
 }

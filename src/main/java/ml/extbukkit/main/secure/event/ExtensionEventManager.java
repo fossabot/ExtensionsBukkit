@@ -60,8 +60,8 @@ public class ExtensionEventManager implements EventManager {
   }
 
   @Override
-  public Collection<EventHandler> getHandlers(Class<? extends Event> eventClass) {
-    Collection<EventHandler> normalCollection = new HashSet<>();
+  public Collection<EventHandler<? extends Event>> getHandlers(Class<? extends Event> eventClass) {
+    Collection<EventHandler<? extends Event>> normalCollection = new HashSet<>();
     handlers.forEach(registeredHandler -> {
       if(registeredHandler.getEventClass().isAssignableFrom(eventClass)) {
         normalCollection.add(registeredHandler.getHandler());
