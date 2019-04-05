@@ -43,7 +43,7 @@ public class NBTUtils {
   public static Object getEntityNbt(Entity entity) {
     try {
       Class<?> nbtClass = NMSRUtil.getNMSClass("NBTTagCompound");
-      Constructor<?> nbtConstructor = nbtClass.getDeclaredConstructor(null);
+      Constructor<?> nbtConstructor = nbtClass.getDeclaredConstructor();
       nbtConstructor.setAccessible(true);
       Object nbt = nbtConstructor.newInstance();
       Object nmsEntity = getEntityConnection(entity);

@@ -32,16 +32,6 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
 
   @Override
   public void onLoad() {
-    try {
-      Class.forName("com.bergerkiller.bukkit.common.internal.CommonPlugin");
-    } catch(ClassNotFoundException e) {
-      getLogger().severe("BKCommonLib is not installed, but is required by ExtensionsBukkit!");
-      getLogger().severe("Downloading BKCommonLib...");
-      Updater.downloadBKCL();
-      getLogger().warning("BKCommonLib has been downloaded, disabling...");
-      getServer().getPluginManager().disablePlugin(this);
-      return;
-    }
     if(NMSRUtil.isUnder1_12()) {
       getLogger().severe("Unsupported version found! Minimal supported version: 1.12");
       getLogger().severe("Plugin disabled!");
