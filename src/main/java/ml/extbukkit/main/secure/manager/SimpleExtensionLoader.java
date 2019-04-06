@@ -2,26 +2,25 @@ package ml.extbukkit.main.secure.manager;
 
 import ml.extbukkit.api.builtin.events.EventExtensionDisable;
 import ml.extbukkit.api.extension.Extension;
+import ml.extbukkit.api.loader.ExtensionLoader;
 import ml.extbukkit.api.loader.exception.LoadException;
 import ml.extbukkit.api.server.Server;
 
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class SimpleExtensionLoader implements ml.extbukkit.api.loader.ExtensionLoader {
+public class SimpleExtensionLoader implements ExtensionLoader {
 
   private Map<String, Extension> extensions = new HashMap<>();
   private Map<Extension, Map<String, String>> data = new HashMap<>();
@@ -83,12 +82,6 @@ public class SimpleExtensionLoader implements ml.extbukkit.api.loader.ExtensionL
     for(File f : dir.listFiles((dir1, name) -> name.endsWith(".jar"))) {
       load(f);
     }
-  }
-
-  public List<String> getExtensionIdList() {
-    List<String> ids = new ArrayList<>();
-    getExtensions().forEach(extension -> ids.add(extension.getName()));
-    return ids;
   }
 
   @Override

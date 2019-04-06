@@ -1,6 +1,7 @@
 package ml.extbukkit.main.secure.world;
 
 import ml.extbukkit.api.world.World;
+import ml.extbukkit.api.world.WorldManager;
 import org.bukkit.Bukkit;
 
 import java.util.Arrays;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Worlds implements ml.extbukkit.api.world.WorldManager {
+public class Worlds implements WorldManager {
 
   private Map<String, SimpleWorld> worlds = new HashMap<>();
 

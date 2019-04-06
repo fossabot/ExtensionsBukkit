@@ -3,9 +3,10 @@ package ml.extbukkit.main.secure.world;
 import ml.extbukkit.api.util.Wrapper;
 import ml.extbukkit.api.world.Block;
 import ml.extbukkit.api.world.Position;
+import ml.extbukkit.api.world.World;
 import org.bukkit.Location;
 
-public class SimpleWorld extends Wrapper<org.bukkit.World> implements ml.extbukkit.api.world.World {
+public class SimpleWorld extends Wrapper<org.bukkit.World> implements World {
 
     public SimpleWorld(org.bukkit.World w) {
         super(w);

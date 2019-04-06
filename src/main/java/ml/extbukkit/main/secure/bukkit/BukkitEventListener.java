@@ -9,6 +9,7 @@ import ml.extbukkit.api.builtin.events.EventWorldUnload;
 import ml.extbukkit.api.command.Command;
 import ml.extbukkit.api.command.CommandExecutor;
 import ml.extbukkit.api.command.TabCompleter;
+import ml.extbukkit.api.connection.ExtensionedPlayer;
 import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.command.SimpleCommandManager;
 import ml.extbukkit.main.secure.command.ExtensionedCommandExecutor;
@@ -103,15 +104,19 @@ public class BukkitEventListener implements Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
   public void onJoin(PlayerJoinEvent event) {
-    EventPlayerJoin ourEvent = new EventPlayerJoin(new SimpleExtensionPlayer(event.getPlayer()), event.getJoinMessage());
+    ExtensionedPlayer player = new SimpleExtensionPlayer(event.getPlayer());
+    EventPlayerJoin ourEvent = new EventPlayerJoin(player, event.getJoinMessage());
     server.getEventManager().callEvent(ourEvent);
     event.setJoinMessage(ourEvent.getJoinMessage());
+    BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUnmodified().add(player);
   }
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
   public void onQuit(PlayerQuitEvent event) {
-    EventPlayerQuit ourEvent = new EventPlayerQuit(new SimpleExtensionPlayer(event.getPlayer()), event.getQuitMessage());
+    ExtensionedPlayer player = new SimpleExtensionPlayer(event.getPlayer());
+    EventPlayerQuit ourEvent = new EventPlayerQuit(player, event.getQuitMessage());
     server.getEventManager().callEvent(ourEvent);
     event.setQuitMessage(ourEvent.getQuitMessage());
+    BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUnmodified().remove(player);
   }
 }

@@ -1,9 +1,10 @@
 package ml.extbukkit.main.secure.types;
 
 import lombok.ToString;
+import ml.extbukkit.api.types.Key;
 
 @ToString
-public class NamespacedKey implements ml.extbukkit.api.types.Key {
+public class NamespacedKey implements Key {
 
     private String namespace, key;
 

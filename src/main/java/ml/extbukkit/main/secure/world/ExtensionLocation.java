@@ -3,9 +3,10 @@ package ml.extbukkit.main.secure.world;
 import ml.extbukkit.api.math.MathFunction;
 import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.util.Wrapper;
+import ml.extbukkit.api.world.Position;
 import org.bukkit.Location;
 
-public class ExtensionLocation extends Wrapper<Location> implements ml.extbukkit.api.world.Position {
+public class ExtensionLocation extends Wrapper<Location> implements Position {
     public ExtensionLocation(Location l) {
         super(l);
     }

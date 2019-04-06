@@ -1,13 +1,13 @@
 package ml.extbukkit.main.secure.world.entity;
 
 import com.google.gson.JsonObject;
+import ml.extbukkit.api.server.Server;
 import ml.extbukkit.api.types.EntityType;
 import ml.extbukkit.api.world.Position;
 import ml.extbukkit.api.world.StraightDirection;
 import ml.extbukkit.api.world.entity.Entity;
 import ml.extbukkit.main.secure.command.ExtensionedCommandExecutor;
 import ml.extbukkit.main.secure.nms.NBTUtils;
-import ml.extbukkit.main.secure.server.ExtensionedServer;
 import ml.extbukkit.main.secure.world.DirectionHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -136,7 +136,7 @@ public class ExtensionedEntity extends ExtensionedCommandExecutor implements Ent
 
   @Override
   public boolean setPassenger(ml.extbukkit.api.world.entity.Entity passenger) {
-    return ejectPassengers() || addPassenger(passenger);
+    return ejectPassengers() && addPassenger(passenger);
   }
 
   @Override
@@ -156,11 +156,14 @@ public class ExtensionedEntity extends ExtensionedCommandExecutor implements Ent
 
   @Override
   public Position getPosition() {
-    return ExtensionedServer.getInstance().getWorldManager().getWorld(base.getWorld().getName()).positionRotated(base.getLocation().getX(), base.getLocation().getY(), base.getLocation().getZ(), base.getLocation().getYaw(), base.getLocation().getPitch());
+    Location baseLoc = base.getLocation();
+    return Server.getInstance().getWorldManager().getWorld(base.getWorld().getName())
+      .positionRotated(baseLoc.getX(), baseLoc.getY(), baseLoc.getZ(), baseLoc.getYaw(), baseLoc.getPitch());
   }
 
   @Override
   public boolean setPosition(Position position) {
-    return base.teleport(new Location(Bukkit.getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ(), position.getYaw(), position.getPitch()));
+    return base.teleport(
+      new Location(Bukkit.getWorld(position.getWorld()), position.getX(), position.getY(), position.getZ(), position.getYaw(), position.getPitch()));
   }
 }

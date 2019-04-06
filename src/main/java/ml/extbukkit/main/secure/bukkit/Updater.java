@@ -8,11 +8,11 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.logging.Level;
 
-public class Updater {
+class Updater {
 
   private static BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
 
-  public static void download() {
+  static void download() {
     FileOutputStream outputStream = null;
     try {
       URL downloadURL = new URL("http://ci.extbukkit.ml/job/ExtensionsBukkit/lastSuccessfulBuild/artifact/build/libs/ExtensionsBukkit.jar");

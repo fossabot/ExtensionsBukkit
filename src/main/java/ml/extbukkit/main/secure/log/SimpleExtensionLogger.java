@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import ml.extbukkit.api.builtin.log.Channels;
+import ml.extbukkit.api.log.ExtensionLogger;
 import ml.extbukkit.api.log.LogChannel;
 import ml.extbukkit.api.log.Logger;
 import ml.extbukkit.api.server.Server;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class SimpleExtensionLogger implements ml.extbukkit.api.log.ExtensionLogger {
+public class SimpleExtensionLogger implements ExtensionLogger {
   private String prefix;
   private Logger globalLogger = Server.getInstance().getGlobalLogger();
 
