@@ -7,6 +7,7 @@ import ml.extbukkit.api.loader.ExtensionLoader;
 import ml.extbukkit.api.server.Server;
 import ml.extbukkit.main.secure.chat.SimpleSerializer;
 import ml.extbukkit.main.secure.command.SimpleCommandManager;
+import ml.extbukkit.main.secure.cooldowns.EventListener;
 import ml.extbukkit.main.secure.log.SimpleLogger;
 import ml.extbukkit.main.secure.log.util.LevelToChannel;
 import ml.extbukkit.main.secure.nms.reflection.NMSRUtil;
@@ -73,6 +74,7 @@ public final class BukkitExtensionsBukkit extends JavaPlugin {
     if(!getServer().getPluginManager().isPluginEnabled(this)) {
       return;
     }
+    new EventListener();
     getServer().getPluginManager().registerEvents(new BukkitEventListener(), this);
     getServer().getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
   }

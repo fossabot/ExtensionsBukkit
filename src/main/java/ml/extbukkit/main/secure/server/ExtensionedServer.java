@@ -5,6 +5,7 @@ import ml.extbukkit.api.command.CommandExecutor;
 import ml.extbukkit.api.command.CommandManager;
 import ml.extbukkit.api.config.Configuration;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
+import ml.extbukkit.api.cooldowns.CooldownManagerRegisterer;
 import ml.extbukkit.api.event.EventManager;
 import ml.extbukkit.api.extension.Extension;
 import ml.extbukkit.api.loader.ExtensionLoader;
@@ -20,6 +21,7 @@ import ml.extbukkit.main.secure.command.Console;
 import ml.extbukkit.main.secure.command.SimpleCommandManager;
 import ml.extbukkit.main.secure.config.YAMLConfiguration;
 import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
+import ml.extbukkit.main.secure.cooldowns.SimpleRegisterer;
 import ml.extbukkit.main.secure.event.ExtensionEventManager;
 import ml.extbukkit.main.secure.log.SimpleExtensionLogger;
 import ml.extbukkit.main.secure.log.SimpleLogger;
@@ -47,6 +49,7 @@ public class ExtensionedServer extends Server {
   private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
   private ExtensionEventManager events;
   private Console console;
+  private SimpleRegisterer cooldownManagerRegisterer;
 
   public ExtensionedServer() {
     loader = new SimpleExtensionLoader();
@@ -55,6 +58,7 @@ public class ExtensionedServer extends Server {
     events = new ExtensionEventManager();
     properties = new ExtensionedServerProperites();
     console = new Console();
+    cooldownManagerRegisterer = new SimpleRegisterer();
   }
 
   @Override
@@ -157,6 +161,11 @@ public class ExtensionedServer extends Server {
   @Override
   public Configuration loadConfiguration(final File file) {
     return new YAMLConfiguration(YamlConfiguration.loadConfiguration(file), file);
+  }
+
+  @Override
+  public CooldownManagerRegisterer getCooldownRegisterer() {
+    return cooldownManagerRegisterer;
   }
 
 }

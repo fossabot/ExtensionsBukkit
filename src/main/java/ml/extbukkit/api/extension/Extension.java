@@ -1,6 +1,8 @@
 package ml.extbukkit.api.extension;
 
 import com.google.common.base.Preconditions;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ml.extbukkit.api.log.ExtensionLogger;
 import ml.extbukkit.api.server.Server;
 
@@ -12,6 +14,8 @@ import java.io.InputStream;
  * extension's main class <b>should</b>
  * extend in order to be loaded
  */
+@EqualsAndHashCode
+@ToString
 public abstract class Extension {
 
   private File file = null;

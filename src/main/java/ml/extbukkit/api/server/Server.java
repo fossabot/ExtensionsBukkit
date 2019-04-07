@@ -6,6 +6,8 @@ import ml.extbukkit.api.command.CommandExecutor;
 import ml.extbukkit.api.command.CommandManager;
 import ml.extbukkit.api.config.Configuration;
 import ml.extbukkit.api.connection.ExtensionedPlayer;
+import ml.extbukkit.api.cooldowns.CooldownManager;
+import ml.extbukkit.api.cooldowns.CooldownManagerRegisterer;
 import ml.extbukkit.api.event.EventManager;
 import ml.extbukkit.api.extension.Extension;
 import ml.extbukkit.api.loader.ExtensionLoader;
@@ -173,4 +175,12 @@ public abstract class Server {
    * @return configuration
    */
   public abstract Configuration loadConfiguration(File file);
+
+  /**
+   * Gets the cooldown registerer. If you make a {@link ml.extbukkit.api.cooldowns.CooldownManager}, this is
+   * needed to register your cooldown manager. Else, when you call {@link CooldownManager#start()}, it won't work
+   *
+   * @return cooldown manager registerer
+   */
+  public abstract CooldownManagerRegisterer getCooldownRegisterer();
 }
