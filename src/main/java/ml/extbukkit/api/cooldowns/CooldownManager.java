@@ -57,12 +57,12 @@ public final class CooldownManager {
    * @param time time in seconds
    * @param identifier identifier
    */
-  public void addCooldown(ExtensionedPlayer player, long time, String identifier) {
+  public void addCooldown(ExtensionedPlayer player, Time time, String identifier) {
     Map<String, Long> identifierMap = cooldowns.get(player.getUUID());
     if(identifierMap == null) {
       identifierMap = new HashMap<>();
     }
-    identifierMap.put(identifier, time);
+    identifierMap.put(identifier, time.getTicks() * 20);
     cooldowns.put(player.getUUID(), identifierMap);
   }
 
