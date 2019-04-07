@@ -1,5 +1,6 @@
 package ml.extbukkit.api.log;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -13,17 +14,13 @@ public interface ExtensionLogger {
 
   void info(String... messages);
 
-  void info(List<String> messages);
-
-  void info(Set<String> messages);
+  void info(Collection<String> messages);
 
   void warn(String message);
 
   void warn(String... messages);
 
-  void warn(List<String> messages);
-
-  void warn(Set<String> messages);
+  void warn(Collection<String> messages);
 
   void error(String message);
 
@@ -33,9 +30,7 @@ public interface ExtensionLogger {
 
   void debug(String... messages);
 
-  void debug(List<String> messages);
-
-  void debug(Set<String> messages);
+  void debug(Collection<String> messages);
 
   void fatal(String message);
 
@@ -45,9 +40,7 @@ public interface ExtensionLogger {
 
   void log(LogChannel channel, String... messages);
 
-  void log(LogChannel channel, List<String> messages);
-
-  void log(LogChannel channel, Set<String> messages);
+  void log(LogChannel channel, Collection<String> messages);
 
   void log(LogChannel channel, String message, Throwable stack);
 

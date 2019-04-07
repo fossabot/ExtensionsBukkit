@@ -1,6 +1,7 @@
 package ml.extbukkit.main.secure.log;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -30,12 +31,7 @@ public class SimpleExtensionLogger implements ExtensionLogger {
   }
 
   @Override
-  public void info(List<String> messages) {
-    messages.forEach(this::info);
-  }
-
-  @Override
-  public void info(Set<String> messages) {
+  public void info(Collection<String> messages) {
     messages.forEach(this::info);
   }
 
@@ -50,12 +46,7 @@ public class SimpleExtensionLogger implements ExtensionLogger {
   }
 
   @Override
-  public void warn(List<String> messages) {
-    messages.forEach(this::warn);
-  }
-
-  @Override
-  public void warn(Set<String> messages) {
+  public void warn(Collection<String> messages) {
     messages.forEach(this::warn);
   }
 
@@ -80,12 +71,7 @@ public class SimpleExtensionLogger implements ExtensionLogger {
   }
 
   @Override
-  public void debug(List<String> messages) {
-    messages.forEach(this::debug);
-  }
-
-  @Override
-  public void debug(Set<String> messages) {
+  public void debug(Collection<String> messages) {
     messages.forEach(this::debug);
   }
 
@@ -110,12 +96,7 @@ public class SimpleExtensionLogger implements ExtensionLogger {
   }
 
   @Override
-  public void log(LogChannel channel, List<String> messages) {
-    messages.forEach(message -> log(channel, message));
-  }
-
-  @Override
-  public void log(LogChannel channel, Set<String> messages) {
+  public void log(LogChannel channel, Collection<String> messages) {
     messages.forEach(message -> log(channel, message));
   }
 
