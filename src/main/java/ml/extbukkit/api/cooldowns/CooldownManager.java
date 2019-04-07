@@ -62,7 +62,7 @@ public final class CooldownManager {
     if(identifierMap == null) {
       identifierMap = new HashMap<>();
     }
-    identifierMap.put(identifier, time.getTicks() * 20);
+    identifierMap.put(identifier, time.getTicks() / 20);
     cooldowns.put(player.getUUID(), identifierMap);
   }
 
