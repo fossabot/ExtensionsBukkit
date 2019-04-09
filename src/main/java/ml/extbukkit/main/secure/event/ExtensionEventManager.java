@@ -13,16 +13,20 @@ import ml.extbukkit.api.event.Event;
 import ml.extbukkit.api.event.EventHandler;
 import ml.extbukkit.api.event.EventManager;
 import ml.extbukkit.api.event.HandlePriority;
+import ml.extbukkit.api.log.Logger;
+import ml.extbukkit.api.server.Server;
 
 public class ExtensionEventManager implements EventManager {
 
   private static Map<HandlePriority, Map<Class<? extends Event>, EventHandler<? extends Event>>> byPriority = new LinkedHashMap<>(); // !! MUST BE STATIC !!
+  private Logger logger = Server.getInstance().getGlobalLogger();
 
   @Override
   public <T extends Event> T callEvent(T event) {
     Map<HandlePriority, Map<Class<? extends Event>, EventHandler<? extends Event>>> sortedMap
       = byPriority.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey))
       .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e1, LinkedHashMap::new));
+    long start = System.nanoTime();
     sortedMap.forEach((priority, handlers) -> {
       EventHandler handler = handlers.get(event.getClass());
       if(handler == null) {
@@ -30,6 +34,8 @@ public class ExtensionEventManager implements EventManager {
       }
       handler.handle(event);
     });
+    long elapsed = System.nanoTime() - start;
+    logger.log(event.getClass().getSimpleName() + " called. Took " + elapsed / 1000000 + " ms to process");
     return event;
   }
 
