@@ -19,7 +19,11 @@ import ml.extbukkit.api.server.Server;
 public class ExtensionEventManager implements EventManager {
 
   private static Map<HandlePriority, Map<Class<? extends Event>, EventHandler<? extends Event>>> byPriority = new LinkedHashMap<>(); // !! MUST BE STATIC !!
-  private Logger logger = Server.getInstance().getGlobalLogger();
+  private Logger logger;
+
+  public ExtensionEventManager(Logger logger) {
+    this.logger = logger;
+  }
 
   @Override
   public <T extends Event> T callEvent(T event) {

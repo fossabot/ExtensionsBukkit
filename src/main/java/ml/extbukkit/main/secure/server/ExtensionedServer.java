@@ -55,7 +55,7 @@ public class ExtensionedServer extends Server {
     loader = new SimpleExtensionLoader();
     scheduler = SimpleScheduler.getInstance();
     worlds = new Worlds();
-    events = new ExtensionEventManager();
+    events = new ExtensionEventManager(SimpleLogger.getInstance());
     properties = new ExtensionedServerProperites();
     console = new Console();
     cooldownManagerRegisterer = new SimpleRegisterer();
