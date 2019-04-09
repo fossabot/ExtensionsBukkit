@@ -89,11 +89,41 @@ public enum TextColor {
    */
   WHITE('f'),
 
-    /*MAGIC('k'),
-    BOLD('l'),
-    STRIKETHROUGH('m'),
-    UNDERLINE('n'),
-    ITALIC('o'),**/
+  //---------------------------------------
+  /**
+   * Variants of formatting
+   */
+
+  /**
+   * @deprecated internal use
+   */
+  @Deprecated
+  MAGIC('k'),
+
+  /**
+   * @deprecated internal use
+   */
+  @Deprecated
+  BOLD('l'),
+
+  /**
+   * @deprecated internal use
+   */
+  @Deprecated
+  STRIKETHROUGH('m'),
+
+  /**
+   * @deprecated internal use
+   */
+  @Deprecated
+  UNDERLINE('n'),
+
+  /**
+   * @deprecated internal use
+   */
+  @Deprecated
+  ITALIC('o'),
+  //------------------------------
 
   /**
    * Resets all colors

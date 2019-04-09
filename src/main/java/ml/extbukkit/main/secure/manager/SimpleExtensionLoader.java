@@ -79,7 +79,7 @@ public class SimpleExtensionLoader implements ExtensionLoader {
         }
       }
     } catch(Throwable e) {
-      throw new LoadException("Internal error on loading extension", e);
+      logger.logStack("",new LoadException("Internal error on loading extension", e));
     }
   }
 

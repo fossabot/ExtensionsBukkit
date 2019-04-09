@@ -39,7 +39,9 @@ public class ExtensionEventManager implements EventManager {
       handler.handle(event);
     });
     long elapsed = System.nanoTime() - start;
-    logger.log(event.getClass().getSimpleName() + " called. Took " + elapsed / 1000000 + " ms to process ( " + elapsed + " nanoseconds )");
+    if(elapsed > 250000000) {
+      logger.log(event.getClass().getSimpleName() + " called. Took " + elapsed / 1000000 + " ms to process ( " + elapsed + " nanoseconds )");
+    }
     return event;
   }
 

@@ -3,15 +3,19 @@ package ml.extbukkit.main.secure.log;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import ml.extbukkit.api.builtin.log.Channels;
 import ml.extbukkit.api.extension.Extension;
@@ -25,7 +29,7 @@ import org.apache.logging.log4j.Level;
 public class SimpleLogger implements Logger {
 
   private boolean enabled = true;
-  private File LOGS, LATEST, BUKKIT, EB, LOGSTP;
+  private File LATEST, BUKKIT, EB, LOGSTP;
   private List<LogHandler> handlers = new ArrayList<>();
   private static SimpleLogger instance = new SimpleLogger();
 
@@ -34,15 +38,24 @@ public class SimpleLogger implements Logger {
   }
 
   private SimpleLogger() {
-    LOGS = new File("extensionsbukkit/logs/");
+    final File LOGS = new File("extensionsbukkit/logs/");
     LATEST = new File(LOGS, "everything.log");
     BUKKIT = new File(LOGS, "bukkit.log");
     EB = new File(LOGS, "extensionsbukkit.log");
     LOGSTP = new File(LOGS, timestamp().replace(' ', '_') + "/");
     if(!LOGS.exists() || !LOGS.isDirectory()) LOGS.mkdirs();
-    if(LATEST.exists()) LATEST.delete();
-    if(BUKKIT.exists()) BUKKIT.delete();
-    if(EB.exists()) EB.delete();
+    if(LATEST.exists()) {
+      zip(LATEST);
+      LATEST.delete();
+    }
+    if(BUKKIT.exists()) {
+      zip(BUKKIT);
+      BUKKIT.delete();
+    }
+    if(EB.exists()) {
+      zip(EB);
+      EB.delete();
+    }
     if(!LOGSTP.exists()) LOGSTP.mkdirs();
     try {
       LATEST.createNewFile();
@@ -53,17 +66,18 @@ public class SimpleLogger implements Logger {
       return;
     }
     File RDM = new File("logs/README.txt");
-    if(RDM.exists()) RDM.delete();
-    try {
-      RDM.createNewFile();
-    } catch(IOException e) {
-      log(Channels.INFO, "Cannot write logs/README.txt file! Logs are now in extensionsbukkit/logs");
-      return;
+    if(!RDM.exists()) {
+      try {
+        RDM.createNewFile();
+      } catch(IOException e) {
+        log(Channels.INFO, "Cannot write logs/README.txt file! Logs are now in extensionsbukkit/logs");
+        return;
+      }
+      fileAppend(RDM, "If you're looking for logs:");
+      fileAppend(RDM, "You have ExtensionsBukkit installed on your server");
+      fileAppend(RDM, "Log files are no longer here while ExtensionsBukkit is installed");
+      fileAppend(RDM, "They are now located at extensionsbukkit/logs");
     }
-    fileAppend(RDM, "If you're looking for logs:");
-    fileAppend(RDM, "You have ExtensionsBukkit installed on your server");
-    fileAppend(RDM, "Log files are no longer here while ExtensionsBukkit is installed");
-    fileAppend(RDM, "They are now located at extensionsbukkit/logs");
   }
 
   public void closeLog() {
@@ -169,7 +183,7 @@ public class SimpleLogger implements Logger {
   private void logRaw(String text) {
     if(!enabled) return;
     try {
-      BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), "UTF-8"), 512);
+      BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FileDescriptor.out), StandardCharsets.UTF_8), 512);
       out.write(text);
       out.write("\n");
       out.flush();
@@ -179,11 +193,26 @@ public class SimpleLogger implements Logger {
   }
 
   private void fileAppend(File f, String a) {
-    try {
-      BufferedWriter o = new BufferedWriter(new FileWriter(f, true));
-      o.write(a + "\n");
-      o.close();
+    try(FileWriter writer = new FileWriter(f)) {
+      writer.write(a);
+      writer.write('\n');
     } catch(IOException e) {
+    }
+  }
+
+  private void zip(File file) {
+    try (ZipOutputStream output = new ZipOutputStream(new FileOutputStream(file))) {
+      ZipEntry entry = new ZipEntry(file.getName());
+      output.putNextEntry(entry);
+      FileInputStream inputStream = new FileInputStream(file);
+      byte[] buf = new byte[1024];
+      int bytesRead;
+
+      while ((bytesRead = inputStream.read(buf)) > 0) {
+        output.write(buf, 0, bytesRead);
+      }
+      inputStream.close();
+    } catch (IOException e) {
     }
   }
 }

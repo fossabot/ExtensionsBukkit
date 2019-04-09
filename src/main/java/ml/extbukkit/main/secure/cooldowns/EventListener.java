@@ -33,6 +33,10 @@ public class EventListener {
 
   public EventListener() {
     Collection<CooldownManager> managers = Server.getInstance().getCooldownRegisterer().getRegisteredManagers();
+    if(managers == null) {
+      // no cooldown managers were registered, skipping
+      return;
+    }
     EventManager events = Server.getInstance().getEventManager();
     events.registerHandler(EventPlayerQuit.class, event -> {
       ExtensionedPlayer player = event.getPlayer();
