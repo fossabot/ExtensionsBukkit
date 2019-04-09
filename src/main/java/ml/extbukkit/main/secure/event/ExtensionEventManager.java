@@ -27,10 +27,10 @@ public class ExtensionEventManager implements EventManager {
 
   @Override
   public <T extends Event> T callEvent(T event) {
+    long start = System.nanoTime();
     Map<HandlePriority, Map<Class<? extends Event>, EventHandler<? extends Event>>> sortedMap
       = byPriority.entrySet().stream().sorted(Comparator.comparing(Map.Entry::getKey))
       .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue(), (e1, e2) -> e1, LinkedHashMap::new));
-    long start = System.nanoTime();
     sortedMap.forEach((priority, handlers) -> {
       EventHandler handler = handlers.get(event.getClass());
       if(handler == null) {
@@ -39,7 +39,7 @@ public class ExtensionEventManager implements EventManager {
       handler.handle(event);
     });
     long elapsed = System.nanoTime() - start;
-    logger.log(event.getClass().getSimpleName() + " called. Took " + elapsed / 1000000 + " ms to process");
+    logger.log(event.getClass().getSimpleName() + " called. Took " + elapsed / 1000000 + " ms to process ( " + elapsed + " nanoseconds )");
     return event;
   }
 

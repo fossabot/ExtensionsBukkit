@@ -4,7 +4,9 @@ import ml.extbukkit.api.builtin.events.EventExtensionDisable;
 import ml.extbukkit.api.extension.Extension;
 import ml.extbukkit.api.loader.ExtensionLoader;
 import ml.extbukkit.api.loader.exception.LoadException;
+import ml.extbukkit.api.log.Logger;
 import ml.extbukkit.api.server.Server;
+import ml.extbukkit.main.secure.connection.SimpleExtensionPlayer;
 
 import java.io.File;
 import java.net.URL;
@@ -25,6 +27,11 @@ public class SimpleExtensionLoader implements ExtensionLoader {
   private Map<String, Extension> extensions = new HashMap<>();
   private Map<Extension, Map<String, String>> data = new HashMap<>();
   private Server server = Server.getInstance();
+  private Logger logger;
+
+  public SimpleExtensionLoader(Logger logger) {
+    this.logger = logger;
+  }
 
   //TODO Better dependency handling
   @Override
@@ -54,7 +61,7 @@ public class SimpleExtensionLoader implements ExtensionLoader {
         if(loadedExtensionClass != null) {
           loadedExtensionClass.setFile(extension);
           extensions.put(loadedExtensionClass.getID(), loadedExtensionClass);
-          server.getGlobalLogger().log("Extension loaded: " + extension.getName());
+          logger.log("Extension loaded: " + extension.getName());
           Map<String, String> map = new HashMap<>();
           map.put("description", loadedExtensionClass.getDescription());
           String authors;

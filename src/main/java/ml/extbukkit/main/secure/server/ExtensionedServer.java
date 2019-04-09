@@ -50,12 +50,14 @@ public class ExtensionedServer extends Server {
   private ExtensionEventManager events;
   private Console console;
   private SimpleRegisterer cooldownManagerRegisterer;
+  private SimpleLogger logger;
 
   public ExtensionedServer() {
-    loader = new SimpleExtensionLoader();
+    this.logger = SimpleLogger.getInstance();
+    loader = new SimpleExtensionLoader(logger);
     scheduler = SimpleScheduler.getInstance();
     worlds = new Worlds();
-    events = new ExtensionEventManager(SimpleLogger.getInstance());
+    events = new ExtensionEventManager(logger);
     properties = new ExtensionedServerProperites();
     console = new Console();
     cooldownManagerRegisterer = new SimpleRegisterer();
@@ -73,7 +75,7 @@ public class ExtensionedServer extends Server {
 
   @Override
   public Logger getGlobalLogger() {
-    return SimpleLogger.getInstance();
+    return logger;
   }
 
   @Override
