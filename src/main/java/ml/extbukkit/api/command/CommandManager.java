@@ -10,7 +10,7 @@ public interface CommandManager {
      * Register a command
      *
      * @param extension Extension
-     * @param command Command to register
+     * @param command   Command to register
      */
     void registerCommand(Extension extension, Command command);
 

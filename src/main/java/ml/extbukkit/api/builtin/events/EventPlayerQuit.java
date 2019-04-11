@@ -6,13 +6,13 @@ import ml.extbukkit.api.connection.ExtensionedPlayer;
 
 public class EventPlayerQuit extends EventPlayer {
 
-  @Getter
-  @Setter
-  private String quitMessage;
+    @Getter
+    @Setter
+    private String quitMessage;
 
-  public EventPlayerQuit(ExtensionedPlayer entity, String quitMessage) {
-    super(entity);
-    this.quitMessage = quitMessage;
-  }
+    public EventPlayerQuit(ExtensionedPlayer entity, String quitMessage) {
+        super(entity);
+        this.quitMessage = quitMessage;
+    }
 
 }

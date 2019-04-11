@@ -17,10 +17,10 @@ public interface World {
     /**
      * Get position at coordinates with rotation
      *
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @param z Z coordinate
-     * @param yaw Yaw rotation of position
+     * @param x     X coordinate
+     * @param y     Y coordinate
+     * @param z     Z coordinate
+     * @param yaw   Yaw rotation of position
      * @param pitch Pitch rotation of position
      * @return ExtensionLocation on coordinates with rotation
      */

@@ -7,8 +7,8 @@ import ml.extbukkit.api.extension.Extension;
  */
 public class EventExtensionDisable extends EventExtension {
 
-  public EventExtensionDisable(Extension extension) {
-    super(extension);
-  }
+    public EventExtensionDisable(Extension extension) {
+        super(extension);
+    }
 
 }

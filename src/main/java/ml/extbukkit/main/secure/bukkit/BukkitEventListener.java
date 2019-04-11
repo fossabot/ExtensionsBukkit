@@ -37,86 +37,86 @@ import java.util.stream.Collectors;
 
 public class BukkitEventListener implements Listener {
 
-  private Server server = Server.getInstance();
+    private Server server = Server.getInstance();
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onWorldSave(WorldSaveEvent e) {
-    server.getEventManager().callEvent(new EventWorldSave(server.getWorldManager().getWorld(e.getWorld().getName())));
-  }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onWorldSave(WorldSaveEvent e) {
+        server.getEventManager().callEvent(new EventWorldSave(server.getWorldManager().getWorld(e.getWorld().getName())));
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onWorldInit(WorldInitEvent e) {
-    server.getEventManager().callEvent(new EventWorldInitialize(server.getWorldManager().getWorld(e.getWorld().getName())));
-  }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onWorldInit(WorldInitEvent e) {
+        server.getEventManager().callEvent(new EventWorldInitialize(server.getWorldManager().getWorld(e.getWorld().getName())));
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onWorldLoad(WorldLoadEvent e) {
-    server.getEventManager().callEvent(new EventWorldLoad(server.getWorldManager().getWorld(e.getWorld().getName())));
-  }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onWorldLoad(WorldLoadEvent e) {
+        server.getEventManager().callEvent(new EventWorldLoad(server.getWorldManager().getWorld(e.getWorld().getName())));
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onWorldUnload(WorldUnloadEvent e) {
-    EventWorldUnload ee = new EventWorldUnload(server.getWorldManager().getWorld(e.getWorld().getName()));
-    e.setCancelled(server.getEventManager().callEvent(ee).isPrevented());
-  }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onWorldUnload(WorldUnloadEvent e) {
+        EventWorldUnload ee = new EventWorldUnload(server.getWorldManager().getWorld(e.getWorld().getName()));
+        e.setCancelled(server.getEventManager().callEvent(ee).isPrevented());
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onTabComplete(TabCompleteEvent event) {
-    SimpleCommandManager manager = SimpleCommandManager.getInstance();
-    String[] argsRaw = event.getBuffer().split(" ");
-    String[] args = Arrays.copyOfRange(argsRaw, 1, argsRaw.length);
-    String commandName = argsRaw[0];
-    for(Map.Entry<String, Command> commandEntry : manager.getCommandMap().entrySet()) {
-      if(commandEntry.getValue() instanceof TabCompleter) {
-        TabCompleter completer = (TabCompleter) commandEntry.getValue();
-        if(commandName.equalsIgnoreCase(commandEntry.getValue().getName())) {
-          CommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new ExtensionedCommandExecutor(event.getSender());
-          event.getCompletions().addAll(completer.onTabComplete(executor, args));
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onTabComplete(TabCompleteEvent event) {
+        SimpleCommandManager manager = SimpleCommandManager.getInstance();
+        String[] argsRaw = event.getBuffer().split(" ");
+        String[] args = Arrays.copyOfRange(argsRaw, 1, argsRaw.length);
+        String commandName = argsRaw[0];
+        for (Map.Entry<String, Command> commandEntry : manager.getCommandMap().entrySet()) {
+            if (commandEntry.getValue() instanceof TabCompleter) {
+                TabCompleter completer = (TabCompleter) commandEntry.getValue();
+                if (commandName.equalsIgnoreCase(commandEntry.getValue().getName())) {
+                    CommandExecutor executor = event.getSender() instanceof ConsoleCommandSender ? Server.getInstance().getConsole() : new ExtensionedCommandExecutor(event.getSender());
+                    event.getCompletions().addAll(completer.onTabComplete(executor, args));
+                }
+            } else {
+                event.getCompletions().addAll(tabCompleteDefault(args));
+            }
         }
-      } else {
-        event.getCompletions().addAll(tabCompleteDefault(args));
-      }
     }
-  }
 
-  private List<String> tabCompleteDefault(String[] args) {
-    String lastArg;
-    String lastArgUp0 = (args.length > 0) ? args[args.length - 1] : "";
-    if(lastArgUp0.equalsIgnoreCase("")) {
-      lastArg = args[0];
-    } else {
-      lastArg = lastArgUp0;
+    private List<String> tabCompleteDefault(String[] args) {
+        String lastArg;
+        String lastArgUp0 = (args.length > 0) ? args[args.length - 1] : "";
+        if (lastArgUp0.equalsIgnoreCase("")) {
+            lastArg = args[0];
+        } else {
+            lastArg = lastArgUp0;
+        }
+        List<String> names = new ArrayList<>();
+        Bukkit.getServer().getOnlinePlayers().forEach(player -> names.add(player.getName()));
+        return names.stream().filter(a -> a.startsWith(lastArg)).collect(Collectors.toList());
     }
-    List<String> names = new ArrayList<>();
-    Bukkit.getServer().getOnlinePlayers().forEach(player -> names.add(player.getName()));
-    return names.stream().filter(a -> a.startsWith(lastArg)).collect(Collectors.toList());
-  }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onInteract(PlayerInteractEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onInteract(PlayerInteractEvent e) {
 
-  }
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onInteractEntity(PlayerInteractEntityEvent e) {
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onInteractEntity(PlayerInteractEntityEvent e) {
 
-  }
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onJoin(PlayerJoinEvent event) {
-    ExtensionedPlayer player = new SimpleExtensionPlayer(event.getPlayer());
-    EventPlayerJoin ourEvent = new EventPlayerJoin(player, event.getJoinMessage());
-    server.getEventManager().callEvent(ourEvent);
-    event.setJoinMessage(ourEvent.getJoinMessage());
-    BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUnmodified().add(player);
-  }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onJoin(PlayerJoinEvent event) {
+        ExtensionedPlayer player = new SimpleExtensionPlayer(event.getPlayer());
+        EventPlayerJoin ourEvent = new EventPlayerJoin(player, event.getJoinMessage());
+        server.getEventManager().callEvent(ourEvent);
+        event.setJoinMessage(ourEvent.getJoinMessage());
+        BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUnmodified().add(player);
+    }
 
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onQuit(PlayerQuitEvent event) {
-    ExtensionedPlayer player = new SimpleExtensionPlayer(event.getPlayer());
-    EventPlayerQuit ourEvent = new EventPlayerQuit(player, event.getQuitMessage());
-    server.getEventManager().callEvent(ourEvent);
-    event.setQuitMessage(ourEvent.getQuitMessage());
-    BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUnmodified().remove(player);
-  }
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onQuit(PlayerQuitEvent event) {
+        ExtensionedPlayer player = new SimpleExtensionPlayer(event.getPlayer());
+        EventPlayerQuit ourEvent = new EventPlayerQuit(player, event.getQuitMessage());
+        server.getEventManager().callEvent(ourEvent);
+        event.setQuitMessage(ourEvent.getQuitMessage());
+        BukkitExtensionsBukkit.getInstance().getServerImplementation().getPlayersUnmodified().remove(player);
+    }
 }

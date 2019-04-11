@@ -7,8 +7,8 @@ package ml.extbukkit.api.loader.exception;
  */
 public class LoadException extends RuntimeException {
 
-  public LoadException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public LoadException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

@@ -16,7 +16,7 @@ public interface PerBlockHandler {
 
     /**
      * Tick function
-     *
+     * <p>
      * If isTickable() returns true, it will be run every tick
      */
     default void tick() {
@@ -35,7 +35,7 @@ public interface PerBlockHandler {
      * Get instance of something
      *
      * @param feature Feature
-     * @param <T> Type of returned instance
+     * @param <T>     Type of returned instance
      * @return Instance of something
      */
     <T> T getFeature(Feature feature);

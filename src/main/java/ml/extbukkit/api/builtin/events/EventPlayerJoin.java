@@ -6,13 +6,13 @@ import ml.extbukkit.api.connection.ExtensionedPlayer;
 
 public class EventPlayerJoin extends EventPlayer {
 
-  @Getter
-  @Setter
-  private String joinMessage;
+    @Getter
+    @Setter
+    private String joinMessage;
 
-  public EventPlayerJoin(ExtensionedPlayer entity, String joinMessage) {
-    super(entity);
-    this.joinMessage = joinMessage;
-  }
+    public EventPlayerJoin(ExtensionedPlayer entity, String joinMessage) {
+        super(entity);
+        this.joinMessage = joinMessage;
+    }
 
 }

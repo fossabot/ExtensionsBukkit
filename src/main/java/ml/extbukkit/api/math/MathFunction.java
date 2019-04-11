@@ -22,6 +22,7 @@ public enum MathFunction {
     DIVIDE(1);
 
     private final double uv;
+
     MathFunction(double uv) {
         this.uv = uv;
     }

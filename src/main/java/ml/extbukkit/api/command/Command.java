@@ -22,7 +22,7 @@ public abstract class Command {
     /**
      * Creates a command
      *
-     * @param name Command name
+     * @param name    Command name
      * @param aliases List of aliases
      */
     public Command(String name, String[] aliases) {
@@ -34,8 +34,8 @@ public abstract class Command {
      * This method is called when the command is executed
      *
      * @param sender command executor
-     * @param alias exact alias used to invoke the command
-     * @param args command arguments
+     * @param alias  exact alias used to invoke the command
+     * @param args   command arguments
      */
     public abstract void execute(CommandExecutor sender, String alias, String[] args);
 }

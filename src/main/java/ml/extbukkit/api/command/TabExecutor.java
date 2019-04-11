@@ -17,7 +17,7 @@ public abstract class TabExecutor extends Command implements TabCompleter {
     /**
      * Creates a command
      *
-     * @param name Command name
+     * @param name    Command name
      * @param aliases List of aliases
      */
     public TabExecutor(String name, String[] aliases) {

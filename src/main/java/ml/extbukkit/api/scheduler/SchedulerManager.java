@@ -14,9 +14,9 @@ public interface SchedulerManager {
     /**
      * Schedules a repeating task until cancelled
      *
-     * @param owner Extension
-     * @param task Task to run
-     * @param delay Delay before start
+     * @param owner    Extension
+     * @param task     Task to run
+     * @param delay    Delay before start
      * @param interval Interval between running
      * @return task
      */
@@ -25,12 +25,12 @@ public interface SchedulerManager {
     /**
      * Schedules a repeating task until cancelled
      *
-     * @param owner the owner of the scheduler
+     * @param owner        the owner of the scheduler
      * @param callbackTask a consumer, which acts like a runnable,
      *                     but giving you access to the scheduled
      *                     task directly
-     * @param delay delay before start
-     * @param interval interval between running
+     * @param delay        delay before start
+     * @param interval     interval between running
      */
     void schedule(Extension owner, Consumer<ScheduledTask> callbackTask, Time delay, Time interval);
 
@@ -39,7 +39,7 @@ public interface SchedulerManager {
      * NOTE: Delayed tasks are not stored
      *
      * @param owner Extension
-     * @param task Task to run
+     * @param task  Task to run
      * @param delay delay before the task is executed
      */
     void schedule(Extension owner, Runnable task, Time delay);

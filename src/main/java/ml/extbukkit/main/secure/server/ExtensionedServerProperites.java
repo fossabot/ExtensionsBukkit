@@ -21,8 +21,7 @@ public class ExtensionedServerProperites implements ServerProperties {
     }
 
     @Override
-    public String getDefaultGamemode()
-    {
+    public String getDefaultGamemode() {
         return Bukkit.getDefaultGameMode().name();
     }
 

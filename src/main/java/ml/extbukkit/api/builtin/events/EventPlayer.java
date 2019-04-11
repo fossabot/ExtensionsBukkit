@@ -6,11 +6,11 @@ import ml.extbukkit.api.event.Event;
 
 public class EventPlayer extends Event {
 
-  @Getter
-  private ExtensionedPlayer player;
+    @Getter
+    private ExtensionedPlayer player;
 
-  public EventPlayer(ExtensionedPlayer player) {
-    this.player = player;
-  }
+    public EventPlayer(ExtensionedPlayer player) {
+        this.player = player;
+    }
 
 }

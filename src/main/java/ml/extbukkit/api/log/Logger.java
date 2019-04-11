@@ -13,8 +13,8 @@ public interface Logger {
      * Recommended for extensions
      *
      * @param extension Extension
-     * @param channel Log channel
-     * @param message Log message
+     * @param channel   Log channel
+     * @param message   Log message
      */
     void logSigned(Extension extension, LogChannel channel, String message);
 
@@ -23,7 +23,7 @@ public interface Logger {
      * Recommended for extensions
      *
      * @param extension Extension
-     * @param message Log message
+     * @param message   Log message
      */
     void logSigned(Extension extension, String message);
 
@@ -60,7 +60,7 @@ public interface Logger {
      * Logs a stacktrace with {@link ml.extbukkit.api.builtin.log.Channels#ERROR} channel
      *
      * @param message error message (maybe internal?)
-     * @param t error (maybe internal?)
+     * @param t       error (maybe internal?)
      */
     void logStack(String message, Throwable t);
 

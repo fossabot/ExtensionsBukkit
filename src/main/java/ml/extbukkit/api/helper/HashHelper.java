@@ -14,7 +14,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 public final class HashHelper {
 
     private HashHelper() {
-        throw new UnsupportedOperationException( "This class cannot be instanced." );
+        throw new UnsupportedOperationException("This class cannot be instanced.");
     }
 
     /**
@@ -26,8 +26,8 @@ public final class HashHelper {
     public static String md5FileSafe(File file) {
         try {
             return md5File(file);
-        } catch ( IOException | NoSuchAlgorithmException e) {
-            return "Encryption has failed: " + ExceptionUtils.getMessage( e.fillInStackTrace() );
+        } catch (IOException | NoSuchAlgorithmException e) {
+            return "Encryption has failed: " + ExceptionUtils.getMessage(e.fillInStackTrace());
         }
     }
 
@@ -36,7 +36,7 @@ public final class HashHelper {
      *
      * @param f File to encrypt
      * @return MD5 encrypted string
-     * @throws IOException File is not exists
+     * @throws IOException              File is not exists
      * @throws NoSuchAlgorithmException MD5 algorithm is not found
      */
     public static String md5File(File f) throws IOException, NoSuchAlgorithmException {
@@ -45,8 +45,7 @@ public final class HashHelper {
         byte[] byteArray = new byte[1024];
         int bytes;
 
-        while((bytes = fis.read(byteArray)) != -1)
-        {
+        while ((bytes = fis.read(byteArray)) != -1) {
             digest.update(byteArray, 0, bytes);
         }
 
@@ -54,8 +53,7 @@ public final class HashHelper {
         byte[] bts = digest.digest();
         StringBuilder sb = new StringBuilder();
 
-        for(int i = 0; i < bts.length; i++)
-        {
+        for (int i = 0; i < bts.length; i++) {
             sb.append(Integer.toString((bts[i] & 0xff) + 0x100, 16).substring(1));
         }
 

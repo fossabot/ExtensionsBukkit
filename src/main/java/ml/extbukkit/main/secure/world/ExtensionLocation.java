@@ -58,7 +58,7 @@ public class ExtensionLocation extends Wrapper<Location> implements Position {
 
     @Override
     public void getDirection() {
-        
+
     }
 
     @Override
@@ -93,7 +93,7 @@ public class ExtensionLocation extends Wrapper<Location> implements Position {
 
     @Override
     public void function(MathFunction f, double x, double y, double z) {
-        switch(f) {
+        switch (f) {
             case ADD:
                 setX(getX() + x);
                 setY(getY() + y);

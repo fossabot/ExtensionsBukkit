@@ -63,7 +63,7 @@ public interface Position {
     int getBlockY();
 
     /**
-     *  Get position block Z coordinate
+     * Get position block Z coordinate
      *
      * @return Block Z coordinate
      */
@@ -120,9 +120,9 @@ public interface Position {
      * Apply math function to position coordinates
      *
      * @param mathFunction Math function
-     * @param x X coordinate
-     * @param y Y coordinate
-     * @param z Z coordinate
+     * @param x            X coordinate
+     * @param y            Y coordinate
+     * @param z            Z coordinate
      */
     void function(MathFunction mathFunction, double x, double y, double z);
 
@@ -130,7 +130,7 @@ public interface Position {
      * Apply math function to each position coordinate
      *
      * @param mathFunction Math function
-     * @param xyz X, Y, Z coordinates
+     * @param xyz          X, Y, Z coordinates
      */
     void function(MathFunction mathFunction, double xyz);
 }

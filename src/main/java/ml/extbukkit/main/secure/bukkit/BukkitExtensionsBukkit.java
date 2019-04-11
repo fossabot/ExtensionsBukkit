@@ -19,80 +19,80 @@ import org.apache.logging.log4j.core.filter.AbstractFilter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BukkitExtensionsBukkit extends JavaPlugin {
-  private static BukkitExtensionsBukkit I;
-  private SimpleLogger extensionsLogger = SimpleLogger.getInstance();
-  private ExtensionedServer server = new ExtensionedServer();
+    private static BukkitExtensionsBukkit I;
+    private SimpleLogger extensionsLogger = SimpleLogger.getInstance();
+    private ExtensionedServer server = new ExtensionedServer();
 
-  public BukkitExtensionsBukkit() {
-    I = this;
-  }
-
-  public static BukkitExtensionsBukkit getInstance() {
-    return I;
-  }
-
-  @Override
-  public void onLoad() {
-    if(NMSRUtil.isUnder1_12()) {
-      getLogger().severe("Unsupported version found! Minimal supported version: 1.12");
-      getLogger().severe("Plugin disabled!");
-      getServer().getPluginManager().disablePlugin(this);
-      return;
+    public BukkitExtensionsBukkit() {
+        I = this;
     }
-    ChatMessageSerializer.setInstance(new SimpleSerializer());
-    Server.setInstance(server);
-    ((Logger) LogManager.getRootLogger()).addFilter(new AbstractFilter() {
-      @Override
-      public Result filter(LogEvent event) {
-        if(event.getMessage().getFormattedMessage().contains("ExtensionsBukkit")) {
-          extensionsLogger.log(LevelToChannel.transform(event.getLevel()), event.getMessage().getFormattedMessage());
-          if(event.getThrown() != null) {
-            extensionsLogger.logStack(event.getThrown().getMessage(), event.getThrown());
-          }
-        } else {
-          extensionsLogger.logBukkit(event.getLevel(), event.getMessage().getFormattedMessage());
-          if(event.getThrown() != null) {
-            extensionsLogger.logBukkitStack(event.getThrown());
-          }
+
+    public static BukkitExtensionsBukkit getInstance() {
+        return I;
+    }
+
+    @Override
+    public void onLoad() {
+        if (NMSRUtil.isUnder1_12()) {
+            getLogger().severe("Unsupported version found! Minimal supported version: 1.12");
+            getLogger().severe("Plugin disabled!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
-        return Result.DENY;
-      }
-    });
-    if(!server.getExtensionsDir().exists()) {
-      server.getExtensionsDir().mkdirs();
+        ChatMessageSerializer.setInstance(new SimpleSerializer());
+        Server.setInstance(server);
+        ((Logger) LogManager.getRootLogger()).addFilter(new AbstractFilter() {
+            @Override
+            public Result filter(LogEvent event) {
+                if (event.getMessage().getFormattedMessage().contains("ExtensionsBukkit")) {
+                    extensionsLogger.log(LevelToChannel.transform(event.getLevel()), event.getMessage().getFormattedMessage());
+                    if (event.getThrown() != null) {
+                        extensionsLogger.logStack(event.getThrown().getMessage(), event.getThrown());
+                    }
+                } else {
+                    extensionsLogger.logBukkit(event.getLevel(), event.getMessage().getFormattedMessage());
+                    if (event.getThrown() != null) {
+                        extensionsLogger.logBukkitStack(event.getThrown());
+                    }
+                }
+                return Result.DENY;
+            }
+        });
+        if (!server.getExtensionsDir().exists()) {
+            server.getExtensionsDir().mkdirs();
+        }
+        server.getExtensionLoader().loadAll(server.getExtensionsDir());
+        SimpleCommandManager.getInstance().registerCommands();
+        if (getFile().exists()) {
+            getFile().delete();
+        }
+        Updater.download();
     }
-    server.getExtensionLoader().loadAll(server.getExtensionsDir());
-    SimpleCommandManager.getInstance().registerCommands();
-    if(getFile().exists()) {
-      getFile().delete();
+
+    @Override
+    public void onEnable() {
+        if (!getServer().getPluginManager().isPluginEnabled(this)) {
+            return;
+        }
+        new EventListener();
+        getServer().getPluginManager().registerEvents(new BukkitEventListener(), this);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
     }
-    Updater.download();
-  }
 
-  @Override
-  public void onEnable() {
-    if(!getServer().getPluginManager().isPluginEnabled(this)) {
-      return;
+    @Override
+    public void onDisable() {
+        getServer().getScheduler().cancelTasks(this);
+        ExtensionLoader extensionLoader = server.getExtensionLoader();
+        extensionLoader.getExtensions().forEach(extensionLoader::disable);
+        extensionsLogger.closeLog();
     }
-    new EventListener();
-    getServer().getPluginManager().registerEvents(new BukkitEventListener(), this);
-    getServer().getScheduler().scheduleSyncRepeatingTask(this, new BukkitRunner(), 0L, 1L);
-  }
 
-  @Override
-  public void onDisable() {
-    getServer().getScheduler().cancelTasks(this);
-    ExtensionLoader extensionLoader = server.getExtensionLoader();
-    extensionLoader.getExtensions().forEach(extensionLoader::disable);
-    extensionsLogger.closeLog();
-  }
+    @Override
+    public File getFile() {
+        return super.getFile();
+    }
 
-  @Override
-  public File getFile() {
-    return super.getFile();
-  }
-
-  public ExtensionedServer getServerImplementation() {
-    return server;
-  }
+    public ExtensionedServer getServerImplementation() {
+        return server;
+    }
 }

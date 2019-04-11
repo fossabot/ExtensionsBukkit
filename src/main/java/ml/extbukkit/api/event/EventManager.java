@@ -18,7 +18,7 @@ public interface EventManager {
      * Register a specific event handler.
      *
      * @param eventClass event's class
-     * @param handler Handler
+     * @param handler    Handler
      */
     <T extends Event> void registerHandler(Class<T> eventClass, EventHandler<T> handler);
 

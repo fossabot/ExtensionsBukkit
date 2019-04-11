@@ -16,30 +16,30 @@ import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.NONE)
 public class SimpleCommandManager implements ml.extbukkit.api.command.CommandManager {
-  private Map<String, Command> commandMap = new HashMap<>();
-  private Multimap<Extension, Command> commandsByExtension = ArrayListMultimap.create();
-  private CommandMap bcmp;
-  private static SimpleCommandManager instance = new SimpleCommandManager();
+    private Map<String, Command> commandMap = new HashMap<>();
+    private Multimap<Extension, Command> commandsByExtension = ArrayListMultimap.create();
+    private CommandMap bcmp;
+    private static SimpleCommandManager instance = new SimpleCommandManager();
 
-  public static SimpleCommandManager getInstance() {
-    return instance;
-  }
-
-  @Override
-  public void registerCommand(Extension extension, Command command) {
-    commandMap.put(command.getName().toLowerCase(), command);
-    if(command.getAliases() != null) {
-      for(String alias : command.getAliases()) {
-        commandMap.put(alias.toLowerCase(), command);
-      }
+    public static SimpleCommandManager getInstance() {
+        return instance;
     }
-    commandsByExtension.put(extension, command);
-  }
 
-  @Override
-  public Command matchCommand(String commandName) {
-    return commandMap.get(commandName);
-  }
+    @Override
+    public void registerCommand(Extension extension, Command command) {
+        commandMap.put(command.getName().toLowerCase(), command);
+        if (command.getAliases() != null) {
+            for (String alias : command.getAliases()) {
+                commandMap.put(alias.toLowerCase(), command);
+            }
+        }
+        commandsByExtension.put(extension, command);
+    }
+
+    @Override
+    public Command matchCommand(String commandName) {
+        return commandMap.get(commandName);
+    }
 
     /*@Override
     public void dispatchCommand(ExtensionedCommandExecutor sender, String commandLine) {
@@ -59,22 +59,22 @@ public class SimpleCommandManager implements ml.extbukkit.api.command.CommandMan
         }
     }*/
 
-  public Map<String, Command> getCommandMap() {
-    return commandMap;
-  }
-
-  public void registerCommands() {
-    BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
-    try {
-      Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-      field.setAccessible(true);
-      bcmp = (CommandMap) field.get(Bukkit.getServer());
-    } catch(IllegalAccessException | NoSuchFieldException e) {
-      e.printStackTrace();
+    public Map<String, Command> getCommandMap() {
+        return commandMap;
     }
-    commandsByExtension.forEach((extension, command) -> {
-      String registerName = plugin.getName() + ":" + extension.getName();
-      bcmp.register(command.getName(), registerName, new BridgeCommand(command, extension));
-    });
-  }
+
+    public void registerCommands() {
+        BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
+        try {
+            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            field.setAccessible(true);
+            bcmp = (CommandMap) field.get(Bukkit.getServer());
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        commandsByExtension.forEach((extension, command) -> {
+            String registerName = plugin.getName() + ":" + extension.getName();
+            bcmp.register(command.getName(), registerName, new BridgeCommand(command, extension));
+        });
+    }
 }

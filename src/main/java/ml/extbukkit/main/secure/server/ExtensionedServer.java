@@ -41,133 +41,133 @@ import java.util.UUID;
 
 public class ExtensionedServer extends Server {
 
-  private SimpleExtensionLoader loader;
-  private SimpleScheduler scheduler;
-  private Worlds worlds;
-  private File EXTENSIONS = new File("extensions/");
-  private ExtensionedServerProperites properties;
-  private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
-  private ExtensionEventManager events;
-  private Console console;
-  private SimpleRegisterer cooldownManagerRegisterer;
-  private SimpleLogger logger;
+    private SimpleExtensionLoader loader;
+    private SimpleScheduler scheduler;
+    private Worlds worlds;
+    private File EXTENSIONS = new File("extensions/");
+    private ExtensionedServerProperites properties;
+    private BukkitExtensionsBukkit plugin = BukkitExtensionsBukkit.getInstance();
+    private ExtensionEventManager events;
+    private Console console;
+    private SimpleRegisterer cooldownManagerRegisterer;
+    private SimpleLogger logger;
 
-  public ExtensionedServer() {
-    this.logger = SimpleLogger.getInstance();
-    loader = new SimpleExtensionLoader(logger);
-    scheduler = SimpleScheduler.getInstance();
-    worlds = new Worlds();
-    events = new ExtensionEventManager(logger);
-    properties = new ExtensionedServerProperites();
-    console = new Console();
-    cooldownManagerRegisterer = new SimpleRegisterer();
-  }
-
-  @Override
-  public ExtensionLoader getExtensionLoader() {
-    return loader;
-  }
-
-  @Override
-  public File getExtensionsDir() {
-    return EXTENSIONS;
-  }
-
-  @Override
-  public Logger getGlobalLogger() {
-    return logger;
-  }
-
-  @Override
-  public EventManager getEventManager() {
-    return events;
-  }
-
-  @Override
-  public SchedulerManager getSchedulerManager() {
-    return scheduler;
-  }
-
-  @Override
-  public File getExtensionsBukkitFile() {
-    return plugin.getFile();
-  }
-
-  @Override
-  public WorldManager getWorldManager() {
-    return worlds;
-  }
-
-  @Override
-  public CommandManager getCommandManager() {
-    return SimpleCommandManager.getInstance();
-  }
-
-  @Override
-  public Key createKey(String namespace, String key) {
-    return new NamespacedKey(namespace, key);
-  }
-
-  @Override
-  public void stopServer(Extension extension) {
-    getGlobalLogger().log(Channels.WARN, "'" + extension.getName() + "' has requested server stop. Stopping the server in 5 seconds");
-    for(Player online : plugin.getServer().getOnlinePlayers()) {
-      if(online.isOp()) {
-        online.sendMessage("§cEXTENSIONSBUKKIT: '" + extension.getName() + "' requested a server stop. Stopping the server in 5 seconds");
-      }
+    public ExtensionedServer() {
+        this.logger = SimpleLogger.getInstance();
+        loader = new SimpleExtensionLoader(logger);
+        scheduler = SimpleScheduler.getInstance();
+        worlds = new Worlds();
+        events = new ExtensionEventManager(logger);
+        properties = new ExtensionedServerProperites();
+        console = new Console();
+        cooldownManagerRegisterer = new SimpleRegisterer();
     }
-    plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getServer().shutdown(), 100);
-  }
 
-  @Override
-  public ServerProperties getServerProperties() {
-    return properties;
-  }
+    @Override
+    public ExtensionLoader getExtensionLoader() {
+        return loader;
+    }
 
-  @Override
-  public CommandExecutor getConsole() {
-    return console;
-  }
+    @Override
+    public File getExtensionsDir() {
+        return EXTENSIONS;
+    }
 
-  @Override
-  public ExtensionLogger getLogger(String extensionName) {
-    return new SimpleExtensionLogger(extensionName);
-  }
+    @Override
+    public Logger getGlobalLogger() {
+        return logger;
+    }
 
-  @Override
-  public Set<ExtensionedPlayer> getPlayers() {
-    return Collections.unmodifiableSet(getPlayersUnmodified());
-  }
+    @Override
+    public EventManager getEventManager() {
+        return events;
+    }
 
-  public Set<ExtensionedPlayer> getPlayersUnmodified() {
-    Set<ExtensionedPlayer> players = new HashSet<>();
-    Bukkit.getOnlinePlayers().forEach(player -> players.add(new SimpleExtensionPlayer(player)));
-    return players;
-  }
+    @Override
+    public SchedulerManager getSchedulerManager() {
+        return scheduler;
+    }
 
-  @Override
-  public int getOnlineCount() {
-    return getPlayers().size();
-  }
+    @Override
+    public File getExtensionsBukkitFile() {
+        return plugin.getFile();
+    }
 
-  @Override
-  public ExtensionedPlayer getPlayer(String name) {
-    return new SimpleExtensionPlayer(name);
-  }
+    @Override
+    public WorldManager getWorldManager() {
+        return worlds;
+    }
 
-  @Override
-  public ExtensionedPlayer getPlayer(UUID uuid) {
-    return new SimpleExtensionPlayer(uuid);
-  }
+    @Override
+    public CommandManager getCommandManager() {
+        return SimpleCommandManager.getInstance();
+    }
 
-  @Override
-  public Configuration loadConfiguration(final File file) {
-    return new YAMLConfiguration(YamlConfiguration.loadConfiguration(file), file);
-  }
+    @Override
+    public Key createKey(String namespace, String key) {
+        return new NamespacedKey(namespace, key);
+    }
 
-  @Override
-  public CooldownManagerRegisterer getCooldownRegisterer() {
-    return cooldownManagerRegisterer;
-  }
+    @Override
+    public void stopServer(Extension extension) {
+        getGlobalLogger().log(Channels.WARN, "'" + extension.getName() + "' has requested server stop. Stopping the server in 5 seconds");
+        for (Player online : plugin.getServer().getOnlinePlayers()) {
+            if (online.isOp()) {
+                online.sendMessage("§cEXTENSIONSBUKKIT: '" + extension.getName() + "' requested a server stop. Stopping the server in 5 seconds");
+            }
+        }
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getServer().shutdown(), 100);
+    }
+
+    @Override
+    public ServerProperties getServerProperties() {
+        return properties;
+    }
+
+    @Override
+    public CommandExecutor getConsole() {
+        return console;
+    }
+
+    @Override
+    public ExtensionLogger getLogger(String extensionName) {
+        return new SimpleExtensionLogger(extensionName);
+    }
+
+    @Override
+    public Set<ExtensionedPlayer> getPlayers() {
+        return Collections.unmodifiableSet(getPlayersUnmodified());
+    }
+
+    public Set<ExtensionedPlayer> getPlayersUnmodified() {
+        Set<ExtensionedPlayer> players = new HashSet<>();
+        Bukkit.getOnlinePlayers().forEach(player -> players.add(new SimpleExtensionPlayer(player)));
+        return players;
+    }
+
+    @Override
+    public int getOnlineCount() {
+        return getPlayers().size();
+    }
+
+    @Override
+    public ExtensionedPlayer getPlayer(String name) {
+        return new SimpleExtensionPlayer(name);
+    }
+
+    @Override
+    public ExtensionedPlayer getPlayer(UUID uuid) {
+        return new SimpleExtensionPlayer(uuid);
+    }
+
+    @Override
+    public Configuration loadConfiguration(final File file) {
+        return new YAMLConfiguration(YamlConfiguration.loadConfiguration(file), file);
+    }
+
+    @Override
+    public CooldownManagerRegisterer getCooldownRegisterer() {
+        return cooldownManagerRegisterer;
+    }
 
 }

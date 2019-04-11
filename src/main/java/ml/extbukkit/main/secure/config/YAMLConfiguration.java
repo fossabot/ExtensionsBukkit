@@ -30,80 +30,80 @@ import java.util.Set;
 
 public class YAMLConfiguration extends Wrapper<FileConfiguration> implements Configuration {
 
-  private File file;
+    private File file;
 
-  public YAMLConfiguration(final FileConfiguration handle, File file) {
-    super(handle);
-    this.file = file;
-  }
-
-  @Override
-  public String getString(final String path) {
-    return handle.getString(path);
-  }
-
-  @Override
-  public int getInt(final String path) {
-    return handle.getInt(path);
-  }
-
-  @Override
-  public List<String> getStringList(final String path) {
-    return handle.getStringList(path);
-  }
-
-  @Override
-  public List<Integer> getIntList(final String path) {
-    return handle.getIntegerList(path);
-  }
-
-  @Override
-  public double getDouble(final String path) {
-    return handle.getDouble(path);
-  }
-
-  @Override
-  public List<Double> getDoubleList(final String path) {
-    return handle.getDoubleList(path);
-  }
-
-  @Override
-  public float getFloat(final String path) {
-    return Float.parseFloat(getDouble(path) + "f");
-  }
-
-  @Override
-  public List<Float> getFloatList(final String path) {
-    return handle.getFloatList(path);
-  }
-
-  @Override
-  public Set<String> getKeys() {
-    return handle.getKeys(false);
-  }
-
-  @Override
-  public Configuration getSection(final String path) {
-    return new YAMLConfiguration(handle, file);
-  }
-
-  @Override
-  public boolean isSectionSet(final String path) {
-    return handle.isSet(path);
-  }
-
-  @Override
-  public void set(final String path, final Object value) {
-    handle.set(path, value);
-    try {
-      handle.save(file);
-    } catch (IOException e) {
-      e.printStackTrace();
+    public YAMLConfiguration(final FileConfiguration handle, File file) {
+        super(handle);
+        this.file = file;
     }
-  }
 
-  @Override
-  public Object get(final String path) {
-    return handle.get(path);
-  }
+    @Override
+    public String getString(final String path) {
+        return handle.getString(path);
+    }
+
+    @Override
+    public int getInt(final String path) {
+        return handle.getInt(path);
+    }
+
+    @Override
+    public List<String> getStringList(final String path) {
+        return handle.getStringList(path);
+    }
+
+    @Override
+    public List<Integer> getIntList(final String path) {
+        return handle.getIntegerList(path);
+    }
+
+    @Override
+    public double getDouble(final String path) {
+        return handle.getDouble(path);
+    }
+
+    @Override
+    public List<Double> getDoubleList(final String path) {
+        return handle.getDoubleList(path);
+    }
+
+    @Override
+    public float getFloat(final String path) {
+        return Float.parseFloat(getDouble(path) + "f");
+    }
+
+    @Override
+    public List<Float> getFloatList(final String path) {
+        return handle.getFloatList(path);
+    }
+
+    @Override
+    public Set<String> getKeys() {
+        return handle.getKeys(false);
+    }
+
+    @Override
+    public Configuration getSection(final String path) {
+        return new YAMLConfiguration(handle, file);
+    }
+
+    @Override
+    public boolean isSectionSet(final String path) {
+        return handle.isSet(path);
+    }
+
+    @Override
+    public void set(final String path, final Object value) {
+        handle.set(path, value);
+        try {
+            handle.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Object get(final String path) {
+        return handle.get(path);
+    }
 }

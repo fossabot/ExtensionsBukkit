@@ -30,28 +30,28 @@ import java.util.Map;
 
 public class SimpleRegisterer implements CooldownManagerRegisterer {
 
-  private Map<Extension, CooldownManager> managers = new HashMap<>();
+    private Map<Extension, CooldownManager> managers = new HashMap<>();
 
-  @Override
-  public void register(final CooldownManager manager) {
-    if(managers.containsKey(manager.getExtension())) {
-      throw new IllegalArgumentException("Manager already registered.");
+    @Override
+    public void register(final CooldownManager manager) {
+        if (managers.containsKey(manager.getExtension())) {
+            throw new IllegalArgumentException("Manager already registered.");
+        }
+        managers.put(manager.getExtension(), manager);
     }
-    managers.put(manager.getExtension(), manager);
-  }
 
-  @Override
-  public boolean contains(final CooldownManager manager) {
-    return managers.containsKey(manager.getExtension()) && managers.containsValue(manager);
-  }
+    @Override
+    public boolean contains(final CooldownManager manager) {
+        return managers.containsKey(manager.getExtension()) && managers.containsValue(manager);
+    }
 
-  @Override
-  public void unregister(final CooldownManager manager) {
-    managers.remove(manager.getExtension(), manager);
-  }
+    @Override
+    public void unregister(final CooldownManager manager) {
+        managers.remove(manager.getExtension(), manager);
+    }
 
-  @Override
-  public Collection<CooldownManager> getRegisteredManagers() {
-    return Collections.unmodifiableCollection(managers.values());
-  }
+    @Override
+    public Collection<CooldownManager> getRegisteredManagers() {
+        return Collections.unmodifiableCollection(managers.values());
+    }
 }

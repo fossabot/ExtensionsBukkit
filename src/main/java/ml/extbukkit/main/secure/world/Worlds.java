@@ -11,27 +11,27 @@ import java.util.Map;
 
 public class Worlds implements WorldManager {
 
-  private Map<String, SimpleWorld> worlds = new HashMap<>();
+    private Map<String, SimpleWorld> worlds = new HashMap<>();
 
-  public Worlds() {
-    worlds.clear();
-    for(org.bukkit.World w : Bukkit.getWorlds()) {
-      worlds.put(w.getName(), new SimpleWorld(w));
+    public Worlds() {
+        worlds.clear();
+        for (org.bukkit.World w : Bukkit.getWorlds()) {
+            worlds.put(w.getName(), new SimpleWorld(w));
+        }
     }
-  }
 
-  @Override
-  public World getWorld(String name) {
-    return worlds.getOrDefault(name, null);
-  }
+    @Override
+    public World getWorld(String name) {
+        return worlds.getOrDefault(name, null);
+    }
 
-  @Override
-  public String getDefaultWorld() {
-    return Bukkit.getWorlds().get(0).getName();
-  }
+    @Override
+    public String getDefaultWorld() {
+        return Bukkit.getWorlds().get(0).getName();
+    }
 
-  @Override
-  public List<String> getWorlds() {
-    return Arrays.asList(worlds.keySet().toArray(new String[worlds.keySet().size()]));
-  }
+    @Override
+    public List<String> getWorlds() {
+        return Arrays.asList(worlds.keySet().toArray(new String[worlds.keySet().size()]));
+    }
 }

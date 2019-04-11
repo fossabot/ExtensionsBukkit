@@ -1,7 +1,6 @@
 package ml.extbukkit.api.world;
 
-public interface Positionable
-{
+public interface Positionable {
     /**
      * Get position of object
      *

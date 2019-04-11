@@ -26,11 +26,11 @@ import java.util.Collection;
  */
 public interface CooldownManagerRegisterer {
 
-  void register(CooldownManager manager);
+    void register(CooldownManager manager);
 
-  boolean contains(CooldownManager manager);
+    boolean contains(CooldownManager manager);
 
-  void unregister(CooldownManager manager);
+    void unregister(CooldownManager manager);
 
-  Collection<CooldownManager> getRegisteredManagers();
+    Collection<CooldownManager> getRegisteredManagers();
 }

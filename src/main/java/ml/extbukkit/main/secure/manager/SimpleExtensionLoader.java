@@ -24,96 +24,96 @@ import java.util.jar.JarFile;
 
 public class SimpleExtensionLoader implements ExtensionLoader {
 
-  private Map<String, Extension> extensions = new HashMap<>();
-  private Map<Extension, Map<String, String>> data = new HashMap<>();
-  private Server server = Server.getInstance();
-  private Logger logger;
+    private Map<String, Extension> extensions = new HashMap<>();
+    private Map<Extension, Map<String, String>> data = new HashMap<>();
+    private Server server = Server.getInstance();
+    private Logger logger;
 
-  public SimpleExtensionLoader(Logger logger) {
-    this.logger = logger;
-  }
+    public SimpleExtensionLoader(Logger logger) {
+        this.logger = logger;
+    }
 
-  //TODO Better dependency handling
-  @Override
-  public void load(File extension) {
-    if(!extension.exists()) {
-      return;
-    }
-    if(!extension.getName().endsWith(".jar")) {
-      return;
-    }
-    try {
-      Set<String> cls = new HashSet<>();
-      JarFile jar = new JarFile(extension);
-      Enumeration<JarEntry> entires = jar.entries();
-      while(entires.hasMoreElements()) {
-        JarEntry entry = entires.nextElement();
-        if(entry.isDirectory() || !entry.getName().endsWith(".class")) {
-          continue;
+    //TODO Better dependency handling
+    @Override
+    public void load(File extension) {
+        if (!extension.exists()) {
+            return;
         }
-        cls.add(entry.getName().substring(0, entry.getName().length() - 6).replace("/", "."));
-      }
-      URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{extension.toURI().toURL()}, getClass().getClassLoader());
-      for(String cn : cls) {
-        Class<?> c = Class.forName(cn, true, classLoader);
-        Class<? extends Extension> superC = c.asSubclass(Extension.class);
-        Extension loadedExtensionClass = superC.newInstance();
-        if(loadedExtensionClass != null) {
-          loadedExtensionClass.setFile(extension);
-          extensions.put(loadedExtensionClass.getID(), loadedExtensionClass);
-          logger.log("Extension loaded: " + extension.getName());
-          Map<String, String> map = new HashMap<>();
-          map.put("description", loadedExtensionClass.getDescription());
-          String authors;
-          String[] authorsArr = loadedExtensionClass.getAuthors();
-          if(authorsArr.length == 1) {
-            authors = authorsArr[0];
-          } else {
-            authors = Arrays.toString(authorsArr);
-          }
-          map.put("authors", authors);
-          map.put("version", loadedExtensionClass.getVersion());
-          map.put("name", loadedExtensionClass.getName());
-          map.put("id", loadedExtensionClass.getID());
-          data.put(loadedExtensionClass, map);
+        if (!extension.getName().endsWith(".jar")) {
+            return;
         }
-      }
-    } catch(Throwable e) {
-      logger.logStack("",new LoadException("Internal error on loading extension", e));
+        try {
+            Set<String> cls = new HashSet<>();
+            JarFile jar = new JarFile(extension);
+            Enumeration<JarEntry> entires = jar.entries();
+            while (entires.hasMoreElements()) {
+                JarEntry entry = entires.nextElement();
+                if (entry.isDirectory() || !entry.getName().endsWith(".class")) {
+                    continue;
+                }
+                cls.add(entry.getName().substring(0, entry.getName().length() - 6).replace("/", "."));
+            }
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{extension.toURI().toURL()}, getClass().getClassLoader());
+            for (String cn : cls) {
+                Class<?> c = Class.forName(cn, true, classLoader);
+                Class<? extends Extension> superC = c.asSubclass(Extension.class);
+                Extension loadedExtensionClass = superC.newInstance();
+                if (loadedExtensionClass != null) {
+                    loadedExtensionClass.setFile(extension);
+                    extensions.put(loadedExtensionClass.getID(), loadedExtensionClass);
+                    logger.log("Extension loaded: " + extension.getName());
+                    Map<String, String> map = new HashMap<>();
+                    map.put("description", loadedExtensionClass.getDescription());
+                    String authors;
+                    String[] authorsArr = loadedExtensionClass.getAuthors();
+                    if (authorsArr.length == 1) {
+                        authors = authorsArr[0];
+                    } else {
+                        authors = Arrays.toString(authorsArr);
+                    }
+                    map.put("authors", authors);
+                    map.put("version", loadedExtensionClass.getVersion());
+                    map.put("name", loadedExtensionClass.getName());
+                    map.put("id", loadedExtensionClass.getID());
+                    data.put(loadedExtensionClass, map);
+                }
+            }
+        } catch (Throwable e) {
+            logger.logStack("", new LoadException("Internal error on loading extension", e));
+        }
     }
-  }
 
-  @Override
-  public void loadAll(File dir) {
-    if(!dir.isDirectory()) return;
-    for(File f : dir.listFiles((dir1, name) -> name.endsWith(".jar"))) {
-      load(f);
+    @Override
+    public void loadAll(File dir) {
+        if (!dir.isDirectory()) return;
+        for (File f : dir.listFiles((dir1, name) -> name.endsWith(".jar"))) {
+            load(f);
+        }
     }
-  }
 
-  @Override
-  public Collection<Extension> getExtensions() {
-    return Collections.unmodifiableCollection(extensions.values());
-  }
-
-  @Override
-  public void disable(Extension extension) {
-    try {
-      server.getSchedulerManager().cancelAll(extension);
-    } catch(Throwable t) {
-      server.getGlobalLogger().logStack("An internal error occurred trying cancelling tasks ", t);
+    @Override
+    public Collection<Extension> getExtensions() {
+        return Collections.unmodifiableCollection(extensions.values());
     }
-    try {
-      extension.onDisable();
-    } catch(Throwable t) {
-      server.getGlobalLogger().logStack("An internal error occurred trying disabling extension '" + extension.getName() + "'", t);
-    }
-    server.getEventManager().callEvent(new EventExtensionDisable(extension));
-  }
 
-  @Override
-  public Map<String, String> getExtensionData(Extension extension) {
-    return Collections.unmodifiableMap(data.get(extension));
-  }
+    @Override
+    public void disable(Extension extension) {
+        try {
+            server.getSchedulerManager().cancelAll(extension);
+        } catch (Throwable t) {
+            server.getGlobalLogger().logStack("An internal error occurred trying cancelling tasks ", t);
+        }
+        try {
+            extension.onDisable();
+        } catch (Throwable t) {
+            server.getGlobalLogger().logStack("An internal error occurred trying disabling extension '" + extension.getName() + "'", t);
+        }
+        server.getEventManager().callEvent(new EventExtensionDisable(extension));
+    }
+
+    @Override
+    public Map<String, String> getExtensionData(Extension extension) {
+        return Collections.unmodifiableMap(data.get(extension));
+    }
 
 }

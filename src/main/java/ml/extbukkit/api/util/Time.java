@@ -11,7 +11,7 @@ public class Time {
     /**
      * Time
      *
-     * @param unit Time unit
+     * @param unit   Time unit
      * @param amount Amount of time units
      */
     public Time(TimeUnit unit, long amount) {
@@ -46,7 +46,7 @@ public class Time {
     /**
      * Add units to time
      *
-     * @param unit Unit of time
+     * @param unit   Unit of time
      * @param amount Time to add
      * @return New time
      */
